@@ -1,0 +1,27 @@
+measure,column,expertise_group,n,median_change
+Full-map opens,full_map_open_per_min,Less experienced,3,0.2726
+Full-map opens,full_map_open_per_min,More experienced,4,-0.0032
+Navigation errors,navigation_error_per_min,Less experienced,3,0.1556
+Navigation errors,navigation_error_per_min,More experienced,4,0.1044
+Hesitations,hesitation_per_min,Less experienced,3,0.3881
+Hesitations,hesitation_per_min,More experienced,4,0.1713
+Missed prompts,missed_prompt_per_min,Less experienced,3,0.0
+Missed prompts,missed_prompt_per_min,More experienced,4,0.0067
+Unintended actions,unintended_action_per_min,Less experienced,3,0.1179
+Unintended actions,unintended_action_per_min,More experienced,4,0.0798
+Time to objective,time_to_objective_s,Less experienced,3,78.3
+Time to objective,time_to_objective_s,More experienced,4,81.4792
+Objective completion,objective_completion,Less experienced,3,0.0
+Objective completion,objective_completion,More experienced,4,0.0
+SA accuracy (all),sa_accuracy,Less experienced,4,-0.1667
+SA accuracy (all),sa_accuracy,More experienced,4,-0.1167
+SA perception,sa_perception,Less experienced,4,-0.25
+SA perception,sa_perception,More experienced,4,0.0
+SA comprehension,sa_comprehension,Less experienced,4,-0.5
+SA comprehension,sa_comprehension,More experienced,4,-0.25
+SA projection,sa_projection,Less experienced,4,-0.25
+SA projection,sa_projection,More experienced,4,-0.25
+Menu breaks,menu_break_per_min,Less experienced,3,-0.0393
+Menu breaks,menu_break_per_min,More experienced,4,-0.0004
+Gaze on game world,gaze_game_world,Less experienced,3,0.1575
+Gaze on game world,gaze_game_world,More experienced,4,0.168

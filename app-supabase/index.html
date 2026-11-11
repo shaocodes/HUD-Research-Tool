@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HUD Study Coding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--f-ui); }
+#gate { position: fixed; inset: 0; background: var(--bg); z-index: 50; display: grid; place-items: center; padding: 16px; }
+#gate .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 24px; max-width: 420px; display: grid; gap: 12px; }
+#gate h2 { margin: 0; }
+/* Layout: a working tool. Sticky header with coder + tabs; each tab is a two-pane workspace that stacks on phones. */
+:root {
+  --bg: #f6f7f9; --panel: #ffffff; --fg: #15181d; --muted: #5b6270; --line: #dfe3e8; --soft: #eef1f5;
+  --accent: #2a63c7; --accent-ink: #ffffff; --ok: #1f7a4a; --warn: #a15c00; --bad: #b3261e;
+  --c-nav: #2a78d6; --c-mission: #1b9e6b; --c-hud: #e0662e; --c-imm: #6250d6; --c-skip: #8a8f98;
+  --mark: #ffe8a3;
+  --f-ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r: 8px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121418; --panel: #1a1d22; --fg: #e8eaee; --muted: #9aa1ad; --line: #2c3139; --soft: #22262d;
+  --accent: #6b9cf0; --accent-ink: #0d1117; --ok: #5cc28e; --warn: #e3a64a; --bad: #f08a83;
+  --c-nav: #4d94ea; --c-mission: #3cbf8a; --c-hud: #f08451; --c-imm: #9085e9; --c-skip: #737985;
+  --mark: #5a4a12; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #121418; --panel: #1a1d22; --fg: #e8eaee; --muted: #9aa1ad; --line: #2c3139; --soft: #22262d;
+  --accent: #6b9cf0; --accent-ink: #0d1117; --ok: #5cc28e; --warn: #e3a64a; --bad: #f08a83;
+  --c-nav: #4d94ea; --c-mission: #3cbf8a; --c-hud: #f08451; --c-imm: #9085e9; --c-skip: #737985;
+  --mark: #5a4a12; color-scheme: dark; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--fg); font-family: var(--f-ui); font-size: 14px; line-height: 1.45; }
+button, select, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.small { font-size: 12px; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--panel); }
+
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--panel); border-bottom: 1px solid var(--line);
+  padding-block: 10px 0; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.top-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: space-between; }
+.brand { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.brand h1 { font-size: 17px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+.coder { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.seg button { border: 0; background: transparent; padding: 4px 12px; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.who { display: inline-flex; align-items: center; gap: 6px; }
+.who img { width: 22px; height: 22px; border-radius: 50%; }
+nav.tabs { display: flex; gap: 4px; margin-top: 10px; overflow-x: auto; }
+nav.tabs button { border: 0; background: none; padding: 8px 12px; border-bottom: 2px solid transparent; color: var(--muted); font-weight: 500; white-space: nowrap; }
+nav.tabs button[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--accent); }
+
+main { padding-block: 16px 40px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); max-width: 1320px; margin: 0 auto; }
+.notice { background: var(--soft); border: 1px solid var(--line); border-radius: var(--r); padding: 10px 12px; margin-bottom: 14px; }
+.notice.warn { border-color: var(--warn); }
+.grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; min-width: 0; display: grid; gap: 12px; }
+.card h2 { font-size: 14px; margin: 0; font-weight: 600; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.row.between { justify-content: space-between; }
+select, input[type="text"], textarea { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; min-width: 0; max-width: 100%; }
+.row > * { min-width: 0; }
+.btn { border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 6px 10px; }
+.btn:hover { background: var(--soft); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.ghost { border-color: transparent; background: transparent; }
+.btn:disabled { opacity: .5; cursor: default; }
+
+/* video */
+.player { position: relative; background: #000; border-radius: 6px; overflow: hidden; aspect-ratio: 16 / 9; max-width: 100%; }
+.player video { width: 100%; height: 100%; display: block; }
+.player .empty { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; color: #cfd3da; padding: 16px; gap: 8px; align-content: center; }
+.timeline { position: relative; height: 34px; background: var(--soft); border-radius: 6px; cursor: pointer; overflow: hidden; }
+.timeline .skip { position: absolute; top: 0; bottom: 0; background: repeating-linear-gradient(135deg, var(--c-skip) 0 3px, transparent 3px 7px); opacity: .55; }
+.timeline .tick { position: absolute; top: 6px; bottom: 6px; width: 3px; border-radius: 2px; transform: translateX(-1px); }
+.timeline .head { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--fg); }
+.clock { font-size: 13px; }
+.keys { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; }
+.key { display: flex; align-items: center; gap: 8px; text-align: left; border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 6px 8px; }
+.key:hover { background: var(--soft); }
+.key kbd { font-family: var(--f-mono); font-size: 12px; min-width: 22px; text-align: center; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 4px; background: var(--soft); }
+.key .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.key span.l { font-size: 13px; }
+.skipbar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.skipbar.active { background: var(--soft); border: 1px dashed var(--c-skip); border-radius: 6px; padding: 6px 8px; }
+
+.table-wrap { overflow-x: auto; max-height: 460px; overflow-y: auto; border: 1px solid var(--line); border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th { text-align: left; font-weight: 600; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--panel); white-space: nowrap; }
+td { padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+td input[type="text"] { width: 100%; padding: 3px 6px; }
+tr.sel td { background: var(--soft); }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; }
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; }
+.tlink { background: none; border: 0; padding: 0; color: var(--accent); }
+
+/* interviews */
+.qa { display: grid; gap: 4px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.qa:last-child { border-bottom: 0; }
+.qa .q { font-weight: 600; font-size: 13px; }
+.qa .a { line-height: 1.6; max-width: 70ch; }
+.qa .a mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 1px; }
+.raw { white-space: pre-wrap; font-family: var(--f-mono); font-size: 12.5px; line-height: 1.6; max-height: 560px; overflow: auto; background: var(--soft); border-radius: 6px; padding: 10px; }
+.coding { position: sticky; top: 110px; }
+.selbox { background: var(--soft); border-radius: 6px; padding: 8px 10px; font-style: italic; min-height: 2.4em; }
+.codebook { display: grid; gap: 10px; max-height: 360px; overflow: auto; }
+.codebook h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 0 0 4px; }
+.codebook ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+.stat { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 10px 12px; }
+.stat b { font-size: 22px; font-weight: 600; display: block; font-variant-numeric: tabular-nums; }
+.toast { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--fg); color: var(--bg); padding: 8px 12px; border-radius: 6px; font-size: 13px; z-index: 20; }
+details summary { cursor: pointer; font-weight: 500; }
+@media (prefers-reduced-motion: no-preference) { .toast { transition: opacity .2s; } }
+</style>
+</head>
+<body>
+
+<div id="gate"><div class="card">
+  <h2>HUD Study Coding</h2>
+  <p class="muted" id="gateMsg" style="margin:0">Enter your name and the group password.</p>
+  <input id="name" type="text" placeholder="Your name (e.g. Shao)" autocomplete="name" style="padding:8px;border:1px solid var(--line);border-radius:6px;font:inherit">
+  <input id="pw" type="password" placeholder="Group password" autocomplete="current-password" style="padding:8px;border:1px solid var(--line);border-radius:6px;font:inherit">
+  <button class="btn primary" id="signIn" type="button">Enter</button>
+</div></div>
+<header class="top">
+  <div class="top-row">
+    <div class="brand">
+      <h1>HUD Study Coding</h1>
+      <span class="muted small" id="syncState">Connecting…</span>
+    </div>
+    <div class="coder">
+      <span class="muted small">Coding as</span>
+      <div class="seg" role="group" aria-label="Coder">
+        <button type="button" id="coderA" aria-pressed="true">Coder A</button>
+        <button type="button" id="coderB" aria-pressed="false">Coder B</button>
+      </div>
+      <span class="who" id="who"></span>
+      <button class="btn small" id="seedBtn" type="button" hidden>Load starter data</button>
+    </div>
+  </div>
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-gameplay" aria-selected="true" data-view="gameplay">Gameplay</button>
+    <button role="tab" id="tab-interviews" aria-selected="false" data-view="interviews">Interviews</button>
+    <button role="tab" id="tab-data" aria-selected="false" data-view="data">Data</button>
+  </nav>
+</header>
+
+<main>
+  <div class="notice warn" id="readonlyNote" hidden>You can view this page but not save tags. Ask the owner for Contributor access to code.</div>
+
+  <!-- ============ GAMEPLAY ============ -->
+  <section id="view-gameplay">
+    <div class="grid">
+      <div class="card">
+        <div class="row between">
+          <div class="row">
+            <label for="gpSession" class="muted small">Recording</label>
+            <select id="gpSession"></select>
+          </div>
+          <span class="chip" id="gpCond"></span>
+        </div>
+        <div class="player">
+          <video id="video" playsinline preload="metadata"></video>
+          <div class="empty" id="videoEmpty">
+            <div>No video loaded for this recording.</div>
+            <label class="btn primary" for="fileInput">Open recording from this computer</label>
+            <input type="file" id="fileInput" accept="video/*" hidden>
+            <div class="small">The file stays on your computer; only your tags are saved.</div>
+          </div>
+        </div>
+        <div class="timeline" id="timeline" aria-label="Timeline: click to jump"><div class="head" id="head"></div></div>
+        <div class="row between">
+          <div class="row">
+            <button class="btn" id="playBtn" type="button">Play <kbd class="mono small">Space</kbd></button>
+            <button class="btn" id="back5" type="button">−5 s</button>
+            <button class="btn" id="fwd5" type="button">+5 s</button>
+            <select id="speed" aria-label="Playback speed">
+              <option value="0.5">0.5×</option><option value="1" selected>1×</option>
+              <option value="1.5">1.5×</option><option value="2">2×</option>
+            </select>
+          </div>
+          <span class="clock mono" id="clock">00:00 / 00:00</span>
+        </div>
+        <div>
+          <div class="row between" style="margin-bottom:6px"><h2>Tag an event</h2><span class="muted small">Press the key while the video plays</span></div>
+          <div class="keys" id="keys"></div>
+        </div>
+        <div class="skipbar" id="skipbar">
+          <button class="key" type="button" id="skipStart"><kbd>S</kbd><span class="l">Start skipped segment</span></button>
+          <span class="muted small" id="skipHint">Mark stretches with nothing to code: long static driving, loading or pause screens, corrupted footage.</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row between">
+          <h2 id="gpListTitle">Your tags</h2>
+          <span class="muted small" id="gpCount"></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Time</th><th>Event</th><th>Note</th><th></th></tr></thead>
+            <tbody id="tagRows"></tbody>
+          </table>
+        </div>
+        <h2>Skipped segments</h2>
+        <div class="table-wrap" style="max-height:200px">
+          <table>
+            <thead><tr><th>From</th><th>To</th><th>Reason</th><th></th></tr></thead>
+            <tbody id="skipRows"></tbody>
+          </table>
+        </div>
+        <details>
+          <summary>What each event means</summary>
+          <ul class="small" id="defs" style="padding-left:18px;margin:8px 0 0"></ul>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INTERVIEWS ============ -->
+  <section id="view-interviews" hidden>
+    <div class="grid">
+      <div class="card">
+        <div class="row between">
+          <div class="row">
+            <label for="ivSession" class="muted small">Interview</label>
+            <select id="ivSession"></select>
+          </div>
+          <div class="seg" role="group" aria-label="Transcript view">
+            <button type="button" id="viewClean" aria-pressed="true">Cleaned</button>
+            <button type="button" id="viewRaw" aria-pressed="false">Raw (names removed)</button>
+          </div>
+        </div>
+        <p class="muted small" style="margin:0" id="ivHint">Select words in an answer to code them. Highlighted text is already coded.</p>
+        <div id="ivClean"></div>
+        <div class="raw" id="ivRaw" hidden></div>
+      </div>
+      <div class="card coding">
+        <h2>Code the selection</h2>
+        <div class="selbox" id="selText">Select text in an answer…</div>
+        <div class="row">
+          <select id="codePick" aria-label="Code" style="flex:1"></select>
+          <button class="btn primary" id="addCode" type="button" disabled>Add code</button>
+        </div>
+        <details id="newCodeBox">
+          <summary>New code</summary>
+          <div class="row" style="margin-top:8px">
+            <input type="text" id="newCode" placeholder="Code, e.g. felt lost" style="flex:1">
+            <input type="text" id="newTheme" placeholder="Theme" list="themeList" style="flex:1">
+            <datalist id="themeList"></datalist>
+            <button class="btn" id="saveCode" type="button">Add to codebook</button>
+          </div>
+        </details>
+        <h2>Codes in this interview</h2>
+        <div class="table-wrap" style="max-height:260px">
+          <table>
+            <thead><tr><th>Q</th><th>Excerpt</th><th>Code</th><th></th></tr></thead>
+            <tbody id="codeRows"></tbody>
+          </table>
+        </div>
+        <h2>Codebook</h2>
+        <div class="codebook" id="codebook"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DATA ============ -->
+  <section id="view-data" hidden>
+    <div class="stats" id="stats"></div>
+    <div class="card" style="margin-top:16px">
+      <div class="row between">
+        <div class="row">
+          <label for="dataSet" class="muted small">Table</label>
+          <select id="dataSet">
+            <option value="tags">Gameplay tags</option>
+            <option value="skips">Skipped segments</option>
+            <option value="codes">Interview codes</option>
+            <option value="answers">Interview answers (participant × question)</option>
+            <option value="practice">Practice clip tags</option>
+            <option value="progress">Coding progress</option>
+          </select>
+          <select id="dataCoder" aria-label="Coder filter">
+            <option value="">All coders</option><option value="A">Coder A</option><option value="B">Coder B</option>
+          </select>
+          <label class="row small muted"><input type="checkbox" id="hideSample"> Hide sample data</label>
+        </div>
+        <button class="btn primary" id="exportBtn" type="button">Export CSV</button>
+      </div>
+      <p class="muted small" style="margin:0" id="dataNote"></p>
+      <div class="table-wrap" style="max-height:620px">
+        <table><thead id="dataHead"></thead><tbody id="dataBody"></tbody></table>
+      </div>
+    </div>
+  </section>
+</main>
+<div class="toast" id="toast" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="supabase-config.js"></script>
+<script src="db-shim.js"></script>
+<script>
+(() => {
+  // ------------------------------------------------------------------ constants
+  const EVENTS = [
+    { key: "m", id: "full_map_open", label: "Full-map open", cat: "Navigation", def: "Player opens the full map screen during a task." },
+    { key: "n", id: "navigation_error", label: "Navigation error", cat: "Navigation", def: "Wrong turn that forces a reroute or U-turn." },
+    { key: "h", id: "hesitation", label: "Hesitation", cat: "HUD comprehension", def: "No input for 3+ seconds outside a cutscene (stops, looks around)." },
+    { key: "p", id: "missed_prompt", label: "Missed prompt", cat: "HUD comprehension", def: "An interaction prompt appears and disappears without being used." },
+    { key: "u", id: "unintended_action", label: "Unintended action", cat: "HUD comprehension", def: "Input that doesn't match the player's apparent goal (wrong button, weapon wheel by accident)." },
+    { key: "i", id: "menu_break", label: "Menu break", cat: "Immersion", def: "Opens a non-map menu (inventory, phone, settings) mid-task." },
+    { key: "o", id: "objective_received", label: "Objective received", cat: "Mission", def: "A new objective appears on screen." },
+    { key: "c", id: "objective_reached", label: "Objective complete", cat: "Mission", def: "The objective is reached / marked complete." },
+  ];
+  const CAT_COLOR = { "Navigation": "var(--c-nav)", "Mission": "var(--c-mission)", "HUD comprehension": "var(--c-hud)", "Immersion": "var(--c-imm)" };
+  const SKIP_REASONS = [
+    { id: "static", label: "Static gameplay" }, { id: "no_gameplay", label: "No gameplay (loading, pause)" },
+    { id: "corrupted", label: "Corrupted / missing footage" },
+  ];
+  const evById = Object.fromEntries(EVENTS.map((e) => [e.id, e]));
+  const $ = (id) => document.getElementById(id);
+  const el = (tag, props = {}, ...kids) => {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(props)) {
+      if (k === "class") n.className = v; else if (k === "text") n.textContent = v;
+      else if (k === "style") n.style.cssText = v; else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+      else if (v !== undefined && v !== null && v !== false) n.setAttribute(k, v === true ? "" : v);
+    }
+    for (const c of kids.flat()) if (c != null) n.append(c);
+    return n;
+  };
+  const fmt = (s) => { if (!isFinite(s)) return "--:--"; s = Math.max(0, s); const m = Math.floor(s / 60), r = Math.floor(s % 60); return `${String(m).padStart(2, "0")}:${String(r).padStart(2, "0")}`; };
+  const toast = (msg) => { const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast._t); toast._t = setTimeout(() => (t.hidden = true), 2200); };
+  const pref = { get(k, d) { try { return localStorage.getItem(k) ?? d; } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+
+  // ------------------------------------------------------------------ state
+  const S = {
+    db: null, user: null, uid: null, canWrite: true, coder: pref.get("hud.coder", "A"),
+    sessions: {}, tagsets: {}, codesets: {}, codebook: { codes: [] },
+    gpSession: null, ivSession: null, view: "gameplay", openSkip: null, selection: null,
+    localTags: null, saveTimer: null, saving: false, dirty: false, localCodes: null,
+    codeSaveTimer: null, codeDirty: false, names: {},
+  };
+  const myTagDocId = () => `${S.gpSession}__${S.coder}__${S.uid}`;
+  const myCodeDocId = () => `${S.ivSession}__${S.coder}__${S.uid}`;
+
+  // ------------------------------------------------------------------ coder + tabs
+  function setCoder(c) {
+    flushTags(); flushCodes();
+    S.coder = c; pref.set("hud.coder", c);
+    $("coderA").setAttribute("aria-pressed", c === "A"); $("coderB").setAttribute("aria-pressed", c === "B");
+    S.localTags = null; S.localCodes = null; renderGameplay(); renderInterview();
+  }
+  $("coderA").onclick = () => setCoder("A");
+  $("coderB").onclick = () => setCoder("B");
+  function show(view) {
+    S.view = view;
+    for (const b of document.querySelectorAll("nav.tabs button")) b.setAttribute("aria-selected", b.dataset.view === view);
+    for (const v of ["gameplay", "interviews", "data"]) $("view-" + v).hidden = v !== view;
+    if (location.hash !== "#" + view) history.replaceState(null, "", "#" + view);
+    if (view === "data") renderData();
+  }
+  for (const b of document.querySelectorAll("nav.tabs button")) b.onclick = () => show(b.dataset.view);
+  window.addEventListener("hashchange", () => { const v = location.hash.slice(1); if (["gameplay", "interviews", "data"].includes(v)) show(v); });
+
+  // ------------------------------------------------------------------ gameplay: keys + defs
+  for (const e of EVENTS) {
+    $("keys").append(el("button", { class: "key", type: "button", onclick: () => addTag(e.id), title: e.def },
+      el("kbd", { text: e.key.toUpperCase() }), el("span", { class: "dot", style: `background:${CAT_COLOR[e.cat]}` }),
+      el("span", { class: "l", text: e.label })));
+    $("defs").append(el("li", {}, el("b", { text: e.label + " " }), el("span", { class: "muted", text: `(${e.cat}) ` }), e.def));
+  }
+  $("defs").append(el("li", {}, el("b", { text: "Skipped segment " }), "Stretch with nothing to code. Events inside it are not counted, and its length is subtracted from the session's active time."));
+
+  const video = $("video");
+  function sessionLabel(s) {
+    if (s.kind === "practice") return `${s.label}`;
+    return `${s.participant} · Session ${s.session} · ${s.game} · ${s.hud} HUD`;
+  }
+  function fillSessionSelects() {
+    const list = Object.values(S.sessions).sort((a, b) => (a.order ?? 99) - (b.order ?? 99) || String(a.id).localeCompare(b.id));
+    const gp = $("gpSession"), iv = $("ivSession");
+    const keepGp = S.gpSession, keepIv = S.ivSession;
+    gp.replaceChildren(); iv.replaceChildren();
+    const gPrac = el("optgroup", { label: "Practice clips" }), gStudy = el("optgroup", { label: "Study sessions" });
+    for (const s of list) (s.kind === "practice" ? gPrac : gStudy).append(el("option", { value: s.id, text: sessionLabel(s) }));
+    gp.append(gPrac, gStudy);
+    for (const s of list) if (s.kind !== "practice" && s.answers) iv.append(el("option", { value: s.id, text: sessionLabel(s) }));
+    S.gpSession = keepGp && S.sessions[keepGp] ? keepGp : pref.get("hud.gp", list.find((s) => s.kind === "practice")?.id || list[0]?.id);
+    if (!S.sessions[S.gpSession]) S.gpSession = list[0]?.id;
+    S.ivSession = keepIv && S.sessions[keepIv] ? keepIv : pref.get("hud.iv", iv.options[0]?.value);
+    if (!S.sessions[S.ivSession]) S.ivSession = iv.options[0]?.value;
+    gp.value = S.gpSession || ""; iv.value = S.ivSession || "";
+  }
+  $("gpSession").onchange = (e) => { flushTags(); S.gpSession = e.target.value; pref.set("hud.gp", S.gpSession); S.localTags = null; S.openSkip = null; loadVideo(); renderGameplay(); };
+  $("ivSession").onchange = (e) => { flushCodes(); S.ivSession = e.target.value; pref.set("hud.iv", S.ivSession); S.localCodes = null; S.selection = null; renderInterview(); };
+
+  let localUrl = null;
+  function loadVideo() {
+    const s = S.sessions[S.gpSession];
+    if (localUrl) { URL.revokeObjectURL(localUrl); localUrl = null; }
+    video.removeAttribute("src");
+    if (s && s.video) { video.src = s.video; $("videoEmpty").hidden = true; }
+    else { video.load(); $("videoEmpty").hidden = false; }
+    const cond = $("gpCond");
+    cond.replaceChildren();
+    if (s) cond.append(el("span", { text: s.kind === "practice" ? `${s.hud} HUD · practice` : `${s.game} · ${s.hud} HUD` }));
+  }
+  $("fileInput").onchange = (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    if (localUrl) URL.revokeObjectURL(localUrl);
+    localUrl = URL.createObjectURL(f); video.src = localUrl; $("videoEmpty").hidden = true;
+    toast(`Opened ${f.name} (stays on your computer)`);
+  };
+  $("playBtn").onclick = () => (video.paused ? video.play() : video.pause());
+  $("back5").onclick = () => (video.currentTime = Math.max(0, video.currentTime - 5));
+  $("fwd5").onclick = () => (video.currentTime = Math.min(video.duration || 0, video.currentTime + 5));
+  $("speed").onchange = (e) => (video.playbackRate = +e.target.value);
+  video.addEventListener("play", () => ($("playBtn").firstChild.textContent = "Pause "));
+  video.addEventListener("pause", () => ($("playBtn").firstChild.textContent = "Play "));
+  video.addEventListener("timeupdate", drawHead);
+  video.addEventListener("loadedmetadata", () => { video.playbackRate = +$("speed").value; renderTimeline(); drawHead(); });
+  function duration() { const s = S.sessions[S.gpSession]; return video.duration || s?.duration_s || 1800; }
+  function drawHead() {
+    const d = duration();
+    $("head").style.left = `${(video.currentTime / d) * 100}%`;
+    $("clock").textContent = `${fmt(video.currentTime)} / ${fmt(d)}`;
+    if (S.openSkip != null) $("skipHint").textContent = `Skipping from ${fmt(S.openSkip)} … pick a reason to close it at ${fmt(video.currentTime)}`;
+  }
+  $("timeline").onclick = (e) => { const r = e.currentTarget.getBoundingClientRect(); video.currentTime = ((e.clientX - r.left) / r.width) * duration(); };
+
+  // ------------------------------------------------------------------ gameplay: tag state
+  function myTagset() {
+    if (S.localTags) return S.localTags;
+    const doc = S.tagsets[myTagDocId()];
+    S.localTags = { tags: (doc?.tags || []).map((t) => ({ ...t })), skips: (doc?.skips || []).map((t) => ({ ...t })) };
+    return S.localTags;
+  }
+  function addTag(evId) {
+    if (!guardWrite()) return;
+    const ts = myTagset();
+    const t = Math.round(video.currentTime * 10) / 10;
+    ts.tags.push({ t_s: t, event: evId, note: "" });
+    ts.tags.sort((a, b) => a.t_s - b.t_s);
+    scheduleTagSave(); renderGameplay();
+    toast(`${evById[evId].label} at ${fmt(t)}`);
+  }
+  function startSkip() {
+    if (!guardWrite()) return;
+    if (S.openSkip != null) { S.openSkip = null; renderSkipBar(); return; }
+    S.openSkip = Math.round(video.currentTime * 10) / 10; renderSkipBar();
+  }
+  function endSkip(reason) {
+    const a = S.openSkip, b = Math.round(video.currentTime * 10) / 10;
+    if (a == null) return;
+    if (b <= a) { toast("Move the video past the start time first"); return; }
+    myTagset().skips.push({ start_s: a, end_s: b, reason });
+    myTagset().skips.sort((x, y) => x.start_s - y.start_s);
+    S.openSkip = null; scheduleTagSave(); renderGameplay();
+    toast(`Skipped ${fmt(a)}–${fmt(b)}`);
+  }
+  $("skipStart").onclick = startSkip;
+  function renderSkipBar() {
+    const bar = $("skipbar");
+    bar.replaceChildren();
+    if (S.openSkip == null) {
+      bar.classList.remove("active");
+      bar.append(el("button", { class: "key", type: "button", id: "skipStart", onclick: startSkip }, el("kbd", { text: "S" }), el("span", { class: "l", text: "Start skipped segment" })),
+        el("span", { class: "muted small", id: "skipHint", text: "Mark stretches with nothing to code: long static driving, loading or pause screens, corrupted footage." }));
+    } else {
+      bar.classList.add("active");
+      bar.append(el("span", { class: "small", id: "skipHint", text: `Skipping from ${fmt(S.openSkip)}. Play to the end of it, then pick why:` }));
+      SKIP_REASONS.forEach((r, i) => bar.append(el("button", { class: "btn", type: "button", onclick: () => endSkip(r.id) }, el("kbd", { class: "mono small", text: String(i + 1) }), " " + r.label)));
+      bar.append(el("button", { class: "btn ghost", type: "button", onclick: startSkip, text: "Cancel" }));
+    }
+  }
+  function scheduleTagSave() { S.dirty = true; clearTimeout(S.saveTimer); S.saveTimer = setTimeout(saveTags, 600); syncState("Saving…"); }
+  async function saveTags() {
+    if (!S.dirty || !S.db || !S.uid) return;
+    if (S.saving) { S.saveTimer = setTimeout(saveTags, 400); return; }
+    S.saving = true; S.dirty = false;
+    const s = S.sessions[S.gpSession]; const ts = myTagset(); const id = myTagDocId();
+    const body = { session_id: S.gpSession, participant: s.participant || null, session: s.session || null, clip: s.kind === "practice" ? s.id : null,
+      kind: s.kind, coder: S.coder, by: S.uid, updated_at: new Date().toISOString(), tags: ts.tags, skips: ts.skips };
+    try { await S.db.collection("tagsets").doc(id).set(body); syncState("All changes saved"); }
+    catch (e) { S.dirty = true; handleWriteError(e); }
+    finally { S.saving = false; }
+  }
+  function flushTags() { if (S.dirty) { clearTimeout(S.saveTimer); saveTags(); } }
+
+  function renderTimeline() {
+    const tl = $("timeline"); const d = duration();
+    for (const n of [...tl.querySelectorAll(".tick,.skip")]) n.remove();
+    const ts = myTagset();
+    for (const sk of ts.skips) tl.append(el("div", { class: "skip", style: `left:${(sk.start_s / d) * 100}%;width:${((sk.end_s - sk.start_s) / d) * 100}%`, title: `${fmt(sk.start_s)}–${fmt(sk.end_s)} ${sk.reason}` }));
+    for (const t of ts.tags) { const e = evById[t.event]; tl.append(el("div", { class: "tick", style: `left:${(t.t_s / d) * 100}%;background:${CAT_COLOR[e?.cat] || "var(--muted)"}`, title: `${fmt(t.t_s)} ${e?.label || t.event}` })); }
+  }
+  function renderGameplay() {
+    if (!S.gpSession) return;
+    const ts = myTagset();
+    const body = $("tagRows"); body.replaceChildren();
+    if (!ts.tags.length) body.append(el("tr", {}, el("td", { colspan: 4, class: "muted", text: "No tags yet. Play the recording and press a key when an event happens." })));
+    ts.tags.forEach((t, i) => {
+      const e = evById[t.event];
+      const note = el("input", { type: "text", value: t.note || "", placeholder: "What happened?", "aria-label": "Note" });
+      note.addEventListener("input", () => { t.note = note.value; scheduleTagSave(); });
+      body.append(el("tr", {},
+        el("td", {}, el("button", { class: "tlink mono", type: "button", text: fmt(t.t_s), onclick: () => (video.currentTime = t.t_s) })),
+        el("td", {}, el("span", { class: "chip" }, el("span", { class: "dot", style: `background:${CAT_COLOR[e?.cat]}` }), e?.label || t.event)),
+        el("td", { style: "min-width:140px" }, note),
+        el("td", {}, el("button", { class: "btn ghost small", type: "button", "aria-label": "Delete tag", text: "✕", onclick: () => { if (!guardWrite()) return; ts.tags.splice(i, 1); scheduleTagSave(); renderGameplay(); } }))));
+    });
+    const sb = $("skipRows"); sb.replaceChildren();
+    if (!ts.skips.length) sb.append(el("tr", {}, el("td", { colspan: 4, class: "muted", text: "None marked." })));
+    ts.skips.forEach((k, i) => sb.append(el("tr", {},
+      el("td", {}, el("button", { class: "tlink mono", type: "button", text: fmt(k.start_s), onclick: () => (video.currentTime = k.start_s) })),
+      el("td", { class: "mono", text: fmt(k.end_s) }),
+      el("td", { text: SKIP_REASONS.find((r) => r.id === k.reason)?.label || k.reason }),
+      el("td", {}, el("button", { class: "btn ghost small", type: "button", "aria-label": "Delete segment", text: "✕", onclick: () => { if (!guardWrite()) return; ts.skips.splice(i, 1); scheduleTagSave(); renderGameplay(); } })))));
+    $("gpListTitle").textContent = `Your tags · Coder ${S.coder}`;
+    $("gpCount").textContent = `${ts.tags.length} tag${ts.tags.length === 1 ? "" : "s"}`;
+    renderTimeline(); renderSkipBar(); drawHead();
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (S.view !== "gameplay" || e.metaKey || e.ctrlKey || e.altKey) return;
+    const tg = e.target.tagName; if (tg === "INPUT" || tg === "TEXTAREA" || tg === "SELECT") return;
+    const k = e.key.toLowerCase();
+    if (k === " ") { e.preventDefault(); video.paused ? video.play() : video.pause(); return; }
+    if (k === "arrowleft") { video.currentTime = Math.max(0, video.currentTime - 5); return; }
+    if (k === "arrowright") { video.currentTime = Math.min(duration(), video.currentTime + 5); return; }
+    if (S.openSkip != null && ["1", "2", "3"].includes(k)) { endSkip(SKIP_REASONS[+k - 1].id); return; }
+    if (k === "s") { startSkip(); return; }
+    const ev = EVENTS.find((x) => x.key === k); if (ev) { e.preventDefault(); addTag(ev.id); }
+  });
+
+  // ------------------------------------------------------------------ interviews
+  let ivMode = "clean";
+  $("viewClean").onclick = () => { ivMode = "clean"; renderInterview(); };
+  $("viewRaw").onclick = () => { ivMode = "raw"; renderInterview(); };
+  function myCodes() {
+    if (S.localCodes) return S.localCodes;
+    const doc = S.codesets[myCodeDocId()];
+    S.localCodes = (doc?.items || []).map((x) => ({ ...x }));
+    return S.localCodes;
+  }
+  function allCodesFor(sessionId) {
+    const out = [];
+    for (const [id, d] of Object.entries(S.codesets)) if (d.session_id === sessionId && id !== myCodeDocId()) for (const it of d.items || []) out.push({ ...it, coder: d.coder, by: d.by });
+    for (const it of (sessionId === S.ivSession ? myCodes() : [])) out.push({ ...it, coder: S.coder, by: S.uid, mine: true });
+    return out;
+  }
+  function highlight(text, excerpts) {
+    const frag = document.createDocumentFragment();
+    const lower = text.toLowerCase();
+    const ranges = [];
+    for (const ex of excerpts) { const i = lower.indexOf(ex.toLowerCase().trim()); if (i >= 0 && ex.trim()) ranges.push([i, i + ex.trim().length]); }
+    ranges.sort((a, b) => a[0] - b[0]);
+    let pos = 0;
+    for (const [a, b] of ranges) { if (a < pos) continue; frag.append(text.slice(pos, a), el("mark", { text: text.slice(a, b) })); pos = b; }
+    frag.append(text.slice(pos));
+    return frag;
+  }
+  function renderInterview() {
+    const s = S.sessions[S.ivSession];
+    $("viewClean").setAttribute("aria-pressed", ivMode === "clean"); $("viewRaw").setAttribute("aria-pressed", ivMode === "raw");
+    $("ivClean").hidden = ivMode !== "clean"; $("ivRaw").hidden = ivMode !== "raw"; $("ivHint").hidden = ivMode !== "clean";
+    if (!s) { $("ivClean").replaceChildren(el("p", { class: "muted", text: "No transcripts yet." })); return; }
+    $("ivRaw").textContent = s.transcript_raw || "No raw transcript stored.";
+    const codes = allCodesFor(S.ivSession);
+    const box = $("ivClean"); box.replaceChildren();
+    for (const qa of s.answers || []) {
+      const ex = codes.filter((c) => c.question === qa.q).map((c) => c.excerpt);
+      const a = el("div", { class: "a", "data-q": qa.q });
+      a.append(highlight(qa.answer, ex));
+      box.append(el("div", { class: "qa" }, el("div", { class: "q" }, el("span", { class: "mono muted", text: qa.q + " " }), qa.question), a));
+    }
+    // codes table
+    const rows = $("codeRows"); rows.replaceChildren();
+    const mine = myCodes();
+    if (!codes.length) rows.append(el("tr", {}, el("td", { colspan: 4, class: "muted", text: "Nothing coded yet." })));
+    for (const c of codes.sort((x, y) => x.question.localeCompare(y.question, undefined, { numeric: true }))) {
+      const del = c.mine ? el("button", { class: "btn ghost small", type: "button", "aria-label": "Remove code", text: "✕", onclick: () => { if (!guardWrite()) return; mine.splice(mine.findIndex((m) => m.question === c.question && m.excerpt === c.excerpt && m.code === c.code), 1); scheduleCodeSave(); renderInterview(); } }) : el("span", { class: "muted small", text: c.by === "sample" ? "sample" : "Coder " + c.coder });
+      rows.append(el("tr", {}, el("td", { class: "mono", text: c.question }), el("td", { text: c.excerpt }),
+        el("td", {}, el("div", { text: c.code }), el("div", { class: "muted small", text: c.theme })), el("td", {}, del)));
+    }
+    renderCodebook();
+    renderSelection();
+  }
+  function renderCodebook() {
+    const cb = S.codebook.codes || [];
+    const pick = $("codePick"); const keep = pick.value; pick.replaceChildren(el("option", { value: "", text: "Choose a code…" }));
+    const themes = [...new Set(cb.map((c) => c.theme))].sort();
+    $("themeList").replaceChildren(...themes.map((t) => el("option", { value: t })));
+    const counts = {};
+    for (const d of Object.values(S.codesets)) for (const it of d.items || []) counts[it.code] = (counts[it.code] || 0) + 1;
+    const book = $("codebook"); book.replaceChildren();
+    for (const th of themes) {
+      const og = el("optgroup", { label: th });
+      const ul = el("ul");
+      for (const c of cb.filter((x) => x.theme === th).sort((a, b) => a.code.localeCompare(b.code))) {
+        og.append(el("option", { value: c.code, text: c.code }));
+        ul.append(el("li", {}, el("span", { class: "chip", title: `${counts[c.code] || 0} uses` }, c.code, el("span", { class: "muted", text: String(counts[c.code] || 0) }))));
+      }
+      pick.append(og);
+      book.append(el("div", {}, el("h3", { text: th }), ul));
+    }
+    if (keep) pick.value = keep;
+  }
+  function renderSelection() {
+    const sel = S.selection;
+    $("selText").textContent = sel ? `${sel.q}: “${sel.text}”` : "Select text in an answer…";
+    $("addCode").disabled = !sel || !$("codePick").value || !S.canWrite;
+  }
+  document.addEventListener("selectionchange", () => {
+    if (S.view !== "interviews" || ivMode !== "clean") return;
+    const s = window.getSelection(); if (!s || s.isCollapsed) return;
+    const node = s.anchorNode && (s.anchorNode.nodeType === 1 ? s.anchorNode : s.anchorNode.parentElement);
+    const ans = node && node.closest(".a");
+    if (!ans || !ans.contains(s.focusNode)) return;
+    const text = s.toString().replace(/\s+/g, " ").trim();
+    if (text.length < 2) return;
+    S.selection = { q: ans.dataset.q, text }; renderSelection();
+  });
+  $("codePick").onchange = renderSelection;
+  $("addCode").onclick = () => {
+    if (!guardWrite() || !S.selection) return;
+    const code = $("codePick").value; const entry = (S.codebook.codes || []).find((c) => c.code === code);
+    if (!entry) return;
+    myCodes().push({ question: S.selection.q, excerpt: S.selection.text, code: entry.code, theme: entry.theme });
+    S.selection = null; window.getSelection()?.removeAllRanges();
+    scheduleCodeSave(); renderInterview(); toast(`Coded as “${entry.code}”`);
+  };
+  $("saveCode").onclick = async () => {
+    if (!guardWrite()) return;
+    const code = $("newCode").value.trim().toLowerCase(), theme = $("newTheme").value.trim();
+    if (!code || !theme) { toast("Enter both a code and a theme"); return; }
+    if ((S.codebook.codes || []).some((c) => c.code === code)) { toast("That code already exists"); return; }
+    const next = { codes: [...(S.codebook.codes || []), { code, theme }], updated_at: new Date().toISOString() };
+    try { await S.db.doc("codebook/main").set(next); $("newCode").value = ""; $("codePick").value = code; renderSelection(); toast("Added to codebook"); }
+    catch (e) { handleWriteError(e); }
+  };
+  function scheduleCodeSave() { S.codeDirty = true; clearTimeout(S.codeSaveTimer); S.codeSaveTimer = setTimeout(saveCodes, 600); syncState("Saving…"); }
+  async function saveCodes() {
+    if (!S.codeDirty || !S.db || !S.uid) return;
+    S.codeDirty = false;
+    const s = S.sessions[S.ivSession];
+    try {
+      await S.db.collection("codesets").doc(myCodeDocId()).set({ session_id: S.ivSession, participant: s.participant, session: s.session,
+        coder: S.coder, by: S.uid, updated_at: new Date().toISOString(), items: myCodes() });
+      syncState("All changes saved");
+    } catch (e) { S.codeDirty = true; handleWriteError(e); }
+  }
+  function flushCodes() { if (S.codeDirty) { clearTimeout(S.codeSaveTimer); saveCodes(); } }
+
+  // ------------------------------------------------------------------ data tab
+  function rowsFor(kind) {
+    const coder = $("dataCoder").value, hide = $("hideSample").checked;
+    const ok = (d) => (!coder || d.coder === coder) && !(hide && d.by === "sample");
+    const out = [];
+    if (kind === "tags" || kind === "skips" || kind === "practice") {
+      for (const d of Object.values(S.tagsets)) {
+        if (!ok(d)) continue;
+        if ((kind === "practice") !== (d.kind === "practice")) continue;
+        if (kind === "skips") for (const k of d.skips || []) out.push({ participant: d.participant, session: d.session, start_s: k.start_s, end_s: k.end_s, reason: k.reason, coder: d.coder, _by: d.by });
+        else for (const t of d.tags || []) {
+          const e = evById[t.event];
+          if (kind === "practice") out.push({ clip: d.clip, t_s: t.t_s, event: t.event, tagged_by: `Coder ${d.coder} (${S.names[d.by] || (d.by === S.uid ? "you" : "teammate")})`, _by: d.by });
+          else out.push({ participant: d.participant, session: d.session, t_s: t.t_s, event: t.event, category: e?.cat || "", note: t.note || "", coder: d.coder, _by: d.by });
+        }
+      }
+      const key = kind === "skips" ? "start_s" : "t_s";
+      out.sort((a, b) => String(a.participant ?? a.clip).localeCompare(String(b.participant ?? b.clip)) || (a.session ?? 0) - (b.session ?? 0) || a[key] - b[key]);
+    } else if (kind === "codes") {
+      for (const d of Object.values(S.codesets)) { if (!ok(d)) continue; for (const it of d.items || []) out.push({ participant: d.participant, session: d.session, question: it.question, excerpt: it.excerpt, code: it.code, theme: it.theme, coder: d.coder, _by: d.by }); }
+      out.sort((a, b) => a.participant.localeCompare(b.participant) || a.session - b.session || a.question.localeCompare(b.question, undefined, { numeric: true }));
+    } else if (kind === "answers") {
+      const qs = new Set();
+      for (const s of Object.values(S.sessions)) for (const a of s.answers || []) qs.add(a.q);
+      const qlist = [...qs].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+      for (const s of Object.values(S.sessions).filter((x) => x.answers).sort((a, b) => a.id.localeCompare(b.id))) {
+        const r = { participant: s.participant, session: s.session, game: s.game, hud: s.hud };
+        for (const q of qlist) r[q] = (s.answers.find((a) => a.q === q) || {}).answer || "";
+        out.push(r);
+      }
+    } else if (kind === "progress") {
+      for (const s of Object.values(S.sessions).filter((x) => x.kind !== "practice").sort((a, b) => a.id.localeCompare(b.id))) {
+        const tA = Object.values(S.tagsets).filter((d) => d.session_id === s.id && d.coder === "A" && !(hide && d.by === "sample"));
+        const tB = Object.values(S.tagsets).filter((d) => d.session_id === s.id && d.coder === "B" && !(hide && d.by === "sample"));
+        const cA = Object.values(S.codesets).filter((d) => d.session_id === s.id && !(hide && d.by === "sample"));
+        out.push({ session: s.id, game: s.game, hud: s.hud,
+          "coder A tags": tA.reduce((n, d) => n + (d.tags || []).length, 0), "coder B tags": tB.reduce((n, d) => n + (d.tags || []).length, 0),
+          "skipped (min)": +(tA.reduce((n, d) => n + (d.skips || []).reduce((m, k) => m + k.end_s - k.start_s, 0), 0) / 60).toFixed(1),
+          "interview codes": cA.reduce((n, d) => n + (d.items || []).length, 0) });
+      }
+    }
+    return out;
+  }
+  const FILE_NAME = { tags: "gameplay_tags.csv", skips: "gameplay_exclusions.csv", codes: "interview_codes.csv", answers: "interview_table.csv", practice: "practice_tags.csv", progress: "coding_progress.csv" };
+  const NOTE = {
+    tags: "Export as gameplay_tags.csv and put it in raw/ — the format clean.py reads.",
+    skips: "Export as gameplay_exclusions.csv for raw/.",
+    codes: "Export as interview_codes.csv for raw/.",
+    answers: "Cleaned, anonymised answers: one row per participant and session, one column per question.",
+    practice: "Export as practice_tags.csv for raw/: analyze.py checks each tagger against the practice answer key.",
+    progress: "How much of each session has been coded.",
+  };
+  function renderData() {
+    const kind = $("dataSet").value;
+    $("dataCoder").disabled = kind === "answers"; $("hideSample").disabled = kind === "answers";
+    $("dataNote").textContent = NOTE[kind];
+    const rows = rowsFor(kind);
+    const cols = rows.length ? Object.keys(rows[0]).filter((c) => !c.startsWith("_")) : [];
+    $("dataHead").replaceChildren(el("tr", {}, ...cols.map((c) => el("th", { text: c }))));
+    const body = $("dataBody"); body.replaceChildren();
+    if (!rows.length) body.append(el("tr", {}, el("td", { class: "muted", text: "No rows yet." })));
+    for (const r of rows.slice(0, 1500)) body.append(el("tr", {}, ...cols.map((c) => el("td", { class: typeof r[c] === "number" ? "mono" : "", text: r[c] ?? "" }))));
+    // stats
+    const all = Object.values(S.tagsets), codes = Object.values(S.codesets);
+    const n = (arr, f) => arr.reduce((s, d) => s + (f(d) || []).length, 0);
+    const mine = all.filter((d) => d.by === S.uid);
+    $("stats").replaceChildren(
+      stat("Gameplay tags", n(all.filter((d) => d.kind !== "practice"), (d) => d.tags), "all coders"),
+      stat("Skipped segments", n(all.filter((d) => d.kind !== "practice"), (d) => d.skips), "all coders"),
+      stat("Interview codes", n(codes, (d) => d.items), `${(S.codebook.codes || []).length} codes in codebook`),
+      stat("Your tags", n(mine, (d) => d.tags), "across recordings"));
+  }
+  const stat = (label, val, sub) => el("div", { class: "stat" }, el("span", { class: "muted small", text: label }), el("b", { text: val }), el("span", { class: "muted small", text: sub }));
+  $("dataSet").onchange = renderData; $("dataCoder").onchange = renderData; $("hideSample").onchange = renderData;
+  const csvCell = (v) => { const s = v == null ? "" : String(v); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
+  $("exportBtn").onclick = async () => {
+    const kind = $("dataSet").value; const rows = rowsFor(kind);
+    if (!rows.length) { toast("Nothing to export yet"); return; }
+    const cols = Object.keys(rows[0]).filter((c) => !c.startsWith("_"));
+    const csv = [cols.join(","), ...rows.map((r) => cols.map((c) => csvCell(r[c])).join(","))].join("\n") + "\n";
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const a = el("a", { href: URL.createObjectURL(blob), download: FILE_NAME[kind] });
+    document.body.append(a); a.click(); a.remove(); toast(`Saved ${FILE_NAME[kind]}`);
+  };
+
+  // ------------------------------------------------------------------ write guards + sync
+  function guardWrite() { if (!S.canWrite || !S.uid) { toast("You can view but not save tags here"); return false; } return true; }
+  function handleWriteError(e) {
+    if (e?.code === "invalid_argument" || e?.code === "permission-denied") { S.canWrite = false; $("readonlyNote").hidden = false; syncState("Read-only"); }
+    else if (e?.code === "quota") syncState("Free daily limit reached — try again tomorrow");
+    else syncState("Not saved — retrying");
+    if (e?.code === "unavailable") setTimeout(() => { S.dirty = true; saveTags(); }, 1500 + Math.random() * 1000);
+  }
+  function syncState(t) { $("syncState").textContent = t; }
+
+  // ------------------------------------------------------------------ boot
+  window.addEventListener("beforeunload", () => { flushTags(); flushCodes(); });
+  document.addEventListener("visibilitychange", () => { if (document.hidden) { flushTags(); flushCodes(); } });
+
+  async function resolveNames() {
+    for (const [id, u] of Object.entries(S.userDocs || {})) S.names[id] = id === S.uid ? "you" : (u.name || "teammate");
+  }
+
+  async function boot() {
+    setCoder(S.coder);
+    const v = location.hash.slice(1); show(["gameplay", "interviews", "data"].includes(v) ? v : "gameplay");
+    const cfg = window.SUPABASE_CONFIG;
+    if (!window.supabase || !cfg || String(cfg.url).startsWith("PASTE")) {
+      $("gateMsg").textContent = "Setup needed: open supabase-config.js and paste your project URL and key (see SETUP.md)."; $("signIn").hidden = true; $("email").hidden = true; return;
+    }
+    const sb = window.supabase.createClient(cfg.url, cfg.key);
+    const slug = (n) => n.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "coder";
+    $("name").value = pref.get("hud.name", "");
+    let started = false;
+    async function begin() {
+      const name = pref.get("hud.name", "").trim(); if (!name || started) return;
+      started = true;
+      const db = window.makeDb(sb);
+      S.uid = slug(name); S.db = db; S.canWrite = true;
+      try { await db.doc("users/" + S.uid).set({ name, seen: new Date().toISOString() }, { merge: true }); }
+      catch (e) { started = false; $("gate").hidden = false; $("gateMsg").textContent = "Signed in, but this account isn't allowed. Check setup.sql (allowed_emails)."; return; }
+      $("gate").hidden = true;
+      $("who").replaceChildren(el("span", { class: "small", text: name }),
+        el("button", { class: "btn ghost small", type: "button", text: "Leave", onclick: () => sb.auth.signOut().then(() => { pref.set("hud.name", ""); location.reload(); }) }));
+      start(db);
+    }
+    $("signIn").onclick = async () => {
+      const name = $("name").value.trim(), pw = $("pw").value;
+      if (!name) { $("gateMsg").textContent = "Type your name first."; return; }
+      pref.set("hud.name", name);
+      const { data } = await sb.auth.getSession();
+      if (data.session) { begin(); return; }
+      if (!pw) { $("gateMsg").textContent = "Type the group password."; return; }
+      $("signIn").disabled = true;
+      const { error } = await sb.auth.signInWithPassword({ email: cfg.groupEmail, password: pw });
+      $("signIn").disabled = false;
+      if (error) $("gateMsg").textContent = `Sign-in failed: ${error.message} (using email: ${cfg.groupEmail || "NONE - add groupEmail to supabase-config.js"})`;
+      else begin();
+    };
+    sb.auth.onAuthStateChange((_e, session) => { if (session) begin(); else $("gate").hidden = false; });
+  }
+
+  function start(db) {
+    let firstSessions = true;
+    db.collection("users").onSnapshot((snap) => { S.userDocs = {}; for (const d of snap.docs) S.userDocs[d.id] = d.data(); resolveNames(); renderGameplay(); if (S.view === "data") renderData(); });
+    db.collection("sessions").onSnapshot((snap) => {
+      S.sessions = {}; for (const d of snap.docs) S.sessions[d.id] = { id: d.id, ...d.data() };
+      fillSessionSelects();
+      if (firstSessions) { firstSessions = false; loadVideo(); }
+      renderGameplay(); renderInterview(); if (S.view === "data") renderData();
+      syncState(snap.empty ? "No recordings set up yet" : "Up to date");
+      $("seedBtn").hidden = !snap.empty;
+    }, () => syncState("Couldn't load recordings"));
+    db.collection("tagsets").onSnapshot((snap) => {
+      S.tagsets = {}; for (const d of snap.docs) S.tagsets[d.id] = d.data();
+      if (!S.dirty && !S.saving) S.localTags = null;
+      renderGameplay(); if (S.view === "data") renderData();
+      resolveNames();
+    }, () => syncState("Couldn't load tags"));
+    db.collection("codesets").onSnapshot((snap) => {
+      S.codesets = {}; for (const d of snap.docs) S.codesets[d.id] = d.data();
+      if (!S.codeDirty) S.localCodes = null;
+      renderInterview(); if (S.view === "data") renderData();
+      resolveNames();
+    }, () => syncState("Couldn't load codes"));
+    db.doc("codebook/main").onSnapshot((snap) => { S.codebook = snap.exists ? snap.data() : { codes: [] }; renderCodebook(); renderSelection(); });
+  }
+
+  $("seedBtn").onclick = async () => {
+    if (!S.db) return;
+    $("seedBtn").disabled = true; syncState("Loading starter data…");
+    try {
+      const names = await (await fetch("seed/manifest.json")).json();
+      for (let i = 0; i < names.length; i += 400) {
+        const batch = S.db.batch();
+        for (const n of names.slice(i, i + 400)) {
+          const [col, ...rest] = n.replace(/\.json$/, "").split("__"); const id = rest.join("__");
+          batch.set(S.db.collection(col).doc(id), await (await fetch("seed/" + n)).json());
+        }
+        await batch.commit();
+      }
+      toast("Starter data loaded");
+    } catch (e) { toast("Couldn't load starter data: " + (e.code || e.message)); $("seedBtn").disabled = false; }
+  };
+  boot();
+})();
+</script>
+</body>
+</html>

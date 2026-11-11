@@ -1,0 +1,18 @@
+Participant: P04 | Session 1 | Cyberpunk 2077 | full HUD | Interviewer: Researcher 2
+[00:00] Interviewer: Okay [name], thanks. Let's start the interview for session 1.
+[00:10] Interviewer: Q1. How did you figure out where to go during the session? What did you look at or rely on?
+[00:16] P04: I kept looking at the waypoint marker and drove toward it.
+[00:39] Interviewer: Q2. Were there moments when something on the screen confused you? What was happening?
+[00:45] P04: Not really, everything was pretty clear.
+[01:17] Interviewer: Q3. Which HUD elements, if any, pulled your attention away from what you were doing?
+[01:22] P04: My eyes kept going to the minimap corner instead of the road.
+[01:54] Interviewer: Q4. Was there any HUD element that didn't work the way you expected?
+[01:58] P04: The marker got confusing when I was inside a building.
+[02:26] Interviewer: Q5. How aware were you of the passing of time while playing?
+[02:34] P04: Honestly time went by fast.
+[03:10] Interviewer: Q6. Was there a point where you had to stop to figure out what the game was telling you?
+[03:16] P04: No, I never really had to stop, the map told me everything.
+[03:49] Interviewer: Q7. What information, if any, did you feel was missing from the screen?
+[03:54] P04: Nothing was missing, if anything there was too much. My friend [name] told me it's the same in other games.
+[04:09] Interviewer: Q8. What would you change about the HUD you just used, and why?
+[04:13] P04: I would make the HUD smaller and remove some of the notifications. Like I said, I'm [participant], I play this at home.

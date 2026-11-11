@@ -1,0 +1,26 @@
+Participant: P07 | Session 2 | GTA V | full HUD | Interviewer: Researcher 2
+[00:00] Interviewer: Okay Marco, thanks. Let's start the interview for session 2.
+[00:10] Interviewer: Q1. How did you figure out where to go during the session? What did you look at or rely on?
+[00:14] P07: you know, uhm I kept looking at the waypoint you know, marker and drove toward it.
+[00:47] Interviewer: Q2. Were there moments when something on the screen confused you? What was happening?
+[00:54] P07: you know, like, [silence 5s] not really, everything was pretty clear.
+[01:33] Interviewer: Q3. Which HUD elements, if any, pulled your attention away from what you were doing?
+[01:39] P07: like, um, [silence 5s] my eyes kept going to the minimap corner uh, instead of the road. My friend Carlo told me it's the same in other games.
+[01:56] Interviewer: Q4. Was there any HUD element that didn't work the way you expected?
+[02:00] P07: uhm ahh, the marker got confusing when I uh, was inside a building. Like I said, I'm Marco Torres, I play this at home.
+[02:39] Interviewer: Q5. How aware were you of the passing of time while playing?
+[02:47] P07: um, ahh, [silence 8s] honestly time went by fast.
+[03:17] Interviewer: Q6. Was there a point where you had to stop to figure out what the game was telling you?
+[03:24] P07: ahh, like, no, I never really had to ahh, stop, the map told me everything. My friend Carlo told me it's the same in other games.
+[04:03] Interviewer: Q7. What information, if any, did you feel was missing from the screen?
+[04:11] P07: you know, um, nothing was missing, if anything there was too much.
+[04:30] Interviewer: Q8. What would you change about the HUD you just used, and why?
+[04:38] P07: ahh, like, I would make the um, HUD smaller and remove some of the notifications. My friend Carlo told me it's the same in other games.
+[05:13] Interviewer: Q9. Was there a moment in either session where you felt completely absorbed? What was on screen?
+[05:19] P07: uh, um, in the session without the map, when I was just driving around at night.
+[05:48] Interviewer: Q10. Comparing both sessions, which HUD setup gave you the better experience exploring, and why?
+[05:53] P07: you know, um, the full one uhm because I did not waste time getting lost.
+[06:15] Interviewer: Q11. In which session was it easier to understand what was happening and what to do next?
+[06:23] P07: like, uhm [silence 6s] the full HUD was easier you know, to understand what to do next.
+[06:58] Interviewer: Q12. If you could design your own HUD, which elements would you keep and which would you remove?
+[07:03] P07: um, uhm I would keep health and a compass uhm and remove the notifications. My friend Carlo told me it's the same in other games.

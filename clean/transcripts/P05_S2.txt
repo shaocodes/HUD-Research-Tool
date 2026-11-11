@@ -1,0 +1,26 @@
+Participant: P05 | Session 2 | Cyberpunk 2077 | full HUD | Interviewer: Researcher 2
+[00:00] Interviewer: Okay [name], thanks. Let's start the interview for session 2.
+[00:10] Interviewer: Q1. How did you figure out where to go during the session? What did you look at or rely on?
+[00:17] P05: I kept looking at the waypoint marker and drove toward it. Like I said, I'm [participant], I play this at home.
+[00:48] Interviewer: Q2. Were there moments when something on the screen confused you? What was happening?
+[00:55] P05: Not really, everything was pretty clear. I usually stream as [username] so I play a lot.
+[01:18] Interviewer: Q3. Which HUD elements, if any, pulled your attention away from what you were doing?
+[01:22] P05: My eyes kept going to the minimap corner instead of the road.
+[01:40] Interviewer: Q4. Was there any HUD element that didn't work the way you expected?
+[01:48] P05: The marker got confusing when I was inside a building.
+[02:19] Interviewer: Q5. How aware were you of the passing of time while playing?
+[02:25] P05: Honestly time went by fast. My friend [name] told me it's the same in other games.
+[02:43] Interviewer: Q6. Was there a point where you had to stop to figure out what the game was telling you?
+[02:50] P05: No, I never really had to stop, the map told me everything.
+[03:18] Interviewer: Q7. What information, if any, did you feel was missing from the screen?
+[03:25] P05: Nothing was missing, if anything there was too much.
+[03:43] Interviewer: Q8. What would you change about the HUD you just used, and why?
+[03:49] P05: I would make the HUD smaller and remove some of the notifications. My friend [name] told me it's the same in other games.
+[04:23] Interviewer: Q9. Was there a moment in either session where you felt completely absorbed? What was on screen?
+[04:28] P05: During the fight, I forgot about everything else. My friend [name] told me it's the same in other games.
+[05:02] Interviewer: Q10. Comparing both sessions, which HUD setup gave you the better experience exploring, and why?
+[05:08] P05: The full one because I did not waste time getting lost. I usually stream as [username] so I play a lot.
+[05:40] Interviewer: Q11. In which session was it easier to understand what was happening and what to do next?
+[05:47] P05: The full HUD was easier to understand what to do next.
+[06:24] Interviewer: Q12. If you could design your own HUD, which elements would you keep and which would you remove?
+[06:30] P05: I would keep health and a compass and remove the notifications. My friend [name] told me it's the same in other games.

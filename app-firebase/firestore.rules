@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---- EDIT THIS LIST: the Google emails allowed in (lowercase) ----
+    function allowed() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.lower() in [
+          "shawoneway@gmail.com"
+          // , "groupmate1@gmail.com",
+          // "groupmate2@gmail.com"
+        ];
+    }
+
+    // each person may only write their own profile row (name shown next to their tags)
+    match /users/{uid} {
+      allow read: if allowed();
+      allow write: if allowed() && request.auth.uid == uid;
+    }
+    // everything else: allowed people read and write (sessions, tags, codes, codebook)
+    match /{document=**} {
+      allow read, write: if allowed();
+    }
+  }
+}

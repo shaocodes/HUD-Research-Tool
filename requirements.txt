@@ -1,0 +1,6 @@
+pandas
+numpy
+scipy
+scikit-learn
+matplotlib
+faster-whisper   # only needed for transcribe.py

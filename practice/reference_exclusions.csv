@@ -1,0 +1,5 @@
+clip,start_s,end_s,reason
+practice_full,68,90,static
+practice_full,95,105,no_gameplay
+practice_minimal,66,88,static
+practice_minimal,93,103,no_gameplay

@@ -1,0 +1,161 @@
+participant,session,hud,question,answer,keywords
+P01,1,minimal,Q1,I had to use landmarks like the tall buildings and signs.,use landmark tall building sign
+P01,1,minimal,Q2,"I was not sure where the objective was. Like I said, I'm [participant], I play this at home.",not_sure objective play home
+P01,1,minimal,Q3,"I was focused on the world itself, the streets and the people. My friend [name] told me it's the same in other games.",focused world street people friend told game
+P01,1,minimal,Q4,The prompts were easy to miss without the other stuff. I usually stream as [username] so I play a lot.,prompt easy miss usually stream play
+P01,1,minimal,Q5,"It felt long when I was lost, I kept checking how long it had been.",felt long lost kept checking long
+P01,1,minimal,Q6,"Yes, I had to stop many times and open the full map. My friend [name] told me it's the same in other games.",yes stop many open full map friend told game
+P01,1,minimal,Q7,"I wanted the minimap back, and the objective distance. I usually stream as [username] so I play a lot.",wanted minimap objective distance usually stream play
+P01,1,minimal,Q8,I would add a small compass so I do not get lost but keep it clean.,add small compass not_lost keep clean
+P01,2,full,Q1,I kept looking at the waypoint marker and drove toward it.,kept looking waypoint marker drove toward
+P01,2,full,Q2,At first there was too much stuff on the screen at once.,first screen
+P01,2,full,Q3,My eyes kept going to the minimap corner instead of the road.,eye kept minimap corner instead road
+P01,2,full,Q4,The marker got confusing when I was inside a building.,marker confusing inside building
+P01,2,full,Q5,Honestly time went by fast.,honestly fast
+P01,2,full,Q6,"No, I never really had to stop, the map told me everything.",stop map told everything
+P01,2,full,Q7,"Nothing was missing, if anything there was too much.",not_missing anything
+P01,2,full,Q8,I would make the HUD smaller and remove some of the notifications. I usually stream as [username] so I play a lot.,make hud smaller remove notification usually stream play
+P01,2,full,Q9,"During the fight, I forgot about everything else. I usually stream as [username] so I play a lot.",fight forgot everything else usually stream play
+P01,2,full,Q10,The minimal one felt better for exploring even if I got lost.,minimal felt better exploring lost
+P01,2,full,Q11,The full HUD was easier to understand what to do next.,full hud easier understand next
+P01,2,full,Q12,I would keep health and a compass and remove the notifications.,keep health compass remove notification
+P02,1,full,Q1,I kept looking at the waypoint marker and drove toward it.,kept looking waypoint marker drove toward
+P02,1,full,Q2,"Not really, everything was pretty clear.",everything pretty clear
+P02,1,full,Q3,"The pop-up notifications pulled my focus away. Like I said, I'm [participant], I play this at home.",pop notification pulled focu away play home
+P02,1,full,Q4,The marker got confusing when I was inside a building.,marker confusing inside building
+P02,1,full,Q5,Honestly time went by fast.,honestly fast
+P02,1,full,Q6,"No, I never really had to stop, the map told me everything.",stop map told everything
+P02,1,full,Q7,"Nothing was missing, if anything there was too much.",not_missing anything
+P02,1,full,Q8,I would make the HUD smaller and remove some of the notifications.,make hud smaller remove notification
+P02,2,minimal,Q1,I had to use landmarks like the tall buildings and signs.,use landmark tall building sign
+P02,2,minimal,Q2,I was not sure where the objective was.,not_sure objective
+P02,2,minimal,Q3,"I was focused on the world itself, the streets and the people. My friend [name] told me it's the same in other games.",focused world street people friend told game
+P02,2,minimal,Q4,The prompts were easy to miss without the other stuff.,prompt easy miss
+P02,2,minimal,Q5,"It felt long when I was lost, I kept checking how long it had been.",felt long lost kept checking long
+P02,2,minimal,Q6,"Yes, I had to stop many times and open the full map.",yes stop many open full map
+P02,2,minimal,Q7,"I wanted the minimap back, and the objective distance.",wanted minimap objective distance
+P02,2,minimal,Q8,I would add a small compass so I do not get lost but keep it clean.,add small compass not_lost keep clean
+P02,2,minimal,Q9,"During the fight, I forgot about everything else.",fight forgot everything else
+P02,2,minimal,Q10,The full one because I did not waste time getting lost.,full not_waste getting lost
+P02,2,minimal,Q11,The full HUD was easier to understand what to do next. I usually stream as [username] so I play a lot.,full hud easier understand next usually stream play
+P02,2,minimal,Q12,I would keep health and a compass and remove the notifications. My friend [name] told me it's the same in other games.,keep health compass remove notification friend told game
+P04,1,full,Q1,I kept looking at the waypoint marker and drove toward it.,kept looking waypoint marker drove toward
+P04,1,full,Q2,"Not really, everything was pretty clear.",everything pretty clear
+P04,1,full,Q3,My eyes kept going to the minimap corner instead of the road.,eye kept minimap corner instead road
+P04,1,full,Q4,The marker got confusing when I was inside a building.,marker confusing inside building
+P04,1,full,Q5,Honestly time went by fast.,honestly fast
+P04,1,full,Q6,"No, I never really had to stop, the map told me everything.",stop map told everything
+P04,1,full,Q7,"Nothing was missing, if anything there was too much. My friend [name] told me it's the same in other games.",not_missing anything friend told game
+P04,1,full,Q8,"I would make the HUD smaller and remove some of the notifications. Like I said, I'm [participant], I play this at home.",make hud smaller remove notification play home
+P04,2,minimal,Q1,I just kind of guessed which direction to go.,guessed direction
+P04,2,minimal,Q2,Yeah I got lost a lot because there was no map.,lost not_map
+P04,2,minimal,Q3,"I was focused on the world itself, the streets and the people. I usually stream as [username] so I play a lot.",focused world street people usually stream play
+P04,2,minimal,Q4,The prompts were easy to miss without the other stuff.,prompt easy miss
+P04,2,minimal,Q5,"I lost track of time, it felt like I was really in the city. My friend [name] told me it's the same in other games.",lost track felt city friend told game
+P04,2,minimal,Q6,"Yes, I had to stop many times and open the full map.",yes stop many open full map
+P04,2,minimal,Q7,"I wanted the minimap back, and the objective distance.",wanted minimap objective distance
+P04,2,minimal,Q8,I would add a small compass so I do not get lost but keep it clean.,add small compass not_lost keep clean
+P04,2,minimal,Q9,"In the session without the map, when I was just driving around at night.",session not_map driving night
+P04,2,minimal,Q10,The full one because I did not waste time getting lost. My friend [name] told me it's the same in other games.,full not_waste getting lost friend told game
+P04,2,minimal,Q11,The full HUD was easier to understand what to do next.,full hud easier understand next
+P04,2,minimal,Q12,I would keep health and a compass and remove the notifications. I usually stream as [username] so I play a lot.,keep health compass remove notification usually stream play
+P05,1,minimal,Q1,I had to use landmarks like the tall buildings and signs.,use landmark tall building sign
+P05,1,minimal,Q2,I was not sure where the objective was.,not_sure objective
+P05,1,minimal,Q3,"I was focused on the world itself, the streets and the people. I usually stream as [username] so I play a lot.",focused world street people usually stream play
+P05,1,minimal,Q4,The prompts were easy to miss without the other stuff.,prompt easy miss
+P05,1,minimal,Q5,"I lost track of time, it felt like I was really in the city.",lost track felt city
+P05,1,minimal,Q6,"Yes, I had to stop many times and open the full map.",yes stop many open full map
+P05,1,minimal,Q7,"I wanted the minimap back, and the objective distance. My friend [name] told me it's the same in other games.",wanted minimap objective distance friend told game
+P05,1,minimal,Q8,I would add a small compass so I do not get lost but keep it clean. I usually stream as [username] so I play a lot.,add small compass not_lost keep clean usually stream play
+P05,2,full,Q1,"I kept looking at the waypoint marker and drove toward it. Like I said, I'm [participant], I play this at home.",kept looking waypoint marker drove toward play home
+P05,2,full,Q2,"Not really, everything was pretty clear. I usually stream as [username] so I play a lot.",everything pretty clear usually stream play
+P05,2,full,Q3,My eyes kept going to the minimap corner instead of the road.,eye kept minimap corner instead road
+P05,2,full,Q4,The marker got confusing when I was inside a building.,marker confusing inside building
+P05,2,full,Q5,Honestly time went by fast. My friend [name] told me it's the same in other games.,honestly fast friend told game
+P05,2,full,Q6,"No, I never really had to stop, the map told me everything.",stop map told everything
+P05,2,full,Q7,"Nothing was missing, if anything there was too much.",not_missing anything
+P05,2,full,Q8,I would make the HUD smaller and remove some of the notifications. My friend [name] told me it's the same in other games.,make hud smaller remove notification friend told game
+P05,2,full,Q9,"During the fight, I forgot about everything else. My friend [name] told me it's the same in other games.",fight forgot everything else friend told game
+P05,2,full,Q10,The full one because I did not waste time getting lost. I usually stream as [username] so I play a lot.,full not_waste getting lost usually stream play
+P05,2,full,Q11,The full HUD was easier to understand what to do next.,full hud easier understand next
+P05,2,full,Q12,I would keep health and a compass and remove the notifications. My friend [name] told me it's the same in other games.,keep health compass remove notification friend told game
+P07,1,minimal,Q1,I just kind of guessed which direction to go.,guessed direction
+P07,1,minimal,Q2,Yeah I got lost a lot because there was no map.,lost not_map
+P07,1,minimal,Q3,"I was focused on the world itself, the streets and the people.",focused world street people
+P07,1,minimal,Q4,The prompts were easy to miss without the other stuff.,prompt easy miss
+P07,1,minimal,Q5,"I lost track of time, it felt like I was really in the city. I usually stream as [username] so I play a lot.",lost track felt city usually stream play
+P07,1,minimal,Q6,"Yes, I had to stop many times and open the full map. My friend [name] told me it's the same in other games.",yes stop many open full map friend told game
+P07,1,minimal,Q7,"I wanted the minimap back, and the objective distance.",wanted minimap objective distance
+P07,1,minimal,Q8,I would add a small compass so I do not get lost but keep it clean.,add small compass not_lost keep clean
+P07,2,full,Q1,I kept looking at the waypoint marker and drove toward it.,kept looking waypoint marker drove toward
+P07,2,full,Q2,"Not really, everything was pretty clear.",everything pretty clear
+P07,2,full,Q3,My eyes kept going to the minimap corner instead of the road. My friend [name] told me it's the same in other games.,eye kept minimap corner instead road friend told game
+P07,2,full,Q4,"The marker got confusing when I was inside a building. Like I said, I'm [participant], I play this at home.",marker confusing inside building play home
+P07,2,full,Q5,Honestly time went by fast.,honestly fast
+P07,2,full,Q6,"No, I never really had to stop, the map told me everything. My friend [name] told me it's the same in other games.",stop map told everything friend told game
+P07,2,full,Q7,"Nothing was missing, if anything there was too much.",not_missing anything
+P07,2,full,Q8,I would make the HUD smaller and remove some of the notifications. My friend [name] told me it's the same in other games.,make hud smaller remove notification friend told game
+P07,2,full,Q9,"In the session without the map, when I was just driving around at night.",session not_map driving night
+P07,2,full,Q10,The full one because I did not waste time getting lost.,full not_waste getting lost
+P07,2,full,Q11,The full HUD was easier to understand what to do next.,full hud easier understand next
+P07,2,full,Q12,I would keep health and a compass and remove the notifications. My friend [name] told me it's the same in other games.,keep health compass remove notification friend told game
+P08,1,full,Q1,I kept looking at the waypoint marker and drove toward it.,kept looking waypoint marker drove toward
+P08,1,full,Q2,"Not really, everything was pretty clear. Like I said, I'm [participant], I play this at home.",everything pretty clear play home
+P08,1,full,Q3,My eyes kept going to the minimap corner instead of the road.,eye kept minimap corner instead road
+P08,1,full,Q4,The marker got confusing when I was inside a building.,marker confusing inside building
+P08,1,full,Q5,Honestly time went by fast. My friend [name] told me it's the same in other games.,honestly fast friend told game
+P08,1,full,Q6,"No, I never really had to stop, the map told me everything.",stop map told everything
+P08,1,full,Q7,"Nothing was missing, if anything there was too much. I usually stream as [username] so I play a lot.",not_missing anything usually stream play
+P08,1,full,Q8,I would make the HUD smaller and remove some of the notifications.,make hud smaller remove notification
+P08,2,minimal,Q1,I just kind of guessed which direction to go.,guessed direction
+P08,2,minimal,Q2,I was not sure where the objective was.,not_sure objective
+P08,2,minimal,Q3,"I was focused on the world itself, the streets and the people. My friend [name] told me it's the same in other games.",focused world street people friend told game
+P08,2,minimal,Q4,The prompts were easy to miss without the other stuff.,prompt easy miss
+P08,2,minimal,Q5,"It felt long when I was lost, I kept checking how long it had been.",felt long lost kept checking long
+P08,2,minimal,Q6,"Yes, I had to stop many times and open the full map.",yes stop many open full map
+P08,2,minimal,Q7,"I wanted the minimap back, and the objective distance.",wanted minimap objective distance
+P08,2,minimal,Q8,I would add a small compass so I do not get lost but keep it clean.,add small compass not_lost keep clean
+P08,2,minimal,Q9,"During the fight, I forgot about everything else.",fight forgot everything else
+P08,2,minimal,Q10,The full one because I did not waste time getting lost.,full not_waste getting lost
+P08,2,minimal,Q11,The full HUD was easier to understand what to do next. I usually stream as [username] so I play a lot.,full hud easier understand next usually stream play
+P08,2,minimal,Q12,I would keep health and a compass and remove the notifications.,keep health compass remove notification
+P09,1,full,Q1,I kept looking at the waypoint marker and drove toward it. I usually stream as [username] so I play a lot.,kept looking waypoint marker drove toward usually stream play
+P09,1,full,Q2,"Not really, everything was pretty clear.",everything pretty clear
+P09,1,full,Q3,The pop-up notifications pulled my focus away.,pop notification pulled focu away
+P09,1,full,Q4,The marker got confusing when I was inside a building.,marker confusing inside building
+P09,1,full,Q5,Honestly time went by fast.,honestly fast
+P09,1,full,Q6,"No, I never really had to stop, the map told me everything.",stop map told everything
+P09,1,full,Q7,"Nothing was missing, if anything there was too much.",not_missing anything
+P09,1,full,Q8,I would make the HUD smaller and remove some of the notifications.,make hud smaller remove notification
+P09,2,minimal,Q1,"I just kind of guessed which direction to go. Like I said, I'm [participant], I play this at home.",guessed direction play home
+P09,2,minimal,Q2,Yeah I got lost a lot because there was no map.,lost not_map
+P09,2,minimal,Q3,"I was focused on the world itself, the streets and the people. Like I said, I'm [participant], I play this at home.",focused world street people play home
+P09,2,minimal,Q4,"The prompts were easy to miss without the other stuff. Like I said, I'm [participant], I play this at home.",prompt easy miss play home
+P09,2,minimal,Q5,"I lost track of time, it felt like I was really in the city. I usually stream as [username] so I play a lot.",lost track felt city usually stream play
+P09,2,minimal,Q6,"Yes, I had to stop many times and open the full map.",yes stop many open full map
+P09,2,minimal,Q7,"I wanted the minimap back, and the objective distance.",wanted minimap objective distance
+P09,2,minimal,Q8,I would add a small compass so I do not get lost but keep it clean.,add small compass not_lost keep clean
+P09,2,minimal,Q9,"In the session without the map, when I was just driving around at night. Like I said, I'm [participant], I play this at home.",session not_map driving night play home
+P09,2,minimal,Q10,The full one because I did not waste time getting lost.,full not_waste getting lost
+P09,2,minimal,Q11,The full HUD was easier to understand what to do next.,full hud easier understand next
+P09,2,minimal,Q12,I would keep health and a compass and remove the notifications. My friend [name] told me it's the same in other games.,keep health compass remove notification friend told game
+P10,1,minimal,Q1,I had to use landmarks like the tall buildings and signs. My friend [name] told me it's the same in other games.,use landmark tall building sign friend told game
+P10,1,minimal,Q2,Yeah I got lost a lot because there was no map. I usually stream as [username] so I play a lot.,lost not_map usually stream play
+P10,1,minimal,Q3,"I was focused on the world itself, the streets and the people. Like I said, I'm [participant], I play this at home.",focused world street people play home
+P10,1,minimal,Q4,The prompts were easy to miss without the other stuff.,prompt easy miss
+P10,1,minimal,Q5,"I lost track of time, it felt like I was really in the city.",lost track felt city
+P10,1,minimal,Q6,"Yes, I had to stop many times and open the full map.",yes stop many open full map
+P10,1,minimal,Q7,"I wanted the minimap back, and the objective distance. My friend [name] told me it's the same in other games.",wanted minimap objective distance friend told game
+P10,1,minimal,Q8,I would add a small compass so I do not get lost but keep it clean.,add small compass not_lost keep clean
+P10,2,full,Q1,I kept looking at the waypoint marker and drove toward it.,kept looking waypoint marker drove toward
+P10,2,full,Q2,"Not really, everything was pretty clear. My friend [name] told me it's the same in other games.",everything pretty clear friend told game
+P10,2,full,Q3,My eyes kept going to the minimap corner instead of the road. I usually stream as [username] so I play a lot.,eye kept minimap corner instead road usually stream play
+P10,2,full,Q4,The marker got confusing when I was inside a building.,marker confusing inside building
+P10,2,full,Q5,Honestly time went by fast.,honestly fast
+P10,2,full,Q6,"No, I never really had to stop, the map told me everything.",stop map told everything
+P10,2,full,Q7,"Nothing was missing, if anything there was too much. My friend [name] told me it's the same in other games.",not_missing anything friend told game
+P10,2,full,Q8,I would make the HUD smaller and remove some of the notifications.,make hud smaller remove notification
+P10,2,full,Q9,"In the session without the map, when I was just driving around at night. My friend [name] told me it's the same in other games.",session not_map driving night friend told game
+P10,2,full,Q10,The full one because I did not waste time getting lost.,full not_waste getting lost
+P10,2,full,Q11,"The full HUD was easier to understand what to do next. Like I said, I'm [participant], I play this at home.",full hud easier understand next play home
+P10,2,full,Q12,I would keep health and a compass and remove the notifications.,keep health compass remove notification

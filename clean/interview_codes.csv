@@ -1,0 +1,142 @@
+participant,session,question,excerpt,code,theme,coder,game,hud,excerpt_found
+P02,1,Q1,I kept looking at the waypoint marker and drove toward it,followed waypoint marker,Navigation reliance,A,GTA V,full,True
+P02,1,Q2,"not really, everything was pretty clear",no confusion,Learning curve,A,GTA V,full,True
+P02,1,Q3,the pop-up notifications pulled my focus away,notifications pulled focus,HUD distraction,A,GTA V,full,True
+P02,1,Q4,the marker got confusing when I was inside a building,marker unclear indoors,Information gaps,A,GTA V,full,True
+P02,1,Q5,honestly time went by fast,time passed quickly,Absorption,A,GTA V,full,True
+P02,1,Q6,"no, I never really had to stop, the map told me everything",did not need to stop,Navigation reliance,A,GTA V,full,True
+P02,1,Q7,"nothing was missing, if anything there was too much",nothing missing,Navigation reliance,A,GTA V,full,True
+P02,1,Q8,I would make the HUD smaller and remove some of the notifications,remove clutter,HUD distraction,A,GTA V,full,True
+P02,2,Q1,I had to use landmarks like the tall buildings and signs,used landmarks,Environmental attention,A,Cyberpunk 2077,minimal,True
+P02,2,Q2,I was not sure where the objective was,unsure of objective,Disorientation,A,Cyberpunk 2077,minimal,True
+P02,2,Q3,"I was focused on the world itself, the streets and the people",focused on world,Absorption,A,Cyberpunk 2077,minimal,True
+P02,2,Q4,the prompts were easy to miss without the other stuff,prompt easy to miss,Information gaps,A,Cyberpunk 2077,minimal,True
+P02,2,Q5,"it felt long when I was lost, I kept checking how long it had been",time dragged when lost,Disorientation,A,Cyberpunk 2077,minimal,True
+P02,2,Q6,"yes, I had to stop many times and open the full map",stopped to figure out,Disorientation,A,Cyberpunk 2077,minimal,True
+P02,2,Q7,"I wanted the minimap back, and the objective distance",wanted mini-map back,Information gaps,A,Cyberpunk 2077,minimal,True
+P02,2,Q8,I would add a small compass so I do not get lost but keep it clean,add small compass,Information gaps,A,Cyberpunk 2077,minimal,True
+P02,2,Q9,"during the fight, I forgot about everything else",absorbed in combat,Absorption,A,Cyberpunk 2077,minimal,True
+P02,2,Q10,the full one because I did not waste time getting lost,prefer full for exploring,Navigation reliance,A,Cyberpunk 2077,minimal,True
+P02,2,Q11,the full HUD was easier to understand what to do next,full easier to understand,Navigation reliance,A,Cyberpunk 2077,minimal,True
+P02,2,Q12,I would keep health and a compass and remove the notifications,keep health and compass,Information gaps,A,Cyberpunk 2077,minimal,True
+P04,1,Q1,I kept looking at the waypoint marker and drove toward it,followed waypoint marker,Navigation reliance,A,Cyberpunk 2077,full,True
+P04,1,Q2,"not really, everything was pretty clear",no confusion,Learning curve,A,Cyberpunk 2077,full,True
+P04,1,Q3,my eyes kept going to the minimap corner instead of the road,eyes on mini-map corner,HUD distraction,A,Cyberpunk 2077,full,True
+P04,1,Q4,the marker got confusing when I was inside a building,marker unclear indoors,Information gaps,A,Cyberpunk 2077,full,True
+P04,1,Q5,honestly time went by fast,time passed quickly,Absorption,A,Cyberpunk 2077,full,True
+P04,1,Q6,"no, I never really had to stop, the map told me everything",did not need to stop,Navigation reliance,A,Cyberpunk 2077,full,True
+P04,1,Q7,"nothing was missing, if anything there was too much",nothing missing,Navigation reliance,A,Cyberpunk 2077,full,True
+P04,1,Q8,I would make the HUD smaller and remove some of the notifications,remove clutter,HUD distraction,A,Cyberpunk 2077,full,True
+P04,2,Q1,I just kind of guessed which direction to go,guessed direction,Disorientation,A,GTA V,minimal,True
+P04,2,Q2,yeah I got lost a lot because there was no map,felt lost,Disorientation,A,GTA V,minimal,True
+P04,2,Q3,"I was focused on the world itself, the streets and the people",focused on world,Absorption,A,GTA V,minimal,True
+P04,2,Q4,the prompts were easy to miss without the other stuff,prompt easy to miss,Information gaps,A,GTA V,minimal,True
+P04,2,Q5,"I lost track of time, it felt like I was really in the city",lost track of time,Absorption,A,GTA V,minimal,True
+P04,2,Q6,"yes, I had to stop many times and open the full map",stopped to figure out,Disorientation,A,GTA V,minimal,True
+P04,2,Q7,"I wanted the minimap back, and the objective distance",wanted mini-map back,Information gaps,A,GTA V,minimal,True
+P04,2,Q8,I would add a small compass so I do not get lost but keep it clean,add small compass,Information gaps,A,GTA V,minimal,True
+P04,2,Q9,"in the session without the map, when I was just driving around at night",absorbed without HUD,Absorption,A,GTA V,minimal,True
+P04,2,Q10,the full one because I did not waste time getting lost,prefer full for exploring,Navigation reliance,A,GTA V,minimal,True
+P04,2,Q11,the full HUD was easier to understand what to do next,full easier to understand,Navigation reliance,A,GTA V,minimal,True
+P04,2,Q12,I would keep health and a compass and remove the notifications,keep health and compass,Information gaps,A,GTA V,minimal,True
+P05,1,Q1,I had to use landmarks like the tall buildings and signs,used landmarks,Environmental attention,A,GTA V,minimal,True
+P05,1,Q2,I was not sure where the objective was,unsure of objective,Disorientation,A,GTA V,minimal,True
+P05,1,Q3,"I was focused on the world itself, the streets and the people",focused on world,Absorption,A,GTA V,minimal,True
+P05,1,Q4,the prompts were easy to miss without the other stuff,prompt easy to miss,Information gaps,A,GTA V,minimal,True
+P05,1,Q5,"I lost track of time, it felt like I was really in the city",lost track of time,Absorption,A,GTA V,minimal,True
+P05,1,Q6,"yes, I had to stop many times and open the full map",stopped to figure out,Disorientation,A,GTA V,minimal,True
+P05,1,Q7,"I wanted the minimap back, and the objective distance",wanted mini-map back,Information gaps,A,GTA V,minimal,True
+P05,1,Q8,I would add a small compass so I do not get lost but keep it clean,add small compass,Information gaps,A,GTA V,minimal,True
+P05,2,Q1,I kept looking at the waypoint marker and drove toward it,followed waypoint marker,Navigation reliance,A,Cyberpunk 2077,full,True
+P05,2,Q2,"not really, everything was pretty clear",no confusion,Learning curve,A,Cyberpunk 2077,full,True
+P05,2,Q3,my eyes kept going to the minimap corner instead of the road,eyes on mini-map corner,HUD distraction,A,Cyberpunk 2077,full,True
+P05,2,Q4,the marker got confusing when I was inside a building,marker unclear indoors,Information gaps,A,Cyberpunk 2077,full,True
+P05,2,Q5,honestly time went by fast,time passed quickly,Absorption,A,Cyberpunk 2077,full,True
+P05,2,Q6,"no, I never really had to stop, the map told me everything",did not need to stop,Navigation reliance,A,Cyberpunk 2077,full,True
+P05,2,Q7,"nothing was missing, if anything there was too much",nothing missing,Navigation reliance,A,Cyberpunk 2077,full,True
+P05,2,Q8,I would make the HUD smaller and remove some of the notifications,remove clutter,HUD distraction,A,Cyberpunk 2077,full,True
+P05,2,Q9,"during the fight, I forgot about everything else",absorbed in combat,Absorption,A,Cyberpunk 2077,full,True
+P05,2,Q10,the full one because I did not waste time getting lost,prefer full for exploring,Navigation reliance,A,Cyberpunk 2077,full,True
+P05,2,Q11,the full HUD was easier to understand what to do next,full easier to understand,Navigation reliance,A,Cyberpunk 2077,full,True
+P05,2,Q12,I would keep health and a compass and remove the notifications,keep health and compass,Information gaps,A,Cyberpunk 2077,full,True
+P07,1,Q1,I just kind of guessed which direction to go,guessed direction,Disorientation,A,Cyberpunk 2077,minimal,True
+P07,1,Q2,yeah I got lost a lot because there was no map,felt lost,Disorientation,A,Cyberpunk 2077,minimal,True
+P07,1,Q3,"I was focused on the world itself, the streets and the people",focused on world,Absorption,A,Cyberpunk 2077,minimal,True
+P07,1,Q4,the prompts were easy to miss without the other stuff,prompt easy to miss,Information gaps,A,Cyberpunk 2077,minimal,True
+P07,1,Q5,"I lost track of time, it felt like I was really in the city",lost track of time,Absorption,A,Cyberpunk 2077,minimal,True
+P07,1,Q6,"yes, I had to stop many times and open the full map",stopped to figure out,Disorientation,A,Cyberpunk 2077,minimal,True
+P07,1,Q7,"I wanted the minimap back, and the objective distance",wanted mini-map back,Information gaps,A,Cyberpunk 2077,minimal,True
+P07,1,Q8,I would add a small compass so I do not get lost but keep it clean,add small compass,Information gaps,A,Cyberpunk 2077,minimal,True
+P07,2,Q1,I kept looking at the waypoint marker and drove toward it,followed waypoint marker,Navigation reliance,A,GTA V,full,True
+P07,2,Q2,"not really, everything was pretty clear",no confusion,Learning curve,A,GTA V,full,True
+P07,2,Q3,my eyes kept going to the minimap corner instead of the road,eyes on mini-map corner,HUD distraction,A,GTA V,full,True
+P07,2,Q4,the marker got confusing when I was inside a building,marker unclear indoors,Information gaps,A,GTA V,full,True
+P07,2,Q5,honestly time went by fast,time passed quickly,Absorption,A,GTA V,full,True
+P07,2,Q6,"no, I never really had to stop, the map told me everything",did not need to stop,Navigation reliance,A,GTA V,full,True
+P07,2,Q7,"nothing was missing, if anything there was too much",nothing missing,Navigation reliance,A,GTA V,full,True
+P07,2,Q8,I would make the HUD smaller and remove some of the notifications,remove clutter,HUD distraction,A,GTA V,full,True
+P07,2,Q9,"in the session without the map, when I was just driving around at night",absorbed without HUD,Absorption,A,GTA V,full,True
+P07,2,Q10,the full one because I did not waste time getting lost,prefer full for exploring,Navigation reliance,A,GTA V,full,True
+P07,2,Q11,the full HUD was easier to understand what to do next,full easier to understand,Navigation reliance,A,GTA V,full,True
+P07,2,Q12,I would keep health and a compass and remove the notifications,keep health and compass,Information gaps,A,GTA V,full,True
+P08,1,Q1,I kept looking at the waypoint marker and drove toward it,followed waypoint marker,Navigation reliance,A,Cyberpunk 2077,full,True
+P08,1,Q2,"not really, everything was pretty clear",no confusion,Learning curve,A,Cyberpunk 2077,full,True
+P08,1,Q3,my eyes kept going to the minimap corner instead of the road,eyes on mini-map corner,HUD distraction,A,Cyberpunk 2077,full,True
+P08,1,Q4,the marker got confusing when I was inside a building,marker unclear indoors,Information gaps,A,Cyberpunk 2077,full,True
+P08,1,Q5,honestly time went by fast,time passed quickly,Absorption,A,Cyberpunk 2077,full,True
+P08,1,Q6,"no, I never really had to stop, the map told me everything",did not need to stop,Navigation reliance,A,Cyberpunk 2077,full,True
+P08,1,Q7,"nothing was missing, if anything there was too much",nothing missing,Navigation reliance,A,Cyberpunk 2077,full,True
+P08,1,Q8,I would make the HUD smaller and remove some of the notifications,remove clutter,HUD distraction,A,Cyberpunk 2077,full,True
+P08,2,Q1,I just kind of guessed which direction to go,guessed direction,Disorientation,A,GTA V,minimal,True
+P08,2,Q2,I was not sure where the objective was,unsure of objective,Disorientation,A,GTA V,minimal,True
+P08,2,Q3,"I was focused on the world itself, the streets and the people",focused on world,Absorption,A,GTA V,minimal,True
+P08,2,Q4,the prompts were easy to miss without the other stuff,prompt easy to miss,Information gaps,A,GTA V,minimal,True
+P08,2,Q5,"it felt long when I was lost, I kept checking how long it had been",time dragged when lost,Disorientation,A,GTA V,minimal,True
+P08,2,Q6,"yes, I had to stop many times and open the full map",stopped to figure out,Disorientation,A,GTA V,minimal,True
+P08,2,Q7,"I wanted the minimap back, and the objective distance",wanted mini-map back,Information gaps,A,GTA V,minimal,True
+P08,2,Q8,I would add a small compass so I do not get lost but keep it clean,add small compass,Information gaps,A,GTA V,minimal,True
+P08,2,Q9,"during the fight, I forgot about everything else",absorbed in combat,Absorption,A,GTA V,minimal,True
+P08,2,Q10,the full one because I did not waste time getting lost,prefer full for exploring,Navigation reliance,A,GTA V,minimal,True
+P08,2,Q11,the full HUD was easier to understand what to do next,full easier to understand,Navigation reliance,A,GTA V,minimal,True
+P08,2,Q12,I would keep health and a compass and remove the notifications,keep health and compass,Information gaps,A,GTA V,minimal,True
+P09,1,Q1,I kept looking at the waypoint marker and drove toward it,followed waypoint marker,Navigation reliance,A,GTA V,full,True
+P09,1,Q2,"not really, everything was pretty clear",no confusion,Learning curve,A,GTA V,full,True
+P09,1,Q3,the pop-up notifications pulled my focus away,notifications pulled focus,HUD distraction,A,GTA V,full,True
+P09,1,Q4,the marker got confusing when I was inside a building,marker unclear indoors,Information gaps,A,GTA V,full,True
+P09,1,Q5,honestly time went by fast,time passed quickly,Absorption,A,GTA V,full,True
+P09,1,Q6,"no, I never really had to stop, the map told me everything",did not need to stop,Navigation reliance,A,GTA V,full,True
+P09,1,Q7,"nothing was missing, if anything there was too much",nothing missing,Navigation reliance,A,GTA V,full,True
+P09,1,Q8,I would make the HUD smaller and remove some of the notifications,remove clutter,HUD distraction,A,GTA V,full,True
+P09,2,Q1,I just kind of guessed which direction to go,guessed direction,Disorientation,A,Cyberpunk 2077,minimal,True
+P09,2,Q2,yeah I got lost a lot because there was no map,felt lost,Disorientation,A,Cyberpunk 2077,minimal,True
+P09,2,Q3,"I was focused on the world itself, the streets and the people",focused on world,Absorption,A,Cyberpunk 2077,minimal,True
+P09,2,Q4,the prompts were easy to miss without the other stuff,prompt easy to miss,Information gaps,A,Cyberpunk 2077,minimal,True
+P09,2,Q5,"I lost track of time, it felt like I was really in the city",lost track of time,Absorption,A,Cyberpunk 2077,minimal,True
+P09,2,Q6,"yes, I had to stop many times and open the full map",stopped to figure out,Disorientation,A,Cyberpunk 2077,minimal,True
+P09,2,Q7,"I wanted the minimap back, and the objective distance",wanted mini-map back,Information gaps,A,Cyberpunk 2077,minimal,True
+P09,2,Q8,I would add a small compass so I do not get lost but keep it clean,add small compass,Information gaps,A,Cyberpunk 2077,minimal,True
+P09,2,Q9,"in the session without the map, when I was just driving around at night",absorbed without HUD,Absorption,A,Cyberpunk 2077,minimal,True
+P09,2,Q10,the full one because I did not waste time getting lost,prefer full for exploring,Navigation reliance,A,Cyberpunk 2077,minimal,True
+P09,2,Q11,the full HUD was easier to understand what to do next,full easier to understand,Navigation reliance,A,Cyberpunk 2077,minimal,True
+P09,2,Q12,I would keep health and a compass and remove the notifications,keep health and compass,Information gaps,A,Cyberpunk 2077,minimal,True
+P10,1,Q1,I had to use landmarks like the tall buildings and signs,used landmarks,Environmental attention,A,Cyberpunk 2077,minimal,True
+P10,1,Q2,yeah I got lost a lot because there was no map,felt lost,Disorientation,A,Cyberpunk 2077,minimal,True
+P10,1,Q3,"I was focused on the world itself, the streets and the people",focused on world,Absorption,A,Cyberpunk 2077,minimal,True
+P10,1,Q4,the prompts were easy to miss without the other stuff,prompt easy to miss,Information gaps,A,Cyberpunk 2077,minimal,True
+P10,1,Q5,"I lost track of time, it felt like I was really in the city",lost track of time,Absorption,A,Cyberpunk 2077,minimal,True
+P10,1,Q6,"yes, I had to stop many times and open the full map",stopped to figure out,Disorientation,A,Cyberpunk 2077,minimal,True
+P10,1,Q7,"I wanted the minimap back, and the objective distance",wanted mini-map back,Information gaps,A,Cyberpunk 2077,minimal,True
+P10,1,Q8,I would add a small compass so I do not get lost but keep it clean,add small compass,Information gaps,A,Cyberpunk 2077,minimal,True
+P10,2,Q1,I kept looking at the waypoint marker and drove toward it,followed waypoint marker,Navigation reliance,A,GTA V,full,True
+P10,2,Q2,"not really, everything was pretty clear",no confusion,Learning curve,A,GTA V,full,True
+P10,2,Q3,my eyes kept going to the minimap corner instead of the road,eyes on mini-map corner,HUD distraction,A,GTA V,full,True
+P10,2,Q4,the marker got confusing when I was inside a building,marker unclear indoors,Information gaps,A,GTA V,full,True
+P10,2,Q5,honestly time went by fast,time passed quickly,Absorption,A,GTA V,full,True
+P10,2,Q6,"no, I never really had to stop, the map told me everything",did not need to stop,Navigation reliance,A,GTA V,full,True
+P10,2,Q7,"nothing was missing, if anything there was too much",nothing missing,Navigation reliance,A,GTA V,full,True
+P10,2,Q8,I would make the HUD smaller and remove some of the notifications,remove clutter,HUD distraction,A,GTA V,full,True
+P10,2,Q9,"in the session without the map, when I was just driving around at night",absorbed without HUD,Absorption,A,GTA V,full,True
+P10,2,Q10,the full one because I did not waste time getting lost,prefer full for exploring,Navigation reliance,A,GTA V,full,True
+P10,2,Q11,the full HUD was easier to understand what to do next,full easier to understand,Navigation reliance,A,GTA V,full,True
+P10,2,Q12,I would keep health and a compass and remove the notifications,keep health and compass,Information gaps,A,GTA V,full,True
+P02,1,Q1,I kept looking at the waypoint marker and drove toward it,followed waypoint marker,Navigation reliance,A,GTA V,full,True

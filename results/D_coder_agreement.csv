@@ -1,0 +1,8 @@
+event,kappa,agreement
+full_map_open,0.734,0.979
+hesitation,0.707,0.973
+menu_break,0.594,0.987
+missed_prompt,0.597,0.994
+navigation_error,0.782,0.989
+unintended_action,0.808,0.99
+all events,0.727,0.985

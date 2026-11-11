@@ -1,0 +1,622 @@
+<meta name="dash-one-writer">
+<style>
+  .hs { font-family: var(--font-anthropic-sans); color: var(--color-fg); display: grid; gap: var(--cds-gap-xl); max-width: 1100px; }
+  .hs h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+  .hs h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; text-wrap: balance; }
+  .hs h3 { margin: 0; }
+  .hs p { margin: 0; line-height: 1.55; max-width: 72ch; }
+  .hs-muted { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+  .hs-head { display: grid; gap: var(--cds-gap-sm); }
+  .hs-pill { justify-self: start; font-size: var(--cds-font-size-caption); padding: 2px 10px; border-radius: 999px; border: 1px solid var(--color-warn); }
+  .hs-lede b { font-variant-numeric: tabular-nums; }
+  .hs-section { display: grid; gap: var(--cds-gap-md); scroll-margin-top: 16px; }
+  .hs-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: var(--cds-gap-md); }
+  .hs-tile, .hs-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-xs); min-width: 0; align-content: start; }
+  .hs-card { gap: var(--cds-gap-sm); }
+  .hs-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-weight: 400; }
+  .hs-pair { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; font-variant-numeric: tabular-nums; }
+  .hs-big { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 1.9rem; line-height: 1.1; }
+  .hs-arrow { color: var(--color-fg-muted); }
+  .hs-legend { display: flex; gap: var(--cds-gap-md); flex-wrap: wrap; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .hs-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .hs-sw { width: 10px; height: 10px; border-radius: 2px; display: inline-block; background: var(--cds-chart-muted); }
+  .hs-controls { display: flex; gap: var(--cds-gap-md); align-items: center; flex-wrap: wrap; }
+  .hs-grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--cds-gap-lg); }
+  .hs-grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--cds-gap-lg); }
+  .hs-chart { position: relative; min-height: 220px; width: 100%; }
+  .hs-chart.short { min-height: 120px; }
+  .hs-chart svg { display: block; overflow: visible; }
+  .hs-chart text { fill: var(--cds-text-secondary); font-size: var(--cds-font-size-caption); font-family: var(--font-anthropic-sans); }
+  .hs-chart .hs-val { fill: var(--color-fg); font-variant-numeric: tabular-nums; }
+  .hs-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); border-radius: var(--cds-radius); padding: 6px 9px; font-size: var(--cds-font-size-caption); color: var(--color-fg); white-space: nowrap; z-index: 2; }
+  .hs-tip[hidden] { display: none; }
+  .hs-table-wrap { overflow-x: auto; }
+  .hs-table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+  .hs-table th { text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); padding: 8px 10px; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+  .hs-table td { padding: 7px 10px; border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+  .hs-table .hs-num { text-align: right; }
+  .hs-strong { font-weight: var(--cds-font-weight-medium); }
+  .hs-details summary { cursor: pointer; font-weight: var(--cds-font-weight-medium); }
+  .hs-details[open] summary { margin-bottom: var(--cds-gap-sm); }
+  .hs-defs { display: grid; gap: var(--cds-gap-xs); padding-left: 1.1em; margin: 0; line-height: 1.5; }
+  .hs-heat { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--cds-gap-md); }
+  .hs-heat .hs-chart { min-height: 150px; }
+  [data-dash-source-state=refreshing] { opacity: .5; }
+</style>
+
+<div class="hs">
+  <header class="hs-head" id="overview">
+    <span class="hs-pill">Sample data — generated to test the pipeline, not real participants</span>
+    <h1>HUD Study Results</h1>
+    <p class="hs-lede" id="takeaway">
+      Of the <b data-draw="cmpN" data-measure="Navigation errors" data-source="comparison" data-field="n_pairs" data-where="measure=Navigation errors">—</b> participants with usable gameplay in both sessions,
+      <b data-draw="cmpK" data-measure="Navigation errors" data-source="comparison" data-field="higher_in_minimal" data-where="measure=Navigation errors">—</b> made more navigation errors with the minimal HUD, and
+      <b data-draw="cmpK" data-measure="Time to objective" data-source="comparison" data-field="higher_in_minimal" data-where="measure=Time to objective">—</b> took longer to reach objectives (median
+      <b data-draw="cmp" data-measure="Time to objective" data-col="full_median" data-source="comparison" data-field="full_median" data-where="measure=Time to objective">—</b> s with the full HUD,
+      <b data-draw="cmp" data-measure="Time to objective" data-col="minimal_median" data-source="comparison" data-field="minimal_median" data-where="measure=Time to objective">—</b> s with the minimal one).
+    </p>
+    <p class="hs-muted">Each participant played one session with the full HUD and one with the minimal HUD, in different games, with order and pairing counterbalanced across four groups. With about eight participants, results are read from how many people moved the same way, not from p-values.</p>
+  </header>
+
+  <section class="hs-section" id="headline">
+    <h2>Full HUD → minimal HUD, median per session</h2>
+    <div class="hs-tiles">
+      <div class="hs-tile" id="tile-nav">
+        <span class="hs-label">Navigation errors per active minute</span>
+        <div class="hs-pair">
+          <span class="hs-big" data-draw="cmp" data-measure="Navigation errors" data-col="full_median" data-source="comparison" data-field="full_median" data-where="measure=Navigation errors">—</span>
+          <span class="hs-arrow">→</span>
+          <span class="hs-big" data-draw="cmp" data-measure="Navigation errors" data-col="minimal_median" data-source="comparison" data-field="minimal_median" data-where="measure=Navigation errors">—</span>
+        </div>
+        <span class="hs-label"><b data-draw="cmpK" data-measure="Navigation errors" data-source="comparison" data-field="higher_in_minimal" data-where="measure=Navigation errors">—</b> of <b data-draw="cmpN" data-measure="Navigation errors" data-source="comparison" data-field="n_pairs" data-where="measure=Navigation errors">—</b> higher with minimal</span>
+      </div>
+      <div class="hs-tile" id="tile-map">
+        <span class="hs-label">Full-map opens per active minute</span>
+        <div class="hs-pair">
+          <span class="hs-big" data-draw="cmp" data-measure="Full-map opens" data-col="full_median" data-source="comparison" data-field="full_median" data-where="measure=Full-map opens">—</span>
+          <span class="hs-arrow">→</span>
+          <span class="hs-big" data-draw="cmp" data-measure="Full-map opens" data-col="minimal_median" data-source="comparison" data-field="minimal_median" data-where="measure=Full-map opens">—</span>
+        </div>
+        <span class="hs-label"><b data-draw="cmpK" data-measure="Full-map opens" data-source="comparison" data-field="higher_in_minimal" data-where="measure=Full-map opens">—</b> of <b data-draw="cmpN" data-measure="Full-map opens" data-source="comparison" data-field="n_pairs" data-where="measure=Full-map opens">—</b> higher with minimal</span>
+      </div>
+      <div class="hs-tile" id="tile-tto">
+        <span class="hs-label">Time to objective (seconds)</span>
+        <div class="hs-pair">
+          <span class="hs-big" data-draw="cmp" data-measure="Time to objective" data-col="full_median" data-source="comparison" data-field="full_median" data-where="measure=Time to objective">—</span>
+          <span class="hs-arrow">→</span>
+          <span class="hs-big" data-draw="cmp" data-measure="Time to objective" data-col="minimal_median" data-source="comparison" data-field="minimal_median" data-where="measure=Time to objective">—</span>
+        </div>
+        <span class="hs-label"><b data-draw="cmpK" data-measure="Time to objective" data-source="comparison" data-field="higher_in_minimal" data-where="measure=Time to objective">—</b> of <b data-draw="cmpN" data-measure="Time to objective" data-source="comparison" data-field="n_pairs" data-where="measure=Time to objective">—</b> higher with minimal</span>
+      </div>
+      <div class="hs-tile" id="tile-sa">
+        <span class="hs-label">Situation awareness answers correct</span>
+        <div class="hs-pair">
+          <span class="hs-big" data-draw="cmp" data-measure="SA accuracy (all)" data-col="full_median" data-source="comparison" data-field="full_median" data-where="measure=SA accuracy (all)">—</span>
+          <span class="hs-arrow">→</span>
+          <span class="hs-big" data-draw="cmp" data-measure="SA accuracy (all)" data-col="minimal_median" data-source="comparison" data-field="minimal_median" data-where="measure=SA accuracy (all)">—</span>
+        </div>
+        <span class="hs-label"><b data-draw="cmpL" data-measure="SA accuracy (all)" data-source="comparison" data-field="lower_in_minimal" data-where="measure=SA accuracy (all)">—</b> of <b data-draw="cmpN" data-measure="SA accuracy (all)" data-source="comparison" data-field="n_pairs" data-where="measure=SA accuracy (all)">—</b> lower with minimal</span>
+      </div>
+      <div class="hs-tile" id="tile-gaze">
+        <span class="hs-label">Gaze time on the game world</span>
+        <div class="hs-pair">
+          <span class="hs-big" data-draw="cmp" data-measure="Gaze on game world" data-col="full_median" data-source="comparison" data-field="full_median" data-where="measure=Gaze on game world">—</span>
+          <span class="hs-arrow">→</span>
+          <span class="hs-big" data-draw="cmp" data-measure="Gaze on game world" data-col="minimal_median" data-source="comparison" data-field="minimal_median" data-where="measure=Gaze on game world">—</span>
+        </div>
+        <span class="hs-label"><b data-draw="cmpK" data-measure="Gaze on game world" data-source="comparison" data-field="higher_in_minimal" data-where="measure=Gaze on game world">—</b> of <b data-draw="cmpN" data-measure="Gaze on game world" data-source="comparison" data-field="n_pairs" data-where="measure=Gaze on game world">—</b> higher with minimal</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="hs-section" id="explore">
+    <h2>Each participant's two sessions</h2>
+    <div class="hs-controls">
+      <label for="measureSel" class="hs-muted">Measure</label>
+      <select class="dash-select" id="measureSel" aria-label="Measure">
+        <option value="navigation_error_per_min">Navigation errors (per active min)</option>
+        <option value="full_map_open_per_min">Full-map opens (per active min)</option>
+        <option value="hesitation_per_min">Hesitations (per active min)</option>
+        <option value="missed_prompt_per_min">Missed prompts (per active min)</option>
+        <option value="unintended_action_per_min">Unintended actions (per active min)</option>
+        <option value="menu_break_per_min">Menu breaks (per active min)</option>
+        <option value="time_to_objective_s">Time to objective (s)</option>
+        <option value="objective_completion">Objective completion</option>
+        <option value="sa_accuracy">SA accuracy (all)</option>
+        <option value="sa_perception">SA perception</option>
+        <option value="sa_comprehension">SA comprehension</option>
+        <option value="sa_projection">SA projection</option>
+        <option value="gaze_game_world">Gaze on game world</option>
+      </select>
+      <div class="hs-legend">
+        <span><i class="hs-sw hs-sw-full"></i>Full HUD</span>
+        <span><i class="hs-sw hs-sw-min"></i>Minimal HUD</span>
+      </div>
+    </div>
+    <div class="hs-grid3">
+      <div class="hs-card" id="paired-card">
+        <h3 class="hs-label">One line per participant · bar = median</h3>
+        <div class="hs-chart" data-draw="paired" data-source="metrics"></div>
+      </div>
+      <div class="hs-card" id="bygame-card">
+        <h3 class="hs-label">Median by game: does it hold in both?</h3>
+        <div class="hs-chart" data-draw="bygame" data-source="bygame"></div>
+      </div>
+      <div class="hs-card" id="expertise-card">
+        <h3 class="hs-label">Median change (minimal − full) by gaming expertise</h3>
+        <div class="hs-chart short" data-draw="expertise" data-source="expertise"></div>
+        <p class="hs-muted">Self-rated 4–5 counts as more experienced. Groups are small, so read this alongside the interviews.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="hs-section" id="all-measures">
+    <h2>All measures, full vs minimal</h2>
+    <p class="hs-muted">“Higher with minimal” counts participants whose minimal-HUD session was higher. r runs from −1 (everyone lower with minimal) to +1 (everyone higher). p is from a Wilcoxon signed-rank test and is exploratory only: with this few people it cannot drop below about 0.008.</p>
+    <div class="hs-table-wrap">
+      <table class="hs-table" id="cmp-table" data-source="comparison" data-row-key="measure">
+        <thead>
+          <tr>
+            <th data-field="measure">Measure</th>
+            <th data-field="indicates">Indicates</th>
+            <th class="hs-num" data-field="full_median">Full (median)</th>
+            <th class="hs-num" data-field="minimal_median">Minimal (median)</th>
+            <th class="hs-num" data-field="higher_in_minimal">Higher with minimal</th>
+            <th class="hs-num" data-field="rank_biserial_r">r</th>
+            <th class="hs-num" data-field="p_exploratory">p (exploratory)</th>
+          </tr>
+        </thead>
+        <tbody data-draw="cmpTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="hs-section" id="interviews">
+    <h2>What players said</h2>
+    <div class="hs-grid2">
+      <div class="hs-card" id="themes-card">
+        <h3 class="hs-label">Share of participants who raised each theme after that session</h3>
+        <div class="hs-legend">
+          <span><i class="hs-sw hs-sw-full"></i>Full HUD</span>
+          <span><i class="hs-sw hs-sw-min"></i>Minimal HUD</span>
+        </div>
+        <div class="hs-chart" data-draw="themes" data-source="themes"></div>
+      </div>
+      <div class="hs-card" id="keywords-card">
+        <h3 class="hs-label">Words most typical of each condition in the cleaned answers (questions 1–8)</h3>
+        <div class="hs-chart" data-draw="keywords" data-source="keywords"></div>
+        <p class="hs-muted">Common words removed, negations kept (“not sure” stays as one term). Supports the manual coding; it doesn't replace it.</p>
+      </div>
+    </div>
+    <div class="hs-card" id="saturation-card">
+      <h3 class="hs-label">New and total interview codes, in order of participation</h3>
+      <p class="hs-muted">No new codes appeared for three participants in a row by
+        <b data-draw="satWho" data-source="satpoint" data-field="saturation_participant" data-row="0">—</b>, the
+        <b data-draw="satPoint" data-source="satpoint" data-field="saturation_order" data-row="0">—</b> participant interviewed (of
+        <b data-draw="satTotal" data-source="satpoint" data-field="total_codes" data-row="0">—</b> codes in total).</p>
+      <div class="hs-chart short" data-draw="saturation" data-source="saturation satpoint"></div>
+    </div>
+  </section>
+
+  <section class="hs-section" id="gaze">
+    <h2>Where players looked</h2>
+    <p class="hs-muted">Webcam eye tracking, after removing blinks, low-confidence and off-screen samples. Darker means more gaze time. Boxes are the HUD areas of interest; point at one to see its name, and the table below gives each area's share.</p>
+    <div class="hs-heat">
+      <div class="hs-card" id="heat-gta-full"><h3 class="hs-label">GTA V · full HUD</h3><div class="hs-chart" data-draw="heat" data-game="GTA V" data-hud="full" data-source="gazegrid aoi"></div></div>
+      <div class="hs-card" id="heat-gta-min"><h3 class="hs-label">GTA V · minimal HUD</h3><div class="hs-chart" data-draw="heat" data-game="GTA V" data-hud="minimal" data-source="gazegrid aoi"></div></div>
+      <div class="hs-card" id="heat-cp-full"><h3 class="hs-label">Cyberpunk 2077 · full HUD</h3><div class="hs-chart" data-draw="heat" data-game="Cyberpunk 2077" data-hud="full" data-source="gazegrid aoi"></div></div>
+      <div class="hs-card" id="heat-cp-min"><h3 class="hs-label">Cyberpunk 2077 · minimal HUD</h3><div class="hs-chart" data-draw="heat" data-game="Cyberpunk 2077" data-hud="minimal" data-source="gazegrid aoi"></div></div>
+    </div>
+    <div class="hs-table-wrap">
+      <table class="hs-table" id="gaze-table" data-source="gazeshare" data-row-key="game,hud,aoi">
+        <thead><tr><th data-field="game">Game</th><th data-field="hud">HUD</th><th data-field="aoi">Area</th><th class="hs-num" data-field="share">Median share of gaze</th></tr></thead>
+        <tbody data-draw="gazeTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="hs-section" id="quality">
+    <h2>Data quality</h2>
+    <div class="hs-grid2">
+      <div class="hs-card" id="footage-card">
+        <h3 class="hs-label">Minutes of each 30-minute session: active play vs skipped</h3>
+        <div class="hs-legend">
+          <span><i class="hs-sw hs-sw-full"></i>Active</span>
+          <span><i class="hs-sw hs-sw-static"></i>Static</span>
+          <span><i class="hs-sw hs-sw-nogame"></i>No gameplay</span>
+          <span><i class="hs-sw hs-sw-corrupt"></i>Corrupted</span>
+        </div>
+        <div class="hs-chart" data-draw="footage" data-source="footage"></div>
+        <p class="hs-muted">Sessions with under half their footage usable are left out of the gameplay measures; their interview and SA answers are kept.</p>
+      </div>
+      <div class="hs-card" id="agreement-card">
+        <h3 class="hs-label">Agreement between coders A and B on double-coded sessions (10-second windows of active play)</h3>
+        <div class="hs-table-wrap">
+          <table class="hs-table" data-source="agreement" data-row-key="event">
+            <thead><tr><th data-field="event">Event</th><th class="hs-num" data-field="kappa">Cohen's κ</th><th class="hs-num" data-field="agreement">Agreement</th></tr></thead>
+            <tbody data-draw="agreementTable"></tbody>
+          </table>
+        </div>
+        <p class="hs-muted">κ above 0.60 is usually read as substantial agreement.</p>
+      </div>
+    </div>
+    <details class="hs-details" id="cleaning">
+      <summary>Cleaning log: every fix and exclusion</summary>
+      <div class="hs-table-wrap">
+        <table class="hs-table" data-source="cleaning" data-row-key="item,issue">
+          <thead><tr><th data-field="step">Step</th><th data-field="item">Item</th><th data-field="issue">Issue</th><th data-field="action">Action</th></tr></thead>
+          <tbody data-draw="cleaningTable"></tbody>
+        </table>
+      </div>
+    </details>
+    <details class="hs-details" id="definitions">
+      <summary>How each measure is defined</summary>
+      <ul class="hs-defs">
+        <li><b>Gameplay events</b> (full-map opens, navigation errors, hesitations, missed prompts, unintended actions, menu breaks): tagged in the coding app while watching each recording, divided by the session's active minutes. Active time is 30 minutes minus the segments coders marked as static, no gameplay or corrupted.</li>
+        <li><b>Hesitation</b>: no input for three or more seconds outside a cutscene.</li>
+        <li><b>Time to objective</b>: seconds from an objective appearing to it being completed, averaged over the objectives completed in that session.</li>
+        <li><b>SA accuracy</b>: share of post-session situation awareness questions answered correctly, checked against the end of the recording; also split by Endsley's three levels.</li>
+        <li><b>Gaze on game world</b>: share of cleaned gaze samples outside every HUD area of interest.</li>
+      </ul>
+    </details>
+  </section>
+</div>
+
+<script>
+  dash.calc('bygame', {
+    inputs: ['metrics'],
+    title: 'Medians by game and HUD condition',
+    description: 'Median of each measure for each game under each HUD condition.',
+    fn: (sessions) => {
+      const cols = ['full_map_open_per_min', 'navigation_error_per_min', 'hesitation_per_min', 'missed_prompt_per_min',
+        'unintended_action_per_min', 'menu_break_per_min', 'time_to_objective_s', 'objective_completion', 'sa_accuracy',
+        'sa_perception', 'sa_comprehension', 'sa_projection', 'gaze_game_world'];
+      const out = [];
+      for (const col of cols) for (const game of ['GTA V', 'Cyberpunk 2077']) for (const hud of ['full', 'minimal']) {
+        const vals = sessions.filter((s) => s.game === game && s.hud === hud && s[col] != null).map((s) => +s[col]).sort((a, b) => a - b);
+        const n = vals.length;
+        out.push({ measure_col: col, game, hud, n, median: n ? (n % 2 ? vals[(n - 1) / 2] : (vals[n / 2 - 1] + vals[n / 2]) / 2) : null });
+      }
+      return out;
+    },
+  });
+  dash.calc('satpoint', {
+    inputs: ['saturation'],
+    title: 'Saturation point',
+    description: 'First participant at which three participants in a row added no new interview codes.',
+    fn: (participants) => {
+      let run = 0, point = null;
+      for (const p of participants) {
+        run = p.new_codes === 0 ? run + 1 : 0;
+        if (run >= 3 && point === null) point = p.order;
+      }
+      const at = participants.find((p) => p.order === point);
+      return [{ saturation_order: point, saturation_participant: at ? at.participant : null, total_codes: d3.max(participants, (p) => p.cumulative_codes) }];
+    },
+  });
+</script>
+
+<script>
+  window.hs = window.hs || {};
+  hs.unitOf = {
+    full_map_open_per_min: 'per min', navigation_error_per_min: 'per min', hesitation_per_min: 'per min',
+    missed_prompt_per_min: 'per min', unintended_action_per_min: 'per min', menu_break_per_min: 'per min',
+    time_to_objective_s: 's', objective_completion: 'proportion', sa_accuracy: 'proportion', sa_perception: 'proportion',
+    sa_comprehension: 'proportion', sa_projection: 'proportion', gaze_game_world: 'share',
+  };
+  hs.fmt = (v, unit) => {
+    if (v == null || Number.isNaN(+v)) return '—';
+    if (unit === 's') return d3.format(',.0f')(v);
+    if (unit === 'proportion' || unit === 'share') return d3.format('.0%')(v);
+    return d3.format('.2f')(v);
+  };
+  hs.axisFmt = (unit) => (unit === 'proportion' || unit === 'share') ? d3.format('.0%') : (unit === 's' ? d3.format(',.0f') : d3.format('.2f'));
+  hs.colFull = () => dash.colors[0];
+  hs.colMin = () => dash.colors[1];
+  hs.measure = () => { const s = document.querySelector('#measureSel'); return s ? s.value : 'navigation_error_per_min'; };
+  hs.label = (col) => { const o = document.querySelector(`#measureSel option[value="${col}"]`); return o ? o.textContent : col; };
+  hs.tip = (el) => {
+    let t = el.querySelector('.hs-tip');
+    if (!t) { t = document.createElement('div'); t.className = 'hs-tip'; t.hidden = true; el.appendChild(t); }
+    return {
+      show(evt, text) {
+        t.textContent = text; t.hidden = false;
+        const box = el.getBoundingClientRect(); const w = t.offsetWidth;
+        t.style.left = Math.max(0, Math.min(box.width - w, evt.clientX - box.left - w / 2)) + 'px';
+        t.style.top = Math.max(0, evt.clientY - box.top - t.offsetHeight - 10) + 'px';
+      },
+      hide() { t.hidden = true; },
+    };
+  };
+  hs.failed = (el, status) => {
+    el.replaceChildren();
+    const p = document.createElement('p'); p.className = 'hs-muted';
+    p.textContent = status === 'error' ? 'Failed to load' : '—';
+    el.appendChild(p);
+  };
+  hs.svg = (el, W, H, label) => d3.select(el).append('svg').attr('width', '100%').attr('height', H)
+    .attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', label);
+</script>
+
+<script>
+  dash.onData(() => {
+    const set = (sel, c) => document.querySelectorAll(sel).forEach((s) => { s.style.background = c; });
+    set('.hs-sw-full', hs.colFull()); set('.hs-sw-min', hs.colMin());
+    set('.hs-sw-static', 'var(--cds-chart-muted)'); set('.hs-sw-nogame', 'var(--cds-chart-grid)');
+    set('.hs-sw-corrupt', 'var(--cds-chart-status-critical)');
+  });
+  document.querySelectorAll('#measureSel').forEach((sel) => {
+    sel.addEventListener('change', () => { dash.draw('paired'); dash.draw('bygame'); dash.draw('expertise'); });
+  });
+</script>
+
+<script>
+  const cmpRow = (el) => {
+    const d = dash.data('comparison');
+    return d.status === 'ok' ? d.data.find((r) => r.measure === el.dataset.measure) : null;
+  };
+  dash.draw('cmp', (el) => { const r = cmpRow(el); el.textContent = r ? hs.fmt(r[el.dataset.col], r.unit) : '—'; });
+  dash.draw('cmpK', (el) => { const r = cmpRow(el); el.textContent = r ? r.higher_in_minimal : '—'; });
+  dash.draw('cmpL', (el) => { const r = cmpRow(el); el.textContent = r ? r.lower_in_minimal : '—'; });
+  dash.draw('cmpN', (el) => { const r = cmpRow(el); el.textContent = r ? r.n_pairs : '—'; });
+  const one = (name, source, field, f) => dash.draw(name, (el) => {
+    const d = dash.data(source);
+    el.textContent = d.status === 'ok' && d.data && d.data[0] && d.data[0][field] != null ? f(d.data[0][field]) : '—';
+  });
+  one('satPoint', 'satpoint', 'saturation_order', (v) => v + (v % 10 === 1 && v !== 11 ? 'st' : v % 10 === 2 && v !== 12 ? 'nd' : v % 10 === 3 && v !== 13 ? 'rd' : 'th'));
+  one('satWho', 'satpoint', 'saturation_participant', (v) => v);
+  one('satTotal', 'satpoint', 'total_codes', (v) => v);
+</script>
+
+<script>
+  const fillTable = (name, source, cells) => dash.draw(name, (tbody) => {
+    const d = dash.data(source);
+    tbody.replaceChildren();
+    if (d.status !== 'ok') return;
+    for (const r of d.data) {
+      const tr = document.createElement('tr');
+      for (const [val, cls] of cells(r)) {
+        const td = document.createElement('td'); td.textContent = val; if (cls) td.className = cls; tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    }
+  });
+  fillTable('cmpTable', 'comparison', (r) => [
+    [r.measure], [r.indicates],
+    [hs.fmt(r.full_median, r.unit), 'hs-num'], [hs.fmt(r.minimal_median, r.unit), 'hs-num'],
+    [`${r.higher_in_minimal} of ${r.n_pairs}`, Math.abs(r.rank_biserial_r) >= 0.7 ? 'hs-num hs-strong' : 'hs-num'],
+    [d3.format('+.2f')(r.rank_biserial_r), 'hs-num'],
+    [r.p_exploratory == null ? '—' : d3.format('.3f')(r.p_exploratory), 'hs-num'],
+  ]);
+  fillTable('agreementTable', 'agreement', (r) => [
+    [r.event.replace(/_/g, ' ')], [d3.format('.2f')(r.kappa), 'hs-num'], [d3.format('.0%')(r.agreement), 'hs-num'],
+  ]);
+  fillTable('gazeTable', 'gazeshare', (r) => [[r.game], [r.hud], [r.aoi], [d3.format('.1%')(r.share), 'hs-num']]);
+  fillTable('cleaningTable', 'cleaning', (r) => [[r.step], [r.item], [r.issue], [r.action]]);
+</script>
+
+<script>
+  dash.draw('paired', (el) => {
+    const d = dash.data('metrics');
+    if (d.status !== 'ok') { hs.failed(el, d.status); return; }
+    const col = hs.measure(), unit = hs.unitOf[col];
+    const byP = d3.group(d.data.filter((r) => r[col] != null), (r) => r.participant);
+    const pairs = [...byP].map(([p, rows]) => ({ p, full: rows.find((r) => r.hud === 'full'), min: rows.find((r) => r.hud === 'minimal') })).filter((x) => x.full && x.min);
+    el.replaceChildren();
+    const W = Math.max(240, el.clientWidth), H = 230;
+    const y = d3.scaleLinear().domain(d3.extent(pairs.flatMap((x) => [x.full[col], x.min[col]]))).nice().range([H - 30, 12]);
+    const svg = hs.svg(el, W, H, `${hs.label(col)} for each participant, full versus minimal HUD`);
+    const g = svg.append('g').call(d3.axisLeft(y).ticks(5).tickFormat(hs.axisFmt(unit)).tickSize(0));
+    g.select('.domain').remove();
+    let left = 0; g.selectAll('text').each(function () { left = Math.max(left, this.getComputedTextLength()); });
+    left += 14; g.attr('transform', `translate(${left - 6},0)`);
+    const x0 = left + (W - left) * 0.25, x1 = left + (W - left) * 0.75;
+    svg.append('g').selectAll('line').data(y.ticks(5)).join('line').attr('x1', left).attr('x2', W)
+      .attr('y1', (v) => y(v)).attr('y2', (v) => y(v)).style('stroke', 'var(--cds-chart-grid)');
+    svg.append('g').selectAll('line').data(pairs).join('line').attr('x1', x0).attr('x2', x1)
+      .attr('y1', (x) => y(x.full[col])).attr('y2', (x) => y(x.min[col])).style('stroke', 'var(--cds-chart-muted)').attr('stroke-width', 1.5);
+    const tip = hs.tip(el);
+    const dot = (cx, get, color, label) => svg.append('g').selectAll('circle').data(pairs).join('circle')
+      .attr('cx', cx).attr('cy', (x) => y(get(x)[col])).attr('r', 5).style('fill', color).style('stroke', 'var(--color-panel)').attr('stroke-width', 2)
+      .on('pointerenter pointermove', (evt, x) => tip.show(evt, `${x.p} · ${label} · ${get(x).game}: ${hs.fmt(get(x)[col], unit)}`))
+      .on('pointerleave', () => tip.hide());
+    dot(x0, (x) => x.full, hs.colFull(), 'Full HUD');
+    dot(x1, (x) => x.min, hs.colMin(), 'Minimal HUD');
+    svg.append('g').selectAll('line').data([[x0, d3.median(pairs, (x) => x.full[col])], [x1, d3.median(pairs, (x) => x.min[col])]]).join('line')
+      .attr('x1', (m) => m[0] - 20).attr('x2', (m) => m[0] + 20).attr('y1', (m) => y(m[1])).attr('y2', (m) => y(m[1]))
+      .style('stroke', 'var(--color-fg)').attr('stroke-width', 3).attr('stroke-linecap', 'round');
+    svg.append('g').selectAll('text').data([[x0, 'Full'], [x1, 'Minimal']]).join('text')
+      .attr('x', (t) => t[0]).attr('y', H - 8).attr('text-anchor', 'middle').text((t) => t[1]);
+  });
+
+  dash.draw('bygame', (el) => {
+    const d = dash.data('bygame');
+    if (d.status !== 'ok' || !d.data) { hs.failed(el, d.status); return; }
+    const col = hs.measure(), unit = hs.unitOf[col];
+    const rows = d.data.filter((r) => r.measure_col === col);
+    el.replaceChildren();
+    const W = Math.max(240, el.clientWidth), H = 230, bottom = 30, top = 22;
+    const games = ['GTA V', 'Cyberpunk 2077'];
+    const x = d3.scaleBand().domain(games).range([0, W]).padding(0.28);
+    const xi = d3.scaleBand().domain(['full', 'minimal']).range([0, x.bandwidth()]).padding(0.12);
+    const y = d3.scaleLinear().domain([0, d3.max(rows, (r) => r.median) || 1]).nice().range([H - bottom, top]);
+    const svg = hs.svg(el, W, H, `Median ${hs.label(col)} by game and HUD condition`);
+    svg.append('line').attr('x1', 0).attr('x2', W).attr('y1', y(0)).attr('y2', y(0)).style('stroke', 'var(--cds-chart-axis)');
+    const tip = hs.tip(el);
+    const g = svg.append('g').selectAll('g').data(rows).join('g').attr('transform', (r) => `translate(${x(r.game) + xi(r.hud)},0)`);
+    g.append('path').attr('d', (r) => {
+      const w = xi.bandwidth(), t = y(r.median || 0), h = Math.max(0, y(0) - t), rad = Math.min(4, h, w / 2);
+      return `M0,${y(0)} V${t + rad} Q0,${t} ${rad},${t} H${w - rad} Q${w},${t} ${w},${t + rad} V${y(0)} Z`;
+    }).style('fill', (r) => (r.hud === 'full' ? hs.colFull() : hs.colMin()))
+      .on('pointerenter pointermove', (evt, r) => tip.show(evt, `${r.game} · ${r.hud} HUD: ${hs.fmt(r.median, unit)} (${r.n} sessions)`))
+      .on('pointerleave', () => tip.hide());
+    g.append('text').attr('class', 'hs-val').attr('x', xi.bandwidth() / 2).attr('y', (r) => y(r.median || 0) - 6).attr('text-anchor', 'middle').text((r) => hs.fmt(r.median, unit));
+    svg.append('g').selectAll('text').data(games).join('text').attr('x', (gm) => x(gm) + x.bandwidth() / 2).attr('y', H - 8).attr('text-anchor', 'middle').text((gm) => gm);
+  });
+
+  dash.draw('expertise', (el) => {
+    const d = dash.data('expertise');
+    if (d.status !== 'ok') { hs.failed(el, d.status); return; }
+    const col = hs.measure(), unit = hs.unitOf[col];
+    const rows = d.data.filter((r) => r.column === col);
+    el.replaceChildren();
+    const W = Math.max(240, el.clientWidth), rowH = 40, H = rows.length * rowH + 24;
+    const svg = hs.svg(el, W, H, `Median change in ${hs.label(col)} by expertise group`);
+    const labels = svg.append('g').selectAll('text').data(rows).join('text').attr('y', (r, i) => i * rowH + 22).text((r) => `${r.expertise_group} (n=${r.n})`);
+    let left = 0; labels.each(function () { left = Math.max(left, this.getComputedTextLength()); }); left += 12;
+    const ext = d3.max(rows, (r) => Math.abs(r.median_change || 0)) || 1;
+    const x = d3.scaleLinear().domain([-ext, ext]).nice().range([left, W - 44]);
+    svg.append('line').attr('x1', x(0)).attr('x2', x(0)).attr('y1', 0).attr('y2', H - 20).style('stroke', 'var(--cds-chart-reference)');
+    const tip = hs.tip(el);
+    svg.append('g').selectAll('rect').data(rows).join('rect')
+      .attr('x', (r) => Math.min(x(0), x(r.median_change || 0))).attr('width', (r) => Math.abs(x(r.median_change || 0) - x(0)))
+      .attr('y', (r, i) => i * rowH + 10).attr('height', 16).attr('rx', 3)
+      .style('fill', (r) => ((r.median_change || 0) >= 0 ? hs.colMin() : hs.colFull()))
+      .on('pointerenter pointermove', (evt, r) => tip.show(evt, `${r.expertise_group}: median change ${hs.fmt(r.median_change, unit)}`))
+      .on('pointerleave', () => tip.hide());
+    svg.append('g').selectAll('text').data(rows).join('text').attr('class', 'hs-val')
+      .attr('x', (r) => ((r.median_change || 0) >= 0 ? x(r.median_change || 0) + 5 : x(r.median_change || 0) - 5))
+      .attr('text-anchor', (r) => ((r.median_change || 0) >= 0 ? 'start' : 'end')).attr('y', (r, i) => i * rowH + 22)
+      .text((r) => ((r.median_change || 0) > 0 ? '+' : '') + hs.fmt(r.median_change, unit));
+    svg.append('text').attr('x', x(0)).attr('y', H - 4).attr('text-anchor', 'middle').text('0 = no change');
+  });
+</script>
+
+<script>
+  dash.draw('themes', (el) => {
+    const d = dash.data('themes');
+    if (d.status !== 'ok') { hs.failed(el, d.status); return; }
+    el.replaceChildren();
+    const rows = d.data;
+    const W = Math.max(240, el.clientWidth), rowH = 40, H = rows.length * rowH + 8;
+    const svg = hs.svg(el, W, H, 'Share of participants raising each interview theme after full and minimal HUD sessions');
+    const labels = svg.append('g').selectAll('text').data(rows).join('text').attr('y', (r, i) => i * rowH + rowH / 2 + 4).text((r) => r.theme);
+    let left = 0; labels.each(function () { left = Math.max(left, this.getComputedTextLength()); }); left += 12;
+    const x = d3.scaleLinear().domain([0, 1]).range([left, W - 40]);
+    const tip = hs.tip(el);
+    const bar = (key, off, color, name) => {
+      const g = svg.append('g').selectAll('g').data(rows).join('g');
+      g.append('rect').attr('x', left).attr('y', (r, i) => i * rowH + off).attr('height', 13).attr('rx', 3)
+        .attr('width', (r) => Math.max(0, x(r[key]) - left)).style('fill', color)
+        .on('pointerenter pointermove', (evt, r) => tip.show(evt, `${r.theme} · ${name}: ${d3.format('.0%')(r[key])} of participants`))
+        .on('pointerleave', () => tip.hide());
+      g.append('text').attr('class', 'hs-val').attr('x', (r) => x(r[key]) + 5).attr('y', (r, i) => i * rowH + off + 11).text((r) => d3.format('.0%')(r[key]));
+    };
+    bar('share_full', 5, hs.colFull(), 'Full HUD');
+    bar('share_minimal', 20, hs.colMin(), 'Minimal HUD');
+  });
+
+  dash.draw('keywords', (el) => {
+    const d = dash.data('keywords');
+    if (d.status !== 'ok') { hs.failed(el, d.status); return; }
+    el.replaceChildren();
+    const sorted = [...d.data].sort((a, b) => a.log_odds_minimal_vs_full - b.log_odds_minimal_vs_full);
+    const rows = [...sorted.slice(0, 7), ...sorted.slice(-7)];
+    const W = Math.max(240, el.clientWidth), rowH = 22, H = rows.length * rowH + 26;
+    const svg = hs.svg(el, W, H, 'Words most typical of full and minimal HUD interview answers');
+    const ext = d3.max(rows, (r) => Math.abs(r.log_odds_minimal_vs_full)) || 1;
+    const x = d3.scaleLinear().domain([-ext, ext]).range([0, W]);
+    const mid = x(0);
+    svg.append('line').attr('x1', mid).attr('x2', mid).attr('y1', 0).attr('y2', H - 20).style('stroke', 'var(--cds-chart-reference)');
+    const tip = hs.tip(el);
+    const g = svg.append('g').selectAll('g').data(rows).join('g').attr('transform', (r, i) => `translate(0,${i * rowH})`);
+    g.append('rect').attr('x', (r) => Math.min(mid, x(r.log_odds_minimal_vs_full))).attr('width', (r) => Math.abs(x(r.log_odds_minimal_vs_full) - mid))
+      .attr('y', 4).attr('height', 14).attr('rx', 3).style('fill', (r) => (r.log_odds_minimal_vs_full < 0 ? hs.colFull() : hs.colMin()))
+      .on('pointerenter pointermove', (evt, r) => tip.show(evt, `“${r.word.replace('not_', 'not ')}”: ${r.full} times after full, ${r.minimal} after minimal`))
+      .on('pointerleave', () => tip.hide());
+    g.append('text').attr('class', 'hs-val').attr('y', 15)
+      .attr('x', (r) => (r.log_odds_minimal_vs_full < 0 ? mid + 6 : mid - 6)).attr('text-anchor', (r) => (r.log_odds_minimal_vs_full < 0 ? 'start' : 'end'))
+      .text((r) => r.word.replace('not_', 'not '));
+    svg.append('text').attr('x', 0).attr('y', H - 4).text('← more after full HUD');
+    svg.append('text').attr('x', W).attr('y', H - 4).attr('text-anchor', 'end').text('more after minimal HUD →');
+  });
+
+  dash.draw('saturation', (el) => {
+    const d = dash.data('saturation'), sp = dash.data('satpoint');
+    if (d.status !== 'ok') { hs.failed(el, d.status); return; }
+    el.replaceChildren();
+    const rows = d.data;
+    const W = Math.max(240, el.clientWidth), H = 170, bottom = 28, top = 12;
+    const x = d3.scaleBand().domain(rows.map((r) => r.order)).range([28, W - 4]).padding(0.4);
+    const y = d3.scaleLinear().domain([0, d3.max(rows, (r) => r.cumulative_codes)]).nice().range([H - bottom, top]);
+    const svg = hs.svg(el, W, H, 'New and cumulative interview codes per participant');
+    svg.append('g').selectAll('line').data(y.ticks(4)).join('line').attr('x1', 28).attr('x2', W).attr('y1', (v) => y(v)).attr('y2', (v) => y(v)).style('stroke', 'var(--cds-chart-grid)');
+    svg.append('g').selectAll('text').data(y.ticks(4)).join('text').attr('x', 22).attr('y', (v) => y(v) + 4).attr('text-anchor', 'end').text((v) => v);
+    const tip = hs.tip(el);
+    svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', (r) => x(r.order)).attr('width', x.bandwidth())
+      .attr('y', (r) => y(r.new_codes)).attr('height', (r) => y(0) - y(r.new_codes)).attr('rx', 2).style('fill', 'var(--cds-chart-muted)')
+      .on('pointerenter pointermove', (evt, r) => tip.show(evt, `#${r.order} (${r.participant}): ${r.new_codes} new, ${r.cumulative_codes} total`))
+      .on('pointerleave', () => tip.hide());
+    const cx = (r) => x(r.order) + x.bandwidth() / 2;
+    svg.append('path').datum(rows).attr('d', d3.line().x(cx).y((r) => y(r.cumulative_codes))).style('fill', 'none').style('stroke', hs.colFull()).attr('stroke-width', 2);
+    svg.append('g').selectAll('circle').data(rows).join('circle').attr('cx', cx).attr('cy', (r) => y(r.cumulative_codes)).attr('r', 4)
+      .style('fill', hs.colFull()).style('stroke', 'var(--color-panel)').attr('stroke-width', 2);
+    const point = sp.status === 'ok' && sp.data && sp.data[0] ? sp.data[0].saturation_order : null;
+    if (point != null && x(point) != null) {
+      const px = cx({ order: point });
+      svg.append('line').attr('x1', px).attr('x2', px).attr('y1', top).attr('y2', H - bottom).style('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 3');
+      svg.append('text').attr('x', px + 5).attr('y', H - bottom - 6).text('saturation');
+    }
+    svg.append('g').selectAll('text').data(rows).join('text').attr('x', cx).attr('y', H - 8).attr('text-anchor', 'middle').text((r) => r.participant);
+  });
+</script>
+
+<script>
+  dash.draw('heat', (el) => {
+    const d = dash.data('gazegrid'), a = dash.data('aoi');
+    if (d.status !== 'ok') { hs.failed(el, d.status); return; }
+    const game = el.dataset.game, hud = el.dataset.hud;
+    const cells = d.data.filter((r) => r.game === game && r.hud === hud);
+    el.replaceChildren();
+    if (!cells.length) { hs.failed(el, 'empty'); return; }
+    const W = Math.max(220, el.clientWidth), H = Math.round(W * 9 / 16);
+    const nx = d3.max(cells, (c) => c.gx) + 1, ny = d3.max(cells, (c) => c.gy) + 1;
+    const max = d3.max(d.data, (c) => c.density);
+    const svg = hs.svg(el, W, H, `Gaze heatmap for ${game}, ${hud} HUD`);
+    svg.append('rect').attr('width', W).attr('height', H).style('fill', 'var(--color-bg)').style('stroke', 'var(--cds-chart-grid)');
+    const cw = W / nx, ch = H / ny;
+    const tip = hs.tip(el);
+    svg.append('g').selectAll('rect').data(cells).join('rect')
+      .attr('x', (c) => c.gx * cw).attr('y', (c) => c.gy * ch).attr('width', cw).attr('height', ch).attr('shape-rendering', 'crispEdges')
+      .style('fill', hs.colFull()).style('fill-opacity', (c) => Math.min(1, Math.sqrt(c.density / max)))
+      .on('pointerenter pointermove', (evt, c) => tip.show(evt, `${d3.format('.2%')(c.density)} of gaze in this cell`))
+      .on('pointerleave', () => tip.hide());
+    if (a.status === 'ok') {
+      const boxes = a.data.filter((b) => b.game === game && b.hud === hud);
+      svg.append('g').selectAll('rect').data(boxes).join('rect')
+        .attr('x', (b) => b.x0 * W).attr('y', (b) => b.y0 * H).attr('width', (b) => (b.x1 - b.x0) * W).attr('height', (b) => (b.y1 - b.y0) * H)
+        .style('fill', 'transparent').style('stroke', hs.colMin()).attr('stroke-width', 1.5)
+        .on('pointerenter pointermove', (evt, b) => tip.show(evt, b.aoi))
+        .on('pointerleave', () => tip.hide());
+    }
+  });
+</script>
+
+<script>
+  dash.draw('footage', (el) => {
+    const d = dash.data('footage');
+    if (d.status !== 'ok') { hs.failed(el, d.status); return; }
+    el.replaceChildren();
+    const rows = d.data;
+    const W = Math.max(240, el.clientWidth), rowH = 18, H = rows.length * rowH + 22;
+    const svg = hs.svg(el, W, H, 'Active and skipped minutes per session');
+    const labels = svg.append('g').selectAll('text').data(rows).join('text').attr('y', (r, i) => i * rowH + 13).text((r) => `${r.participant} S${r.session}`);
+    let left = 0; labels.each(function () { left = Math.max(left, this.getComputedTextLength()); }); left += 10;
+    const x = d3.scaleLinear().domain([0, 30]).range([left, W - 6]);
+    const parts = [['active_min', 'Active', hs.colFull()], ['skipped_static_min', 'Static', 'var(--cds-chart-muted)'],
+      ['skipped_no_gameplay_min', 'No gameplay', 'var(--cds-chart-grid)'], ['skipped_corrupted_min', 'Corrupted', 'var(--cds-chart-status-critical)']];
+    const tip = hs.tip(el);
+    rows.forEach((r, i) => {
+      let acc = 0;
+      for (const [key, name, color] of parts) {
+        const v = r[key] || 0; if (v <= 0) continue;
+        const end = Math.min(30, acc + v);
+        svg.append('rect').attr('x', x(acc) + 1).attr('width', Math.max(0, x(end) - x(acc) - 2)).attr('y', i * rowH + 3).attr('height', 12).attr('rx', 2)
+          .style('fill', color).on('pointerenter pointermove', (evt) => tip.show(evt, `${r.participant} S${r.session} · ${name}: ${d3.format('.1f')(v)} min`))
+          .on('pointerleave', () => tip.hide());
+        acc += v;
+      }
+    });
+    svg.append('g').selectAll('text').data([0, 10, 20, 30]).join('text').attr('x', (v) => x(v)).attr('y', H - 4).attr('text-anchor', 'middle').text((v) => v + ' min');
+  });
+</script>

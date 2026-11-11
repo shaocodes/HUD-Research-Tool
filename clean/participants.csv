@@ -1,0 +1,9 @@
+participant,age,genre,hours_per_week,expertise,expertise_group
+P01,19,FPS,18.0,5,More experienced
+P02,21,Action-adventure,13.0,2,Less experienced
+P04,24,Open-world,15.0,4,More experienced
+P05,22,FPS,10.0,5,More experienced
+P07,22,RPG,,2,Less experienced
+P08,21,Open-world,4.0,1,Less experienced
+P09,21,FPS,16.0,4,More experienced
+P10,19,Action-adventure,1.0,1,Less experienced

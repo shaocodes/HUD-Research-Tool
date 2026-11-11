@@ -1,0 +1,53 @@
+measure,column,game,hud,median,n
+Full-map opens,full_map_open_per_min,GTA V,full,0.1394,4
+Full-map opens,full_map_open_per_min,GTA V,minimal,0.2403,4
+Full-map opens,full_map_open_per_min,Cyberpunk 2077,full,0.1321,4
+Full-map opens,full_map_open_per_min,Cyberpunk 2077,minimal,0.2493,3
+Navigation errors,navigation_error_per_min,GTA V,full,0.11,4
+Navigation errors,navigation_error_per_min,GTA V,minimal,0.2123,4
+Navigation errors,navigation_error_per_min,Cyberpunk 2077,full,0.0755,4
+Navigation errors,navigation_error_per_min,Cyberpunk 2077,minimal,0.2493,3
+Hesitations,hesitation_per_min,GTA V,full,0.1795,4
+Hesitations,hesitation_per_min,GTA V,minimal,0.327,4
+Hesitations,hesitation_per_min,Cyberpunk 2077,full,0.1715,4
+Hesitations,hesitation_per_min,Cyberpunk 2077,minimal,0.4205,3
+Missed prompts,missed_prompt_per_min,GTA V,full,0.0367,4
+Missed prompts,missed_prompt_per_min,GTA V,minimal,0.0368,4
+Missed prompts,missed_prompt_per_min,Cyberpunk 2077,full,0.0556,4
+Missed prompts,missed_prompt_per_min,Cyberpunk 2077,minimal,0.0382,3
+Unintended actions,unintended_action_per_min,GTA V,full,0.0367,4
+Unintended actions,unintended_action_per_min,GTA V,minimal,0.1584,4
+Unintended actions,unintended_action_per_min,Cyberpunk 2077,full,0.0574,4
+Unintended actions,unintended_action_per_min,Cyberpunk 2077,minimal,0.1068,3
+Time to objective,time_to_objective_s,GTA V,full,165.325,4
+Time to objective,time_to_objective_s,GTA V,minimal,212.55,4
+Time to objective,time_to_objective_s,Cyberpunk 2077,full,150.2,4
+Time to objective,time_to_objective_s,Cyberpunk 2077,minimal,277.2333,3
+Objective completion,objective_completion,GTA V,full,1.0,4
+Objective completion,objective_completion,GTA V,minimal,0.875,4
+Objective completion,objective_completion,Cyberpunk 2077,full,1.0,4
+Objective completion,objective_completion,Cyberpunk 2077,minimal,1.0,3
+SA accuracy (all),sa_accuracy,GTA V,full,0.8333,4
+SA accuracy (all),sa_accuracy,GTA V,minimal,0.6334,4
+SA accuracy (all),sa_accuracy,Cyberpunk 2077,full,0.75,4
+SA accuracy (all),sa_accuracy,Cyberpunk 2077,minimal,0.5834,4
+SA perception,sa_perception,GTA V,full,1.0,4
+SA perception,sa_perception,GTA V,minimal,1.0,4
+SA perception,sa_perception,Cyberpunk 2077,full,1.0,4
+SA perception,sa_perception,Cyberpunk 2077,minimal,0.75,4
+SA comprehension,sa_comprehension,GTA V,full,1.0,4
+SA comprehension,sa_comprehension,GTA V,minimal,0.5,4
+SA comprehension,sa_comprehension,Cyberpunk 2077,full,0.75,4
+SA comprehension,sa_comprehension,Cyberpunk 2077,minimal,0.5,4
+SA projection,sa_projection,GTA V,full,0.5,4
+SA projection,sa_projection,GTA V,minimal,0.5,4
+SA projection,sa_projection,Cyberpunk 2077,full,0.75,4
+SA projection,sa_projection,Cyberpunk 2077,minimal,0.25,4
+Menu breaks,menu_break_per_min,GTA V,full,0.0589,4
+Menu breaks,menu_break_per_min,GTA V,minimal,0.0364,4
+Menu breaks,menu_break_per_min,Cyberpunk 2077,full,0.0946,4
+Menu breaks,menu_break_per_min,Cyberpunk 2077,minimal,0.0356,3
+Gaze on game world,gaze_game_world,GTA V,full,0.8156,4
+Gaze on game world,gaze_game_world,GTA V,minimal,0.9789,3
+Gaze on game world,gaze_game_world,Cyberpunk 2077,full,0.809,4
+Gaze on game world,gaze_game_world,Cyberpunk 2077,minimal,0.9712,4

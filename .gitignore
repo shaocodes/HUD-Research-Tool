@@ -1,0 +1,7 @@
+# real participant data: never commit
+raw/participant_roster.csv
+raw/audio/*
+!raw/audio/.keep
+*.mov
+*.mkv
+__pycache__/

@@ -1,0 +1,21 @@
+step,item,issue,action
+demographics,P01,participant code written as 'p1',normalised
+demographics,P02,participant code written as 'P 02',normalised
+demographics,P06,duplicate form submission,kept the first one
+screening,S01,under 18,"screened out, never assigned"
+screening,S02,history of motion sickness,"screened out, never assigned"
+demographics,P05,weekly hours written as '10+ hrs',read as 10
+demographics,P07,weekly hours left blank,"kept participant, hours missing"
+session check,P03,completed only one session,participant excluded and replaced
+session check,P06,"session 1 played as GTA V minimal HUD, assigned GTA V full HUD",participant excluded and replaced
+gameplay,P02 S2,"only 10.0 of 30 min usable (corrupted 20 min, no_gameplay 0 min, static 3 min)",left out of gameplay measures; interview and SA answers kept
+gameplay,all sessions,"46 min static, 10 min no gameplay, 22 min corrupted",subtracted from session time; rates use active minutes
+gameplay,tags,1 duplicated tag(s),removed
+gameplay,P05 S2,tag at 1910 s is after the session ended,removed
+gameplay,tags,43 tag(s) fall inside skipped segments,removed
+gameplay,objectives,5 objective(s) never reached before the session ended,"left out of mean time to objective, counted in completion rate"
+sa,answers,4 correct answers typed with different capitalisation or extra spaces,"compared ignoring case and spaces, so they count as correct"
+sa,P01 S1 Q4,left blank,left out of that session's score
+interview codes,codebook,code written as 'Followed Waypoint Marker ',merged into 'followed waypoint marker'
+gaze,P08 S2,only 15% of samples usable (low confidence),gaze left out for this session; other measures kept
+gaze,all sessions,"7,299 blink, 14,068 low-confidence and 5,284 off-screen samples",removed before assigning areas of interest

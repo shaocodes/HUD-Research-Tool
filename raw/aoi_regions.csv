@@ -1,0 +1,9 @@
+game,hud,aoi,x0,y0,x1,y1
+GTA V,full,Mini-map,0.015,0.74,0.2,0.95
+GTA V,full,Status bars,0.015,0.95,0.2,0.985
+GTA V,full,Objective text,0.3,0.86,0.7,0.94
+GTA V,minimal,Status bars,0.015,0.95,0.2,0.985
+Cyberpunk 2077,full,Mini-map,0.84,0.04,0.975,0.26
+Cyberpunk 2077,full,Quest tracker,0.8,0.28,0.985,0.42
+Cyberpunk 2077,full,Status bars,0.025,0.04,0.24,0.1
+Cyberpunk 2077,minimal,Status bars,0.025,0.04,0.24,0.1

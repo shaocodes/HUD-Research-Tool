@@ -1,0 +1,14 @@
+Timestamp,Participant Code,Age,Primary gaming genre,Average weekly hours of play,Self-rated gaming expertise (1-5),History of motion sickness in 3D games?,I agree to the consent form
+2026-11-13 11:01:00,p1,19,FPS,18,5,No,Yes
+2026-11-14 12:02:00,P 02,21,Action-adventure,13,2,No,Yes
+2026-11-15 13:03:00,P03,20,RPG,14,4,No,Yes
+2026-11-16 14:04:00,P04,24,open world,15,4,No,Yes
+2026-11-17 15:05:00,P05,22,FPS,10+ hrs,5,No,Yes
+2026-11-12 16:00:00,P06,24,Action-adventure,7,1,No,Yes
+2026-11-13 17:01:00,P07,22,RPG,,2,No,Yes
+2026-11-14 10:02:00,P08,21,Open-world,4,1,No,Yes
+2026-11-15 11:03:00,P09,21,FPS,16,4,No,Yes
+2026-11-16 12:04:00,P10,19,Action-adventure,1,1,No,Yes
+2026-11-15 13:03:00,S01,17,RPG,14,4,No,Yes
+2026-11-15 13:03:00,S02,20,RPG,14,4,Yes,Yes
+2026-11-12 16:00:00,P06,24,Action-adventure,7,1,No,Yes

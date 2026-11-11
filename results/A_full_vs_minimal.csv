@@ -1,0 +1,14 @@
+measure,column,unit,indicates,n_pairs,full_median,minimal_median,median_change,higher_in_minimal,lower_in_minimal,no_change,rank_biserial_r,p_exploratory,direction
+Full-map opens,full_map_open_per_min,per min,Comprehension,7,0.1499,0.2493,0.0994,5,2,0,0.5714,0.2188,mixed
+Navigation errors,navigation_error_per_min,per min,Comprehension,7,0.0757,0.2133,0.1369,7,0,0,1.0,0.0156,higher with minimal (all or all but one)
+Hesitations,hesitation_per_min,per min,Comprehension,7,0.1873,0.3694,0.2331,6,1,0,0.9286,0.0312,higher with minimal (all or all but one)
+Missed prompts,missed_prompt_per_min,per min,Comprehension,7,0.0375,0.0382,0.0007,4,2,1,0.1429,0.8438,mixed
+Unintended actions,unintended_action_per_min,per min,Comprehension,7,0.0378,0.128,0.0917,6,1,0,0.6786,0.125,higher with minimal (all or all but one)
+Time to objective,time_to_objective_s,s,Comprehension,7,157.9,248.0667,78.3,7,0,0,1.0,0.0156,higher with minimal (all or all but one)
+Objective completion,objective_completion,proportion,Comprehension,7,1.0,1.0,0.0,0,2,5,-1.0,0.5,mixed
+SA accuracy (all),sa_accuracy,proportion,Comprehension,8,0.8333,0.6334,-0.1666,1,7,0,-0.8056,0.0469,lower with minimal (all or all but one)
+SA perception,sa_perception,proportion,Comprehension,8,1.0,1.0,0.0,1,3,4,-0.5,0.625,mixed
+SA comprehension,sa_comprehension,proportion,Comprehension,8,1.0,0.5,-0.5,2,5,1,-0.5714,0.25,mixed
+SA projection,sa_projection,proportion,Comprehension,8,0.5,0.5,-0.25,1,4,3,-0.4,0.5625,mixed
+Menu breaks,menu_break_per_min,per min,Immersion,7,0.0429,0.0356,-0.0008,2,4,1,-0.5238,0.3125,mixed
+Gaze on game world,gaze_game_world,share,Immersion,7,0.8127,0.9737,0.1593,7,0,0,1.0,0.0156,higher with minimal (all or all but one)
