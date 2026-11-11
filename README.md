@@ -25,6 +25,18 @@ Cleaning, processing and analysis for the HUD contextual inquiry
 deliberate mistakes so every cleaning step has something to fix. Replace it with your
 real exports, keeping the same file names and columns.
 
+## Easiest way: the Studio (no command line)
+
+1. Install Python once (python.org, tick **Add python.exe to PATH**), then double-click **`Setup (run once).bat`**.
+2. Double-click **`Start.bat`**. A page opens in your browser (everything stays on your computer).
+3. **Recordings** tab: drop an interview recording, pick participant and session, click **Transcribe** (Whisper).
+4. **Tag & code** tab: tag gameplay and code interviews.
+5. **Run & results** tab: fill in the checklist, click **Run analysis**, see tables and figures.
+
+The project starts with dummy data. **Start fresh** (Run & results tab) moves it to a backup folder.
+
+---
+
 ## The workflow with real data
 
 | Step | Who | What |

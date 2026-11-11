@@ -8,7 +8,7 @@ Navigation errors,navigation_error_per_min,GTA V,minimal,0.2123,4
 Navigation errors,navigation_error_per_min,Cyberpunk 2077,full,0.0755,4
 Navigation errors,navigation_error_per_min,Cyberpunk 2077,minimal,0.2493,3
 Hesitations,hesitation_per_min,GTA V,full,0.1795,4
-Hesitations,hesitation_per_min,GTA V,minimal,0.327,4
+Hesitations,hesitation_per_min,GTA V,minimal,0.3446,4
 Hesitations,hesitation_per_min,Cyberpunk 2077,full,0.1715,4
 Hesitations,hesitation_per_min,Cyberpunk 2077,minimal,0.4205,3
 Missed prompts,missed_prompt_per_min,GTA V,full,0.0367,4

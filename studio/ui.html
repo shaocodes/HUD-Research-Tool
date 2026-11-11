@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HUD Study Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#f2f4f6; --panel:#fff; --sunk:#eceff2; --fg:#14171c; --muted:#616a77; --line:#dde2e8;
+  --accent:#2a63c7; --accent-ink:#fff; --ok:#12714a; --ok-bg:#e4f2ea; --work:#9a5b05; --work-bg:#fdf0dd;
+  --bad:#a8291f; --bad-bg:#fbe8e6; --idle:#8b94a1;
+  --f-ui:"Inter",system-ui,"Segoe UI",sans-serif; --f-mono:"IBM Plex Mono",Consolas,"Cascadia Mono",monospace;
+  --r:10px; --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.05);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0f1216; --panel:#171b21; --sunk:#1e232b; --fg:#e7eaef; --muted:#98a1ae; --line:#2a3039;
+  --accent:#6f9bf2; --accent-ink:#0f1216; --ok:#55c48d; --ok-bg:#15291f; --work:#e0a24a; --work-bg:#2a2013;
+  --bad:#f08a80; --bad-bg:#2b1917; --idle:#6c7684; --shadow:none;}}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 var(--f-ui);-webkit-font-smoothing:antialiased}
+h1{font-size:15px;font-weight:600;margin:0;letter-spacing:-.01em}
+h2{font-size:17px;font-weight:600;margin:0 0 2px;letter-spacing:-.01em}
+h3{font-size:13px;font-weight:600;margin:0 0 6px;color:var(--muted)}
+p{margin:0}
+code,.mono{font-family:var(--f-mono);font-size:.92em}
+.muted{color:var(--muted)} .small{font-size:13px} .tiny{font-size:12px}
+
+/* ---------- top ---------- */
+.top{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.top-in{max-width:1180px;margin:0 auto;padding:0 20px}
+.brandrow{display:flex;align-items:center;gap:12px;height:52px}
+.logo{width:22px;height:22px;flex:none}
+.where{margin-left:auto;display:flex;align-items:center;gap:10px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--ok);flex:none}
+.dot.off{background:var(--bad)}
+
+/* steps */
+.steps{display:flex;gap:0;margin:0 -20px;padding:0 20px;border-top:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.steps::-webkit-scrollbar{display:none}
+.step{flex:1 1 0;min-width:190px;display:flex;align-items:flex-start;gap:10px;padding:12px 16px 11px;border:0;border-bottom:2px solid transparent;
+  background:none;color:var(--muted);font:inherit;text-align:left;cursor:pointer;transition:background .12s}
+.step:hover{background:var(--sunk)}
+.step[aria-selected=true]{color:var(--fg);border-bottom-color:var(--accent);background:none}
+.step .n{width:21px;height:21px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;
+  font:500 11px/1 var(--f-mono);flex:none;margin-top:1px}
+.step[data-state=done] .n{background:var(--ok);border-color:var(--ok);color:#fff}
+.step[data-state=now] .n{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.step b{display:block;font-weight:500;font-size:14px;color:var(--fg)}
+.step span{display:block;font-size:12.5px;color:var(--muted);margin-top:1px}
+
+/* ---------- next action ---------- */
+.next{max-width:1180px;margin:18px auto 0;padding:0 20px}
+.next-in{display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);
+  border-left:3px solid var(--accent);border-radius:var(--r);padding:13px 16px;box-shadow:var(--shadow)}
+.next-in.done{border-left-color:var(--ok)}
+.next-in.busy{border-left-color:var(--work)}
+.next-txt{flex:1;min-width:0}
+.next-txt b{font-weight:600}
+.next-txt span{display:block;color:var(--muted);font-size:13.5px;margin-top:1px}
+
+main{max-width:1180px;margin:0 auto;padding:18px 20px 60px;display:grid;gap:18px;min-width:0}
+main>*{min-width:0}
+.panel{min-width:0;overflow:hidden;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.panel>header{padding:15px 18px 0}
+.panel>.body{padding:15px 18px 18px}
+.panel>.body.tight{padding-top:10px}
+
+/* ---------- controls ---------- */
+button,input,select,textarea{font:inherit;color:inherit}
+.btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel);
+  border-radius:7px;padding:7px 13px;cursor:pointer;font-weight:500;font-size:14px;
+  transition:transform .08s,background .12s,border-color .12s}
+.btn:hover{background:var(--sunk)}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.sm{padding:4px 10px;font-size:13px}
+.btn.quiet{border-color:transparent;background:transparent;color:var(--muted)}
+.btn.quiet:hover{background:var(--sunk);color:var(--fg)}
+.btn.danger{color:var(--bad)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+label.f{display:grid;gap:4px;font-size:12.5px;color:var(--muted)}
+input,select{padding:7px 9px;border:1px solid var(--line);border-radius:7px;background:var(--panel)}
+input:focus,select:focus{border-color:var(--accent)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+
+/* ---------- drop ---------- */
+.dropwrap{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:stretch}
+@media (max-width:1000px){.dropwrap{grid-template-columns:1fr}}
+.trio{display:grid;grid-template-columns:1fr 84px 84px;gap:10px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label.f select,label.f input{width:100%}
+.drop{border:1.5px dashed var(--line);border-radius:var(--r);background:var(--sunk);
+  display:grid;place-content:center;justify-items:center;gap:6px;padding:26px 20px;text-align:center;cursor:pointer;
+  transition:border-color .12s,background .12s}
+.drop:hover{border-color:var(--accent)}
+.drop.over{border-color:var(--accent);background:var(--panel)}
+.drop.has{border-style:solid;border-color:var(--ok);background:var(--panel)}
+.drop svg{opacity:.5}
+.drop b{font-weight:500}
+.meta{display:grid;gap:10px;align-content:start}
+.bar{display:none;height:5px;background:var(--sunk);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+.bar.go{display:block}
+
+/* ---------- session list ---------- */
+.plist{display:grid;gap:10px}
+.pcard{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.phead{display:flex;align-items:center;gap:10px;padding:9px 14px;background:var(--sunk);border-bottom:1px solid var(--line)}
+.phead b{font-family:var(--f-mono);font-size:14px;font-weight:500}
+.srow{display:grid;grid-template-columns:62px 1fr auto;gap:14px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--line)}
+.srow:last-child{border-bottom:0}
+.srow .sno{font-family:var(--f-mono);font-size:12.5px;color:var(--muted)}
+.cond{font-size:13.5px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:var(--sunk);color:var(--muted)}
+.chip.on{background:var(--ok-bg);color:var(--ok)}
+.chip.warn{background:var(--work-bg);color:var(--work)}
+.acts{display:flex;gap:6px;align-items:center}
+
+/* ---------- checklist ---------- */
+.check{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.crow{display:grid;grid-template-columns:24px 1fr auto;gap:12px;align-items:center;background:var(--panel);padding:11px 14px}
+.crow .tick{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:11px;color:#fff;background:var(--idle)}
+.crow.ok .tick{background:var(--ok)} .crow.miss .tick{background:var(--bad)} .crow.part .tick{background:var(--work)}
+.crow .what{font-size:14px}
+.crow .what span{display:block;color:var(--muted);font-size:12.5px}
+.filebtn{position:relative;overflow:hidden}
+.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+
+/* ---------- log ---------- */
+.log{background:#0d1014;color:#cfd4dc;font:12.5px/1.6 var(--f-mono);padding:12px 14px;border-radius:8px;
+  max-height:240px;overflow:auto;white-space:pre-wrap;word-break:break-word}
+.log .hl{color:#8fc7ff}
+.runbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.spin{width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- results ---------- */
+.tabsline{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tabsline button{border:1px solid var(--line);background:var(--panel);border-radius:99px;padding:4px 12px;font-size:13px;cursor:pointer}
+.tabsline button[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:12px;font-weight:500;color:var(--muted)}
+td.num,th.num{text-align:right;font-family:var(--f-mono)}
+.figs{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;align-items:start}
+.figs a{display:block;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff;color:inherit;text-decoration:none;transition:border-color .12s}
+.figs a:hover{border-color:var(--accent)}
+.figs img{width:100%;display:block;transition:transform .2s}
+.figs a:hover img{transform:scale(1.02)}
+.figs .cap{padding:7px 10px;font-size:12.5px;color:var(--muted);background:var(--panel);border-top:1px solid var(--line)}
+
+.empty{text-align:center;padding:26px 20px;color:var(--muted)}
+.empty b{display:block;color:var(--fg);font-weight:500;margin-bottom:3px}
+iframe{width:100%;height:calc(100vh - var(--topH, 122px));border:0;display:block;background:var(--bg)}
+body.on-code{overflow:hidden}
+.hide{display:none!important}
+dialog{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);color:var(--fg);
+  width:min(960px,94vw);padding:0;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+dialog::backdrop{background:rgba(10,14,20,.5)}
+dialog header{padding:16px 18px 12px;border-bottom:1px solid var(--line)}
+dialog .body{padding:14px 18px}
+dialog footer{padding:12px 18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px}
+textarea.big{width:100%;height:46vh;font:12.5px/1.65 var(--f-mono);padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--sunk);resize:vertical}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--fg);color:var(--bg);
+  padding:9px 16px;border-radius:8px;font-size:13.5px;z-index:60;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brandrow">
+      <svg class="logo" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="1.5" y="3.5" width="21" height="15" rx="2" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M4.5 6.5h5M4.5 9h3" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="18" cy="14" r="2.5" stroke="var(--accent)" stroke-width="1.5"/>
+        <path d="M9 21h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <h1>HUD Study Studio</h1>
+      <div class="where">
+        <span class="dot" id="conn"></span>
+        <span class="small muted" id="connTxt">Running on this computer</span>
+      </div>
+    </div>
+    <div class="steps" role="tablist">
+      <button class="step" role="tab" data-tab="rec" aria-selected="true">
+        <span class="n">1</span><span><b>Recordings</b><span id="st1">No recordings yet</span></span></button>
+      <button class="step" role="tab" data-tab="code" aria-selected="false">
+        <span class="n">2</span><span><b>Tag &amp; code</b><span id="st2">Nothing tagged yet</span></span></button>
+      <button class="step" role="tab" data-tab="run" aria-selected="false">
+        <span class="n">3</span><span><b>Results</b><span id="st3">Not run yet</span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="next"><div class="next-in" id="nextBox">
+  <div class="next-txt"><b id="nextTitle">Loading…</b><span id="nextWhy"></span></div>
+  <button class="btn primary hide" id="nextBtn"></button>
+</div></div>
+
+<!-- ============ 1 · RECORDINGS ============ -->
+<main id="tab-rec">
+  <section class="panel">
+    <header><h2>Add a recording</h2>
+      <p class="small muted">Interview audio is transcribed here with Whisper. Gameplay video is stored for tagging. Nothing is uploaded to the internet.</p></header>
+    <div class="body">
+      <div class="dropwrap">
+        <div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose a recording file">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 16V4m0 0L8 8m4-4 4 4"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          <b id="dropTitle">Drop a file here</b>
+          <span class="small muted" id="dropSub">or click to choose · mp4, mkv, mov, m4a, mp3, wav</span>
+          <input type="file" id="file" class="hide" accept="audio/*,video/*,.mkv,.mov,.m4a">
+        </div>
+        <div class="meta">
+          <label class="f">This file is<select id="kind">
+            <option value="interview">Interview recording</option>
+            <option value="gameplay">Gameplay recording</option></select></label>
+          <div class="trio">
+            <label class="f">Participant<input id="pid" placeholder="P01" autocomplete="off"></label>
+            <label class="f">Session<select id="ses"><option>1</option><option>2</option></select></label>
+            <label class="f">Group<select id="grp"><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+          </div>
+          <p class="tiny muted" id="designNote"></p>
+          <details>
+            <summary class="tiny muted" style="cursor:pointer">Played something other than the assigned setup?</summary>
+            <div class="duo" style="margin-top:8px">
+              <label class="f">Game<select id="game"><option>GTA V</option><option>Cyberpunk 2077</option></select></label>
+              <label class="f">HUD<select id="hud"><option value="full">Full</option><option value="minimal">Minimal</option></select></label>
+            </div>
+          </details>
+          <div class="bar"><i id="prog"></i></div>
+          <div class="row" style="align-items:center">
+            <button class="btn primary" id="upBtn" disabled>Add recording</button>
+            <span class="small" id="upMsg"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <header><h2>Sessions</h2><p class="small muted">Each participant plays two sessions. Transcribe the interview, then tag the gameplay in step&nbsp;2.</p></header>
+    <div class="body tight"><div class="plist" id="plist"></div>
+      <div class="empty hide" id="noSess"><b>No sessions yet</b>Add a recording above and a session appears here.</div></div>
+  </section>
+
+  <section class="panel" id="recJobPanel">
+    <header><h2>Transcribing</h2></header>
+    <div class="body tight">
+      <div class="log" id="logRec">Nothing running.</div>
+      <p class="tiny muted" style="margin-top:8px">The first run downloads the Whisper model once (about 500&nbsp;MB). A 30-minute interview takes roughly 5–15 minutes. Say “question one”, “question two” aloud during interviews so answers split by question.</p>
+    </div>
+  </section>
+</main>
+
+<!-- ============ 2 · TAG & CODE ============ -->
+<main id="tab-code" class="hide" style="max-width:none;padding:0;gap:0">
+  <iframe id="codeFrame" title="Tag gameplay and code interviews"></iframe>
+</main>
+
+<!-- ============ 3 · RESULTS ============ -->
+<main id="tab-run" class="hide">
+  <section class="panel">
+    <header><h2>Data the analysis needs</h2><p class="small muted">Export each form from Google Forms as CSV, then add it here. Download a template to see the columns.</p></header>
+    <div class="body tight"><div class="check" id="check"></div></div>
+  </section>
+
+  <section class="panel" id="groupPanel">
+    <header><h2>Your group's tagging</h2>
+      <p class="small muted">Your own tagging stays on this computer. Groupmates tag in the online app, and their work is pulled in before each analysis run.</p></header>
+    <div class="body" id="groupBody"></div>
+  </section>
+
+  <section class="panel">
+    <header><h2>Run the analysis</h2>
+      <p class="small muted">Gets the group's latest tagging, cleans the forms, transcripts and gaze data, counts events per minute, then writes the tables and figures.</p></header>
+    <div class="body">
+      <div class="runbar">
+        <button class="btn primary" id="runBtn">Run analysis</button>
+        <label class="small" style="display:flex;gap:7px;align-items:center;color:var(--muted)">
+          <input type="checkbox" id="useApp" checked> Include tags and codes from step 2</label>
+        <span class="small" id="runState"></span>
+      </div>
+      <div class="log" id="logRun" style="margin-top:12px">Nothing running.</div>
+    </div>
+  </section>
+
+  <section class="panel" id="resPanel">
+    <header style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+      <div><h2>Results</h2><p class="small muted">Tables go in the paper as they are. Figures are 300&nbsp;dpi.</p></div>
+      <div class="row" style="gap:6px"><button class="btn sm" data-open="results">Open results folder</button>
+        <button class="btn sm" data-open="figures">Open figures folder</button></div>
+    </header>
+    <div class="body">
+      <div id="resHas" class="hide">
+        <h3>Tables</h3>
+        <div class="tabsline" id="tables"></div>
+        <div style="overflow:auto;max-height:340px;border:1px solid var(--line);border-radius:8px" id="tableView"></div>
+        <h3 style="margin-top:18px">Figures</h3>
+        <div class="figs" id="figs"></div>
+      </div>
+      <div class="empty" id="noRes"><b>Nothing yet</b>Run the analysis and the tables and figures appear here.</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <header><h2>Dummy data</h2><p class="small muted">The project ships with made-up participants so you can try every step before the real study.</p></header>
+    <div class="body"><div class="row">
+      <button class="btn" id="dummyBtn">Load dummy participants</button>
+      <button class="btn danger" id="resetBtn">Clear it and start fresh</button>
+      <span class="tiny muted" style="align-self:center">Clearing moves everything to a backup folder. Nothing is deleted.</span>
+    </div></div>
+  </section>
+</main>
+
+<!-- transcript editor -->
+<dialog id="dlg">
+  <header><h2 id="dlgTitle">Transcript</h2>
+    <p class="small muted">Fix anything Whisper misheard. Each answer must sit under a line like <code>[02:10] Interviewer: Q3. …</code> — that is how answers are matched to questions.</p>
+    <div class="small" id="review" style="margin-top:8px"></div></header>
+  <div class="body"><textarea class="big" id="dlgText" spellcheck="false"></textarea></div>
+  <footer><span class="small" id="dlgMsg"></span>
+    <span class="row" style="gap:8px"><button class="btn" id="dlgClose">Close</button>
+      <button class="btn primary" id="dlgSave">Save transcript</button></span></footer>
+</dialog>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const DESIGN = {1:[["GTA V","minimal"],["Cyberpunk 2077","full"]],2:[["GTA V","full"],["Cyberpunk 2077","minimal"]],
+                3:[["Cyberpunk 2077","minimal"],["GTA V","full"]],4:[["Cyberpunk 2077","full"],["GTA V","minimal"]]};
+const FIGNAME = {"fig_paired_measures.png":"Full vs minimal HUD, each participant","fig_themes.png":"Interview themes by condition",
+  "fig_saturation.png":"New codes per participant (saturation)","fig_keywords.png":"Words typical of each condition",
+  "fig_gaze_heatmaps.png":"Where people looked"};
+const TABNAME = {"A_full_vs_minimal":"A · Full vs minimal","B_by_game":"B · By game","C_by_expertise":"C · By expertise",
+  "D_coder_agreement":"D · Coder agreement","F_saturation":"F · Saturation","F_themes_by_condition":"F · Themes",
+  "G_gaze_share":"G · Gaze share","K_keywords_by_condition":"K · Keywords","K_keywords_by_question":"K · Keywords by question"};
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const api = async (m,u,b) => (await fetch(u,{method:m,headers:{"Content-Type":"application/json"},body:b===undefined?undefined:JSON.stringify(b)})).json();
+let ST=null, picked=null, codeLoaded=false, curTable=null;
+
+function toast(msg){ const t=document.createElement("div"); t.className="toast"; t.textContent=msg;
+  document.body.append(t); setTimeout(()=>t.remove(),2600); }
+
+/* ---------------- tabs ---------------- */
+function sizeFrame(){ document.documentElement.style.setProperty("--topH", document.querySelector(".top").offsetHeight+"px"); }
+addEventListener("resize", sizeFrame);
+function show(tab){
+  document.querySelectorAll(".step").forEach(b=>b.setAttribute("aria-selected", b.dataset.tab===tab));
+  for(const t of ["rec","code","run"]) $("tab-"+t).classList.toggle("hide", t!==tab);
+  document.querySelector(".next").classList.toggle("hide", tab==="code");
+  document.body.classList.toggle("on-code", tab==="code");
+  if(tab==="code"){ sizeFrame(); if(!codeLoaded){ $("codeFrame").src="/coding/"; codeLoaded=true; } }
+  location.hash = tab;
+}
+document.querySelectorAll(".step").forEach(b=>b.onclick=()=>{ show(b.dataset.tab); b.blur(); });
+
+/* ---------------- add a recording ---------------- */
+function autofill(){
+  const [g,h]=DESIGN[$("grp").value][+$("ses").value-1];
+  $("game").value=g; $("hud").value=h;
+  $("designNote").innerHTML=`Group ${$("grp").value}, session ${$("ses").value} is <b>${esc(g)}</b> with <b>${esc(h)}</b> HUD.`;
+}
+$("grp").onchange=$("ses").onchange=autofill; autofill();
+$("kind").onchange=()=>{ $("dropSub").textContent = $("kind").value==="interview"
+  ? "or click to choose · the audio is transcribed here" : "or click to choose · the video is kept for tagging"; };
+
+const drop=$("drop");
+drop.onclick=()=>$("file").click();
+drop.onkeydown=(e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); $("file").click(); } };
+["dragover","dragenter"].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.add("over")}));
+["dragleave","drop"].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.remove("over")}));
+drop.addEventListener("drop",ev=>choose(ev.dataTransfer.files[0]));
+$("file").onchange=e=>choose(e.target.files[0]);
+function choose(f){ if(!f)return; picked=f;
+  drop.classList.add("has");
+  $("dropTitle").textContent=f.name.length>42?f.name.slice(0,40)+"…":f.name;
+  $("dropSub").textContent=`${(f.size/1048576).toFixed(0)} MB · click to pick a different file`;
+  $("upBtn").disabled=false; $("upMsg").textContent=""; }
+function clearPick(){ picked=null; drop.classList.remove("has"); $("file").value=""; $("prog").parentElement.classList.remove("go");
+  $("dropTitle").textContent="Drop a file here"; $("kind").onchange(); $("upBtn").disabled=true; $("prog").style.width="0"; }
+
+$("upBtn").onclick=()=>{
+  const pid=$("pid").value.trim();
+  if(!pid){ $("upMsg").innerHTML='<span style="color:var(--bad)">Type the participant code, like P01.</span>'; $("pid").focus(); return; }
+  if(!picked){ $("upMsg").innerHTML='<span style="color:var(--bad)">Choose a file first.</span>'; return; }
+  const q=new URLSearchParams({kind:$("kind").value,participant:pid,session:$("ses").value,group:$("grp").value,game:$("game").value,hud:$("hud").value});
+  const x=new XMLHttpRequest(); x.open("POST","/api/upload?"+q);
+  x.setRequestHeader("X-Filename",encodeURIComponent(picked.name));
+  x.upload.onprogress=e=>{ $("prog").style.width=(e.loaded/e.total*100)+"%"; };
+  x.onload=()=>{ let r={}; try{r=JSON.parse(x.responseText)}catch{}
+    $("upBtn").disabled=false;
+    if(x.status===200){ toast(`Added ${r.saved}`); clearPick(); $("upMsg").textContent=""; refresh(true); }
+    else $("upMsg").innerHTML=`<span style="color:var(--bad)">${esc(r.error||"Could not add the file.")}</span>`; };
+  x.onerror=()=>{ $("upMsg").innerHTML='<span style="color:var(--bad)">Upload failed. Is the Studio window still open?</span>'; $("upBtn").disabled=false; };
+  $("upBtn").disabled=true; $("upMsg").textContent="Adding…"; $("prog").style.width="0"; $("prog").parentElement.classList.add("go"); x.send(picked);
+};
+
+/* ---------------- sessions ---------------- */
+function chip(on,label,warn){ return `<span class="chip ${warn?"warn":on?"on":""}">${on?"✓":warn?"!":"–"} ${esc(label)}</span>`; }
+function renderSessions(){
+  const list=$("plist"), byP={};
+  for(const s of ST.sessions){ (byP[s.participant]=byP[s.participant]||[]).push(s); }
+  const names=Object.keys(byP).sort();
+  $("noSess").classList.toggle("hide", names.length>0);
+  list.innerHTML = names.map(p=>{
+    const rows=byP[p].sort((a,b)=>a.session-b.session).map(s=>{
+      const needQ = s.transcribed && s.answers===0;
+      let act="";
+      if(!s.audio && !s.transcribed) act=`<span class="tiny muted">Add the interview file</span>`;
+      else if(!s.transcribed) act=`<button class="btn sm primary" data-t="${s.id}" ${ST.job.running?"disabled":""}>Transcribe</button>`;
+      else act=`<button class="btn sm" data-v="${s.id}">${needQ?"Fix transcript":"View transcript"}</button>
+                <button class="btn sm quiet" data-t="${s.id}" ${ST.job.running?"disabled":""} title="Transcribe again" aria-label="Transcribe ${s.id} again">↻</button>`;
+      return `<div class="srow"><div class="sno">S${s.session}</div>
+        <div><div class="cond">${esc(s.game||"–")} · ${esc(s.hud||"–")} HUD</div>
+          <div class="chips">${chip(!!s.audio,"interview")}${chip(!!s.video,"gameplay")}
+            ${s.transcribed?chip(s.answers>0,`${s.answers} answers`,needQ):chip(false,"transcript")}</div></div>
+        <div class="acts">${act}</div></div>`;
+    }).join("");
+    return `<div class="pcard"><div class="phead"><b>${esc(p)}</b><span class="tiny muted">group ${esc(byP[p][0].group??"?")}</span></div>${rows}</div>`;
+  }).join("");
+  list.querySelectorAll("[data-t]").forEach(b=>b.onclick=async()=>{
+    b.disabled=true; const r=await api("POST","/api/transcribe",{id:b.dataset.t});
+    if(r.busy) toast("Something is already running."); else toast("Transcribing "+b.dataset.t); refresh(true); });
+  list.querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>openTranscript(b.dataset.v));
+}
+
+let dlgId=null;
+async function openTranscript(id){
+  dlgId=id; const r=await (await fetch("/api/transcript?id="+id)).json();
+  $("dlgTitle").textContent="Transcript · "+id; $("dlgText").value=r.text; $("dlgMsg").textContent="";
+  $("review").innerHTML = r.review.length
+    ? `<b style="color:var(--work)">${r.review.length} spot${r.review.length>1?"s":""} to check by ear</b><br>`+
+      r.review.slice(0,8).map(x=>`<span class="mono">${esc(x.time||"--:--")}</span> ${esc(x.question||"")} ${esc(x.check)}`).join("<br>")
+    : "";
+  $("dlg").showModal(); $("dlgText").scrollTop=0;
+}
+$("dlgClose").onclick=()=>$("dlg").close();
+$("dlgSave").onclick=async()=>{ const r=await api("POST","/api/transcript",{id:dlgId,text:$("dlgText").value});
+  $("dlgMsg").innerHTML=`<span style="color:var(--ok)">Saved · ${r.answers} answers matched to questions.</span>`; refresh(true); };
+
+/* ---------------- checklist ---------------- */
+function renderCheck(){
+  const need={"session_log.csv":"auto","screening_demographics.csv":1,"sa_responses.csv":1,"sa_answer_key.csv":1,
+              "participant_roster.csv":1,"aoi_regions.csv":1};
+  $("check").innerHTML = ST.files.map(f=>{
+    const auto = f.name==="session_log.csv";
+    const cls = f.rows ? "ok" : (auto?"part":"miss");
+    const state = f.rows ? `${f.rows} rows` : auto ? "built from your sessions" : "not added yet";
+    return `<div class="crow ${cls}"><div class="tick">${f.rows?"✓":auto?"·":"!"}</div>
+      <div class="what">${esc(f.what)}<span><code>${esc(f.name)}</code> · ${esc(state)}</span></div>
+      <div class="row" style="gap:6px">
+        ${auto?"":`<a class="btn sm quiet" href="/api/template/${f.name}" download>Template</a>`}
+        <label class="btn sm filebtn">${f.rows?"Replace":"Add CSV"}<input type="file" accept=".csv" data-csv="${f.name}"></label>
+      </div></div>`;
+  }).join("") + `<div class="crow ${ST.tags?"ok":"miss"}"><div class="tick">${ST.tags?"✓":"!"}</div>
+      <div class="what">Gameplay tags and interview codes<span>from step 2 · ${ST.tags} tags, ${ST.codes} codes</span></div>
+      <div><button class="btn sm" id="goCode">Open step 2</button></div></div>
+    <div class="crow ${ST.gaze_files?"ok":"part"}"><div class="tick">${ST.gaze_files?"✓":"·"}</div>
+      <div class="what">Eye-tracking exports<span>one CSV per session in <code>raw\\gaze</code> · ${ST.gaze_files} found</span></div>
+      <div><button class="btn sm" data-open="raw">Open raw folder</button></div></div>`;
+  $("check").querySelectorAll("[data-csv]").forEach(i=>i.onchange=async()=>{
+    const f=i.files[0]; if(!f) return;
+    const r=await fetch("/api/upload_csv?name="+i.dataset.csv,{method:"POST",body:await f.arrayBuffer()});
+    const j=await r.json(); toast(j.error?j.error:`${i.dataset.csv}: ${j.rows} rows`); refresh(true); });
+  const gc=$("goCode"); if(gc) gc.onclick=()=>show("code");
+  bindOpen();
+}
+function renderGroup(){
+  const g=ST.group, b=$("groupBody");
+  if(!g){
+    b.innerHTML=`<div class="empty" style="padding:14px 0"><b>The Studio needs restarting</b>
+      This page is new but the Studio behind it is still the old version, so it cannot reach Supabase yet.<br>
+      Close the black <code>Start.bat</code> window, double-click <code>Start.bat</code> again, then come back here.</div>`; return; }
+  if(!g.configured){
+    b.innerHTML=`<div class="empty" style="padding:14px 0"><b>Supabase details not readable</b>
+      ${esc(g.why||"")}<br>Checked <code>${esc(g.file||"")}</code>. Fix it, then restart <code>Start.bat</code>.</div>`; return; }
+  if(!g.ready){
+    b.innerHTML=`<p class="small" style="margin-bottom:10px">Enter your name and the group password once. Both are kept on this computer and never go into GitHub. Your name labels the work this computer sends up, so it never clashes with a groupmate's.</p>
+      <div class="row"><label class="f" style="min-width:150px">Your name
+        <input id="gwho" autocomplete="off" placeholder="e.g. Shao"></label>
+        <label class="f" style="min-width:210px">Group password
+        <input type="password" id="gpw" autocomplete="off" placeholder="the password you set in Supabase"></label>
+        <button class="btn primary" id="gConnect">Connect</button><span class="small" id="gMsg"></span></div>`;
+    $("gConnect").onclick=async()=>{
+      const pw=$("gpw").value; if(!pw) return;
+      $("gConnect").disabled=true; $("gMsg").textContent="Checking…";
+      const r=await api("POST","/api/group/connect",{password:pw,who:$("gwho").value});
+      $("gConnect").disabled=false;
+      if(r.ok){ toast("Connected to your group database"); refresh(true); }
+      else $("gMsg").innerHTML=`<span style="color:var(--bad)">${esc(r.error)}</span>`; };
+    $("gpw").onkeydown=$("gwho").onkeydown=e=>{ if(e.key==="Enter") $("gConnect").click(); };
+    return; }
+  b.innerHTML=`<div class="row" style="align-items:center">
+      <button class="btn" id="gPush" ${ST.job.running?"disabled":""}>Send my sessions and tagging up</button>
+      <button class="btn" id="gPull" ${ST.job.running?"disabled":""}>Get the group's work now</button>
+      <span class="small muted">Connected as <b>${esc(g.me||"this computer")}</b> · the group\u2019s work is pulled in before every run.</span></div>
+    <p class="tiny muted" style="margin-top:9px">Send after you add recordings or do a batch of tagging. Sessions become visible to the group, and your own tags and codes go up under your name. Recordings stay on this computer: each coder opens their own copy with the app's choose-video-file button.</p>`;
+  $("gPush").onclick=async()=>{ const r=await api("POST","/api/group/push",{}); toast(r.ok?"Sending…":"Something is already running."); refresh(true); };
+  $("gPull").onclick=async()=>{ const r=await api("POST","/api/group/pull",{}); toast(r.ok?"Getting the group's work…":"Something is already running."); refresh(true); };
+}
+function bindOpen(){ document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>api("POST","/api/open_folder?name="+b.dataset.open,{})); }
+
+/* ---------------- results ---------------- */
+function renderResults(){
+  const has = ST.figures.length+ST.tables.length>0;
+  $("resHas").classList.toggle("hide",!has); $("noRes").classList.toggle("hide",has);
+  if(!has) return;
+  $("tables").innerHTML = ST.tables.map(t=>{
+    const k=t.replace(".csv",""); return `<button data-tb="${t}" aria-pressed="${curTable===t}">${esc(TABNAME[k]||k)}</button>`; }).join("");
+  $("tables").querySelectorAll("[data-tb]").forEach(b=>b.onclick=()=>showTable(b.dataset.tb));
+  if(!curTable && ST.tables.length) showTable(ST.tables.includes("A_full_vs_minimal.csv")?"A_full_vs_minimal.csv":ST.tables[0]);
+  $("figs").innerHTML = ST.figures.map(f=>`<a href="/figures/${f}" target="_blank" rel="noopener">
+      <img loading="lazy" src="/figures/${f}?t=${ST.stamp||0}" alt="${esc(FIGNAME[f]||f)}">
+      <div class="cap">${esc(FIGNAME[f]||f)}</div></a>`).join("");
+}
+async function showTable(name){
+  curTable=name;
+  $("tables").querySelectorAll("[data-tb]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.tb===name));
+  const r=await (await fetch("/table/"+name)).json();
+  if(!r.rows.length){ $("tableView").innerHTML='<div class="empty">This table is empty.</div>'; return; }
+  const cols=Object.keys(r.rows[0]);
+  const isNum=c=>r.rows.every(x=>x[c]===""||!isNaN(parseFloat(x[c])));
+  $("tableView").innerHTML=`<table><thead><tr>${cols.map(c=>`<th class="${isNum(c)?"num":""}">${esc(c)}</th>`).join("")}</tr></thead>
+    <tbody>${r.rows.map(x=>`<tr>${cols.map(c=>`<td class="${isNum(c)?"num":""}">${esc(x[c])}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+}
+$("runBtn").onclick=async()=>{ const r=await api("POST","/api/run",{use_app:$("useApp").checked,pull:true});
+  if(!r.ok) toast("Something is already running."); else toast("Running the analysis…"); refresh(true); };
+$("dummyBtn").onclick=async()=>{ const r=await api("POST","/api/load_dummy",{}); toast(r.message); refresh(true); };
+$("resetBtn").onclick=async()=>{ if(!confirm("Move the dummy data into a backup folder and start with empty files?\n\nNothing is deleted.")) return;
+  const r=await api("POST","/api/reset",{}); toast(r.message); codeLoaded=false; $("codeFrame").removeAttribute("src"); curTable=null; refresh(true); };
+
+/* ---------------- next action ---------------- */
+function nextAction(){
+  const S=ST.sessions, j=ST.job;
+  if(j.running) return {t:`${j.name}…`, w:"Leave this open. You can keep working in the other steps.", cls:"busy"};
+  if(!S.length) return {t:"Add your first recording", w:"Drop an interview or gameplay file below to create a session.", tab:"rec"};
+  const noAudio=S.filter(s=>!s.audio&&!s.transcribed), untx=S.filter(s=>s.audio&&!s.transcribed), noQ=S.filter(s=>s.transcribed&&s.answers===0);
+  if(untx.length) return {t:`Transcribe ${untx[0].id}`, w:`${untx.length} interview${untx.length>1?"s":""} waiting. Whisper runs on this computer.`, tab:"rec", btn:"Go to recordings"};
+  if(noQ.length) return {t:`Fix the transcript for ${noQ[0].id}`, w:"No questions were found, so no answers were matched. Open it and add the Interviewer: Q1. lines.", tab:"rec", btn:"Go to recordings"};
+  if(noAudio.length) return {t:`Add the interview file for ${noAudio[0].id}`, w:`${noAudio.length} session${noAudio.length>1?"s have":" has"} no interview recording yet.`, tab:"rec"};
+  if(!ST.tags) return {t:"Tag the gameplay recordings", w:"Open step 2, play a recording and press the event keys while it runs.", tab:"code", btn:"Open step 2"};
+  if(!ST.codes) return {t:"Code the interview answers", w:"In step 2, highlight a phrase in an answer and give it a code.", tab:"code", btn:"Open step 2"};
+  const miss=ST.files.filter(f=>!f.rows && f.name!=="session_log.csv");
+  if(miss.length) return {t:`Add ${miss[0].name}`, w:`${miss.length} data file${miss.length>1?"s are":" is"} still missing. Step 3 has a template for each.`, tab:"run", btn:"Go to results"};
+  if(!ST.figures.length) return {t:"Run the analysis", w:"Everything it needs is in place.", tab:"run", btn:"Go to results"};
+  if(j.code) return {t:`${j.name} failed`, w:"Read the last lines of the log in step 3 to see what stopped it.", tab:"run", btn:"Go to results", cls:"busy"};
+  return {t:"Everything is up to date", w:"Tables and figures are ready in step 3. Re-run after any new tagging.", tab:"run", btn:"See results", cls:"done"};
+}
+function renderNext(){
+  const a=nextAction();
+  $("nextTitle").textContent=a.t; $("nextWhy").textContent=a.w;
+  $("nextBox").className="next-in "+(a.cls||"");
+  const b=$("nextBtn");
+  if(a.tab && a.btn && !a.cls){ b.textContent=a.btn; b.classList.remove("hide"); b.onclick=()=>show(a.tab); }
+  else if(a.cls==="done"&&a.btn){ b.textContent=a.btn; b.classList.remove("hide"); b.onclick=()=>show(a.tab); }
+  else b.classList.add("hide");
+}
+
+/* ---------------- step summaries + job ---------------- */
+function renderSteps(){
+  const S=ST.sessions, tx=S.filter(s=>s.transcribed).length;
+  $("st1").textContent = S.length ? `${S.length} session${S.length>1?"s":""} · ${tx} transcribed` : "No recordings yet";
+  $("st2").textContent = ST.tags||ST.codes ? `${ST.tags} tags · ${ST.codes} codes` : "Nothing tagged yet";
+  $("st3").textContent = ST.figures.length ? `${ST.tables.length} tables · ${ST.figures.length} figures` : "Not run yet";
+  const st=(el,cond)=>el.dataset.state=cond;
+  const steps=[...document.querySelectorAll(".step")];
+  st(steps[0], S.length&&tx===S.length?"done":S.length?"now":"");
+  st(steps[1], ST.tags&&ST.codes?"done":ST.tags||ST.codes?"now":"");
+  st(steps[2], ST.figures.length?"done":"");
+}
+function renderJob(){
+  const j=ST.job, txt=j.log.length?j.log.join("\n"):"Nothing running.";
+  for(const id of ["logRec","logRun"]){ const e=$(id); const atEnd=e.scrollTop+e.clientHeight>=e.scrollHeight-24;
+    if(e.textContent!==txt){ e.textContent=txt; if(atEnd) e.scrollTop=e.scrollHeight; } }
+  $("runBtn").disabled=j.running;
+  $("runState").innerHTML = j.running ? `<span style="display:inline-flex;gap:7px;align-items:center"><span class="spin"></span> ${esc(j.name)}…</span>`
+    : j.name ? (j.code ? `<span style="color:var(--bad)">${esc(j.name)} stopped — see the log</span>`
+                       : `<span style="color:var(--ok)">${esc(j.name)} finished</span>`) : "";
+}
+
+/* ---------------- loop ---------------- */
+let lastKey="";
+async function refresh(force){
+  try{ ST=await (await fetch("/api/state")).json(); $("conn").classList.remove("off"); $("connTxt").textContent="Running on this computer"; }
+  catch{ $("conn").classList.add("off"); $("connTxt").textContent="Studio window closed — reopen Start.bat"; return; }
+  ST.stamp=ST.figures.length?Math.floor(Date.now()/5000):0;
+  renderJob(); renderNext(); renderSteps();
+  const key=JSON.stringify([ST.sessions,ST.files,ST.tags,ST.codes,ST.figures,ST.tables,ST.gaze_files,ST.job.running,ST.group]);
+  if(force||key!==lastKey){ lastKey=key; renderSessions(); renderCheck(); renderGroup(); renderResults(); }
+}
+show(["rec","code","run"].includes(location.hash.slice(1))?location.hash.slice(1):"rec");
+$("kind").onchange(); bindOpen(); refresh(true); setInterval(refresh,2000);
+</script>
+</body>
+</html>

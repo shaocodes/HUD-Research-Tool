@@ -208,6 +208,7 @@ def main():
     ap.add_argument("folder", nargs="?", default=str(AUDIO_DIR))
     ap.add_argument("--model", default="small", help="tiny, base, small (default), medium, large-v3")
     ap.add_argument("--language", default="en", help="en (default), tl for Filipino, or 'auto'")
+    ap.add_argument("--only", default="", help="only this recording, e.g. P01_S1 (used by the Studio)")
     ap.add_argument("--overwrite", action="store_true", help="redo files that already have a transcript")
     args = ap.parse_args()
 
@@ -217,6 +218,8 @@ def main():
     if not questions:
         print("! raw/interview_questions.csv not found: answers will still be split, but question text can't be removed.")
     files = sorted(p for p in Path(args.folder).iterdir() if p.suffix.lower() in AUDIO_EXT)
+    if args.only:
+        files = [f for f in files if f.stem.upper().startswith(args.only.upper())]
     if not files:
         print(f"No audio files in {args.folder}")
         return

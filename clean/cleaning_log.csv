@@ -16,6 +16,5 @@ gameplay,tags,43 tag(s) fall inside skipped segments,removed
 gameplay,objectives,5 objective(s) never reached before the session ended,"left out of mean time to objective, counted in completion rate"
 sa,answers,4 correct answers typed with different capitalisation or extra spaces,"compared ignoring case and spaces, so they count as correct"
 sa,P01 S1 Q4,left blank,left out of that session's score
-interview codes,codebook,code written as 'Followed Waypoint Marker ',merged into 'followed waypoint marker'
 gaze,P08 S2,only 15% of samples usable (low confidence),gaze left out for this session; other measures kept
 gaze,all sessions,"7,299 blink, 14,068 low-confidence and 5,284 off-screen samples",removed before assigning areas of interest

@@ -2,6 +2,12 @@
 raw/participant_roster.csv
 raw/audio/*
 !raw/audio/.keep
+raw/video/*
+!raw/video/.keep
 *.mov
 *.mkv
 __pycache__/
+_dummy_backup/
+# local working data and the group password
+studio_data/*
+!studio_data/.keep

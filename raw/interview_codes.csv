@@ -7,6 +7,7 @@ P02,1,Q5,honestly time went by fast,time passed quickly,Absorption,A
 P02,1,Q6,"no, I never really had to stop, the map told me everything",did not need to stop,Navigation reliance,A
 P02,1,Q7,"nothing was missing, if anything there was too much",nothing missing,Navigation reliance,A
 P02,1,Q8,I would make the HUD smaller and remove some of the notifications,remove clutter,HUD distraction,A
+P02,1,Q1,I kept looking at the waypoint marker and drove toward it,followed waypoint marker,Navigation reliance,A
 P02,2,Q1,I had to use landmarks like the tall buildings and signs,used landmarks,Environmental attention,A
 P02,2,Q2,I was not sure where the objective was,unsure of objective,Disorientation,A
 P02,2,Q3,"I was focused on the world itself, the streets and the people",focused on world,Absorption,A
@@ -19,14 +20,6 @@ P02,2,Q9,"during the fight, I forgot about everything else",absorbed in combat,A
 P02,2,Q10,the full one because I did not waste time getting lost,prefer full for exploring,Navigation reliance,A
 P02,2,Q11,the full HUD was easier to understand what to do next,full easier to understand,Navigation reliance,A
 P02,2,Q12,I would keep health and a compass and remove the notifications,keep health and compass,Information gaps,A
-P03,1,Q1,I had to use landmarks like the tall buildings and signs,used landmarks,Environmental attention,A
-P03,1,Q2,I was not sure where the objective was,unsure of objective,Disorientation,A
-P03,1,Q3,"I was focused on the world itself, the streets and the people",focused on world,Absorption,A
-P03,1,Q4,the prompts were easy to miss without the other stuff,prompt easy to miss,Information gaps,A
-P03,1,Q5,"it felt long when I was lost, I kept checking how long it had been",time dragged when lost,Disorientation,A
-P03,1,Q6,"yes, I had to stop many times and open the full map",stopped to figure out,Disorientation,A
-P03,1,Q7,"I wanted the minimap back, and the objective distance",wanted mini-map back,Information gaps,A
-P03,1,Q8,I would add a small compass so I do not get lost but keep it clean,add small compass,Information gaps,A
 P04,1,Q1,I kept looking at the waypoint marker and drove toward it,followed waypoint marker,Navigation reliance,A
 P04,1,Q2,"not really, everything was pretty clear",no confusion,Learning curve,A
 P04,1,Q3,my eyes kept going to the minimap corner instead of the road,eyes on mini-map corner,HUD distraction,A
@@ -43,7 +36,7 @@ P04,2,Q5,"I lost track of time, it felt like I was really in the city",lost trac
 P04,2,Q6,"yes, I had to stop many times and open the full map",stopped to figure out,Disorientation,A
 P04,2,Q7,"I wanted the minimap back, and the objective distance",wanted mini-map back,Information gaps,A
 P04,2,Q8,I would add a small compass so I do not get lost but keep it clean,add small compass,Information gaps,A
-P04,2,Q9,"in the session without the map, when I was just driving around at night",absorbed without HUD,Absorption,A
+P04,2,Q9,"in the session without the map, when I was just driving around at night",absorbed without hud,Absorption,A
 P04,2,Q10,the full one because I did not waste time getting lost,prefer full for exploring,Navigation reliance,A
 P04,2,Q11,the full HUD was easier to understand what to do next,full easier to understand,Navigation reliance,A
 P04,2,Q12,I would keep health and a compass and remove the notifications,keep health and compass,Information gaps,A
@@ -67,26 +60,6 @@ P05,2,Q9,"during the fight, I forgot about everything else",absorbed in combat,A
 P05,2,Q10,the full one because I did not waste time getting lost,prefer full for exploring,Navigation reliance,A
 P05,2,Q11,the full HUD was easier to understand what to do next,full easier to understand,Navigation reliance,A
 P05,2,Q12,I would keep health and a compass and remove the notifications,keep health and compass,Information gaps,A
-P06,1,Q1,I just kind of guessed which direction to go,guessed direction,Disorientation,A
-P06,1,Q2,yeah I got lost a lot because there was no map,felt lost,Disorientation,A
-P06,1,Q3,"I was focused on the world itself, the streets and the people",focused on world,Absorption,A
-P06,1,Q4,the prompts were easy to miss without the other stuff,prompt easy to miss,Information gaps,A
-P06,1,Q5,"I lost track of time, it felt like I was really in the city",lost track of time,Absorption,A
-P06,1,Q6,"yes, I had to stop many times and open the full map",stopped to figure out,Disorientation,A
-P06,1,Q7,"I wanted the minimap back, and the objective distance",wanted mini-map back,Information gaps,A
-P06,1,Q8,I would add a small compass so I do not get lost but keep it clean,add small compass,Information gaps,A
-P06,2,Q1,I had to use landmarks like the tall buildings and signs,used landmarks,Environmental attention,A
-P06,2,Q2,yeah I got lost a lot because there was no map,felt lost,Disorientation,A
-P06,2,Q3,"I was focused on the world itself, the streets and the people",focused on world,Absorption,A
-P06,2,Q4,the prompts were easy to miss without the other stuff,prompt easy to miss,Information gaps,A
-P06,2,Q5,"I lost track of time, it felt like I was really in the city",lost track of time,Absorption,A
-P06,2,Q6,"yes, I had to stop many times and open the full map",stopped to figure out,Disorientation,A
-P06,2,Q7,"I wanted the minimap back, and the objective distance",wanted mini-map back,Information gaps,A
-P06,2,Q8,I would add a small compass so I do not get lost but keep it clean,add small compass,Information gaps,A
-P06,2,Q9,"during the fight, I forgot about everything else",absorbed in combat,Absorption,A
-P06,2,Q10,the full one because I did not waste time getting lost,prefer full for exploring,Navigation reliance,A
-P06,2,Q11,the full HUD was easier to understand what to do next,full easier to understand,Navigation reliance,A
-P06,2,Q12,I would keep health and a compass and remove the notifications,keep health and compass,Information gaps,A
 P07,1,Q1,I just kind of guessed which direction to go,guessed direction,Disorientation,A
 P07,1,Q2,yeah I got lost a lot because there was no map,felt lost,Disorientation,A
 P07,1,Q3,"I was focused on the world itself, the streets and the people",focused on world,Absorption,A
@@ -103,7 +76,7 @@ P07,2,Q5,honestly time went by fast,time passed quickly,Absorption,A
 P07,2,Q6,"no, I never really had to stop, the map told me everything",did not need to stop,Navigation reliance,A
 P07,2,Q7,"nothing was missing, if anything there was too much",nothing missing,Navigation reliance,A
 P07,2,Q8,I would make the HUD smaller and remove some of the notifications,remove clutter,HUD distraction,A
-P07,2,Q9,"in the session without the map, when I was just driving around at night",absorbed without HUD,Absorption,A
+P07,2,Q9,"in the session without the map, when I was just driving around at night",absorbed without hud,Absorption,A
 P07,2,Q10,the full one because I did not waste time getting lost,prefer full for exploring,Navigation reliance,A
 P07,2,Q11,the full HUD was easier to understand what to do next,full easier to understand,Navigation reliance,A
 P07,2,Q12,I would keep health and a compass and remove the notifications,keep health and compass,Information gaps,A
@@ -143,7 +116,7 @@ P09,2,Q5,"I lost track of time, it felt like I was really in the city",lost trac
 P09,2,Q6,"yes, I had to stop many times and open the full map",stopped to figure out,Disorientation,A
 P09,2,Q7,"I wanted the minimap back, and the objective distance",wanted mini-map back,Information gaps,A
 P09,2,Q8,I would add a small compass so I do not get lost but keep it clean,add small compass,Information gaps,A
-P09,2,Q9,"in the session without the map, when I was just driving around at night",absorbed without HUD,Absorption,A
+P09,2,Q9,"in the session without the map, when I was just driving around at night",absorbed without hud,Absorption,A
 P09,2,Q10,the full one because I did not waste time getting lost,prefer full for exploring,Navigation reliance,A
 P09,2,Q11,the full HUD was easier to understand what to do next,full easier to understand,Navigation reliance,A
 P09,2,Q12,I would keep health and a compass and remove the notifications,keep health and compass,Information gaps,A
@@ -163,8 +136,7 @@ P10,2,Q5,honestly time went by fast,time passed quickly,Absorption,A
 P10,2,Q6,"no, I never really had to stop, the map told me everything",did not need to stop,Navigation reliance,A
 P10,2,Q7,"nothing was missing, if anything there was too much",nothing missing,Navigation reliance,A
 P10,2,Q8,I would make the HUD smaller and remove some of the notifications,remove clutter,HUD distraction,A
-P10,2,Q9,"in the session without the map, when I was just driving around at night",absorbed without HUD,Absorption,A
+P10,2,Q9,"in the session without the map, when I was just driving around at night",absorbed without hud,Absorption,A
 P10,2,Q10,the full one because I did not waste time getting lost,prefer full for exploring,Navigation reliance,A
 P10,2,Q11,the full HUD was easier to understand what to do next,full easier to understand,Navigation reliance,A
 P10,2,Q12,I would keep health and a compass and remove the notifications,keep health and compass,Information gaps,A
-P02,1,Q1,I kept looking at the waypoint marker and drove toward it,Followed Waypoint Marker ,Navigation reliance,A
