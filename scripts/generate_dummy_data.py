@@ -45,10 +45,10 @@ RAW = ROOT / "raw"
 (RAW / "gaze").mkdir(parents=True, exist_ok=True)
 
 GROUPS = {
-    1: [("GTA V", "minimal"), ("Cyberpunk 2077", "full")],
-    2: [("GTA V", "full"), ("Cyberpunk 2077", "minimal")],
+    1: [("Cyberpunk 2077", "full"), ("GTA V", "minimal")],
+    2: [("GTA V", "minimal"), ("Cyberpunk 2077", "full")],
     3: [("Cyberpunk 2077", "minimal"), ("GTA V", "full")],
-    4: [("Cyberpunk 2077", "full"), ("GTA V", "minimal")],
+    4: [("GTA V", "full"), ("Cyberpunk 2077", "minimal")],
 }
 SESSION_S = 30 * 60
 N_ASSIGNED = 10
@@ -60,7 +60,7 @@ def group_of(pid):
     return GROUPS_OF.get(pid)
 
 
-GROUPS_OF = {p: (p - 1) % 4 + 1 for p in range(1, 9)}
+GROUPS_OF = {1: 1, 2: 2, 3: 1, 4: 2, 5: 3, 6: 4, 7: 3, 8: 4}   # recruitment order: sets 1 2 1 2 3 4 3 4
 GROUPS_OF.update({9: GROUPS_OF[6], 10: GROUPS_OF[3]})
 
 FIRST = ["Miguel", "Andrea", "Paolo", "Bea", "Carlo", "Janelle", "Marco", "Trisha", "Rafael", "Nicole"]

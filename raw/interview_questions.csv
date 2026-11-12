@@ -1,13 +1,14 @@
-question,question_text
-Q1,How did you figure out where to go during the session? What did you look at or rely on?
-Q2,Were there moments when something on the screen confused you? What was happening?
-Q3,"Which HUD elements, if any, pulled your attention away from what you were doing?"
-Q4,Was there any HUD element that didn't work the way you expected?
-Q5,How aware were you of the passing of time while playing?
-Q6,Was there a point where you had to stop to figure out what the game was telling you?
-Q7,"What information, if any, did you feel was missing from the screen?"
-Q8,"What would you change about the HUD you just used, and why?"
-Q9,Was there a moment in either session where you felt completely absorbed? What was on screen?
-Q10,"Comparing both sessions, which HUD setup gave you the better experience exploring, and why?"
-Q11,In which session was it easier to understand what was happening and what to do next?
-Q12,"If you could design your own HUD, which elements would you keep and which would you remove?"
+question,question_text,asked_in,topic
+Q1,Did you experience any screen-related confusion that may have distracted you from the gameplay? Why or why not?,each,
+Q2,Did any HUD element pull your focus away from what you were doing?,each,immersion
+Q3,Was there any HUD element that did not act as you thought it would?,each,information comprehension
+Q4,"While playing the game, did you have a sense of time while you were playing the game? Or did time pass by too quickly?",each,immersion
+Q5,"Did you get distracted by the on-screen interface elements, or did you become more attentive to the game environment due to the absence of the HUD?",each,immersion
+Q6,Was there any point where you had to stop what you were doing just to figure out what the game was trying to tell you?,each,immersion + information comprehension
+Q7,Was there any vital information you felt was missing from the screen during gameplay?,each,
+Q8,Do you think the given HUD layout assists you during fast-paced and high-thrill gameplay?,each,
+Q9,Is there anything you would like to change from the given HUD layout to you?,each,
+Q10,"Was there a moment where you felt completely absorbed in the game world? If there was, what was happening on the screen at that time?",final,immersion
+Q11,"Comparing both sessions, which HUD layout provided a better overall experience for open-world exploration, and why?",final,
+Q12,Which among the HUD layouts given did you have an easier time learning?,final,information comprehension
+Q13,"If you could combine elements from both games' HUD layouts into one perfect interface for an open-world game, what specific pieces would you keep and discard?",final,

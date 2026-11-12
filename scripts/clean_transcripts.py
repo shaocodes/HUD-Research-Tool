@@ -113,7 +113,9 @@ for path in sorted((RAW / "transcripts").glob("*.txt")):
 ans = pd.DataFrame(answers).merge(sessions[["participant", "session", "game", "hud"]], on=["participant", "session"])
 pd.Series(questions, name="question_text").rename_axis("question").to_csv(CLEAN / "interview_questions.csv")
 ans.to_csv(CLEAN / "interview_answers.csv", index=False)
-qorder = [f"Q{i}" for i in range(1, 13)]
+_qf = RAW / "interview_questions.csv"
+qorder = (pd.read_csv(_qf)["question"].tolist() if _qf.exists()
+          else sorted(ans["question"].unique(), key=lambda q: int(q[1:])))
 table = (ans.pivot_table(index=["participant", "session", "game", "hud"], columns="question", values="answer", aggfunc=" ".join)
          .reindex(columns=[q for q in qorder if q in set(ans["question"])]).reset_index())
 table.to_csv(CLEAN / "interview_table.csv", index=False)

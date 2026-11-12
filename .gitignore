@@ -1,13 +1,14 @@
-# real participant data: never commit
-raw/participant_roster.csv
-raw/audio/*
-!raw/audio/.keep
-raw/video/*
-!raw/video/.keep
+# ---- participant data never goes to GitHub ----
+# raw/ holds real recordings, un-anonymised transcripts and form exports;
+# clean/ holds derived per-participant data. Only the two config files are tracked.
+raw/*
+!raw/interview_questions.csv
+!raw/aoi_regions.csv
+clean/*
+_dummy_backup/
 *.mov
 *.mkv
 __pycache__/
-_dummy_backup/
 # local working data and the group password
 studio_data/*
 !studio_data/.keep

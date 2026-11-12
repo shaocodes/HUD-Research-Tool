@@ -34,8 +34,8 @@ GROUP_FILE = ROOT / "studio_data" / "group.json"
 SB_CONFIG = ROOT / "app-supabase" / "supabase-config.js"
 PORT = int(os.environ.get("HUD_PORT", "8765"))
 
-DESIGN = {1: [("GTA V", "minimal"), ("Cyberpunk 2077", "full")], 2: [("GTA V", "full"), ("Cyberpunk 2077", "minimal")],
-          3: [("Cyberpunk 2077", "minimal"), ("GTA V", "full")], 4: [("Cyberpunk 2077", "full"), ("GTA V", "minimal")]}
+DESIGN = {1: [("Cyberpunk 2077", "full"), ("GTA V", "minimal")], 2: [("GTA V", "minimal"), ("Cyberpunk 2077", "full")],
+          3: [("Cyberpunk 2077", "minimal"), ("GTA V", "full")], 4: [("GTA V", "full"), ("Cyberpunk 2077", "minimal")]}
 CSV_SLOTS = {  # name -> (what it is, needed for)
     "session_log.csv": ("Session log (built for you from the Recordings tab)", "design check"),
     "screening_demographics.csv": ("Screening form export (Google Forms CSV)", "expertise groups"),

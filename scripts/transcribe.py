@@ -14,7 +14,9 @@ and put them in raw/audio/. Then:
     python scripts/transcribe.py --language tl   # if answers are mostly Filipino
 
 Interview habit this relies on: the interviewer starts every question with its
-number, e.g. "Question three. Which HUD elements, if any, ..." The script splits
+number, e.g. "Question three. Which HUD elements, if any, ..." Saying just
+"next question" (or "last/final question") also works: the script numbers it
+one past the previous question and flags it for checking. The script splits
 the recording at each "question <number>", removes the question as read aloud
 (it knows the fixed wording from raw/interview_questions.csv), and keeps the rest
 as the participant's answer.
@@ -42,8 +44,11 @@ AUDIO_EXT = {".mp3", ".m4a", ".wav", ".ogg", ".flac", ".webm", ".mp4", ".aac"}
 
 WORD_NUM = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8,
             "nine": 9, "ten": 10, "eleven": 11, "twelve": 12, "first": 1, "second": 2, "third": 3,
-            "fourth": 4, "fifth": 5, "sixth": 6, "seventh": 7, "eighth": 8, "ninth": 9, "tenth": 10}
+            "fourth": 4, "fifth": 5, "sixth": 6, "seventh": 7, "eighth": 8, "ninth": 9, "tenth": 10, "thirteen": 13, "fourteen": 14, "fifteen": 15}
 MARKER = re.compile(r"\b(?:question|q)\s*(?:number\s*)?(\d{1,2}|" + "|".join(WORD_NUM) + r")\b[.:,]?", re.IGNORECASE)
+NEXT_MARKER = re.compile(r"\b(?:moving on to\s+)?(?:the\s+)?(?:next|last|final|one\s+more|one\s+last)\s+question\b[.:,]?", re.IGNORECASE)
+PRE_NUM = re.compile(r"\b(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth)\s+question\b[.:,]?", re.IGNORECASE)
+PRE_MAP = dict(WORD_NUM, eleventh=11, twelfth=12, thirteenth=13, fourteenth=14, fifteenth=15)
 LOW_CONFIDENCE = -1.0      # Whisper avg log-probability below this -> listen again
 
 
@@ -121,13 +126,26 @@ def split_by_question(segments, questions, expected=None):
     for i, (st, en, tx, lp) in enumerate(segments):
         for m in MARKER.finditer(tx):
             n = m.group(1).lower()
-            num = int(n) if n.isdigit() else WORD_NUM[n]
-            marks.append((i, m.start(), m.end(), num, st))
+            marks.append([i, m.start(), m.end(), int(n) if n.isdigit() else WORD_NUM[n], st, False])
+        for m in PRE_NUM.finditer(tx):
+            marks.append([i, m.start(), m.end(), PRE_MAP[m.group(1).lower()], st, False])
+        for m in NEXT_MARKER.finditer(tx):
+            marks.append([i, m.start(), m.end(), None, st, True])
+    marks.sort(key=lambda x: (x[0], x[1]))
+    # "next question... question five": the number wins, drop the wordless mark just before it
+    marks = [mk for k, mk in enumerate(marks)
+             if not (mk[5] and k + 1 < len(marks) and not marks[k + 1][5]
+                     and marks[k + 1][0] == mk[0] and 0 <= marks[k + 1][1] - mk[2] <= 30)]
+    prev = 0
+    for mk in marks:
+        if mk[3] is None:
+            mk[3] = prev + 1
+        prev = mk[3]
     intro = " ".join(s[2] for s in segments[: marks[0][0]]) if marks else " ".join(s[2] for s in segments)
     if marks:
         intro += " " + segments[marks[0][0]][2][: marks[0][1]]
     out, issues = [], []
-    for k, (i, a, b, num, st) in enumerate(marks):
+    for k, (i, a, b, num, st, guessed) in enumerate(marks):
         if k + 1 < len(marks):
             j, a2 = marks[k + 1][0], marks[k + 1][1]
         else:
@@ -140,6 +158,8 @@ def split_by_question(segments, questions, expected=None):
         out.append((f"Q{num}", st, answer, found))
         if not found:
             issues.append((f"Q{num}", mmss(st), "question wording not matched: check where the answer starts"))
+        if guessed:
+            issues.append((f"Q{num}", mmss(st), "no number said ('next question'): numbered in order, check it really is this question"))
         if len(words(answer)) < 3:
             issues.append((f"Q{num}", mmss(st), "very short or empty answer"))
     # questions read without saying their number: split them out of the previous answer
@@ -159,7 +179,8 @@ def split_by_question(segments, questions, expected=None):
                 issues.append((f"Q{num}", mmss(st), "number not said; found by its wording, check the split"))
                 break
         i += 1
-    out = [(q, st, re.sub(r"\s+", " ", a).strip(), f) for q, st, a, f in out]
+    out = [(q, st, re.sub(r"(?i)[\s.,!]*\b(?:okay|ok|so|alright|right|moving on)[.,!\s]*$", ".", re.sub(r"\s+", " ", a).strip()), f)
+           for q, st, a, f in out]
     seen = [q for q, *_ in out]
     for num in (expected or questions):
         if f"Q{num}" not in seen:
@@ -185,6 +206,16 @@ def write_by_time(pid, session, segments, header_extra=""):
     lines = [f"Participant: {pid} | Session {session}{header_extra} | Interviewer: (from audio)"]
     lines += [f"[{mmss(a)}] {pid}: {t.strip()}" for a, _, t, _ in segments]
     (OUT_DIR / f"{pid}_S{session}.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def final_only(questions):
+    """Question numbers asked only once, after both sessions (CSV column asked_in: each / final)."""
+    if QUESTIONS_FILE.exists():
+        q = pd.read_csv(QUESTIONS_FILE)
+        if "asked_in" in q.columns:
+            return {int(str(r.question).lstrip("Qq")) for r in q.itertuples()
+                    if str(r.asked_in).strip().lower().startswith(("final", "last", "after", "end", "session"))}
+    return {n for n in questions if n > 8}
 
 
 def load_questions():
@@ -240,7 +271,8 @@ def main():
                                       vad_filter=True, vad_parameters={"min_silence_duration_ms": 700},
                                       condition_on_previous_text=False)
         segments = [(s.start, s.end, s.text, s.avg_logprob) for s in segs]
-        expected = [n for n in questions if n <= 8 or session >= 2]   # Q9-Q12 are the final, after-both-sessions questions
+        fin = final_only(questions)
+        expected = [n for n in questions if n not in fin or session >= 2]   # final questions only after both sessions
         intro, answers, issues = split_by_question(segments, questions, expected)
         # full timeline: every sentence with its time (separate folder, not read by the pipeline)
         (OUT_DIR / "timeline").mkdir(exist_ok=True)

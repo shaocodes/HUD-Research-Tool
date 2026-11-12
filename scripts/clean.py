@@ -33,10 +33,10 @@ EXPERT_CUTOFF = 4            # self-rated 4-5 = more experienced
 PRIMARY_CODER = "A"
 
 DESIGN = {
-    1: [("GTA V", "minimal"), ("Cyberpunk 2077", "full")],
-    2: [("GTA V", "full"), ("Cyberpunk 2077", "minimal")],
+    1: [("Cyberpunk 2077", "full"), ("GTA V", "minimal")],
+    2: [("GTA V", "minimal"), ("Cyberpunk 2077", "full")],
     3: [("Cyberpunk 2077", "minimal"), ("GTA V", "full")],
-    4: [("Cyberpunk 2077", "full"), ("GTA V", "minimal")],
+    4: [("GTA V", "full"), ("Cyberpunk 2077", "minimal")],
 }
 RATE_EVENTS = ["full_map_open", "navigation_error", "hesitation", "missed_prompt",
                "unintended_action", "menu_break"]
