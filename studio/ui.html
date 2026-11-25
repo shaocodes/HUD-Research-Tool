@@ -342,7 +342,7 @@ const FIGNAME = {"fig_paired_measures.png":"Full vs minimal HUD, each participan
   "fig_gaze_heatmaps.png":"Where people looked"};
 const TABNAME = {"A_full_vs_minimal":"A · Full vs minimal","B_by_game":"B · By game","C_by_expertise":"C · By expertise",
   "D_coder_agreement":"D · Coder agreement","F_saturation":"F · Saturation","F_themes_by_condition":"F · Themes",
-  "G_gaze_share":"G · Gaze share","K_keywords_by_condition":"K · Keywords","K_keywords_by_question":"K · Keywords by question"};
+  "G_gaze_share":"G · Gaze share","K_keywords_by_condition":"K · Keywords","K_keywords_by_question":"K · Keywords by question","H_hypothesis_tests":"H · Hypothesis tests","H_power":"H · Power"};
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const api = async (m,u,b) => (await fetch(u,{method:m,headers:{"Content-Type":"application/json"},body:b===undefined?undefined:JSON.stringify(b)})).json();
 let ST=null, picked=null, codeLoaded=false, curTable=null;

@@ -105,16 +105,16 @@ pd.DataFrame(top).to_csv(RES / "K_keywords_by_question.csv", index=False)
 
 # figure: 8 words most typical of each condition
 show = pd.concat([kw.head(8), kw.tail(8)])
-fig, ax = plt.subplots(figsize=(3.6, 3.4))
+fig, ax = plt.subplots(figsize=(8.5, 7))
 colors = ["#2a78d6" if v < 0 else "#eb6834" for v in show["log_odds_minimal_vs_full"]]
 ax.barh(range(len(show)), show["log_odds_minimal_vs_full"], color=colors, height=.65)
-ax.set_yticks(range(len(show)), show["word"].str.replace("not_", "not "), fontsize=8)
+ax.set_yticks(range(len(show)), show["word"].str.replace("not_", "not "), fontsize=12)
 ax.axvline(0, color="#52514e", lw=.8)
-ax.set_xlabel("← more after full HUD    more after minimal HUD →", fontsize=8, color="#52514e")
-ax.set_title("Words most typical of each condition", fontsize=9.5, loc="left", color="#0b0b0b")
+ax.set_xlabel("Log-odds ratio, minimal vs full (negative = more after full HUD, positive = more after minimal)", fontsize=11, color="#52514e")
+ax.set_title("Words most typical of each condition", fontsize=14, loc="left", color="#0b0b0b")
 for sp in ("top", "right"):
     ax.spines[sp].set_visible(False)
-ax.tick_params(colors="#52514e", labelsize=8)
+ax.tick_params(colors="#52514e", labelsize=12)
 fig.tight_layout()
 fig.savefig(FIG / "fig_keywords.png", dpi=300)
 plt.close(fig)

@@ -266,8 +266,44 @@ m.loc[~m["gameplay_usable"], gp_cols] = np.nan
 
 demo[demo["participant"].isin(included)].to_csv(CLEAN / "participants.csv", index=False)
 sess[["participant", "group", "session", "game", "hud"]].to_csv(CLEAN / "sessions.csv", index=False)
-tags_a.to_csv(CLEAN / "gameplay_events.csv", index=False)
-tags_b.to_csv(CLEAN / "gameplay_events_coderB.csv", index=False)
+# integer coding: every column except participant becomes 0..n-1; legend.csv maps codes back
+CODES = {
+    "game": ["GTA V", "Cyberpunk 2077"],
+    "hud": ["minimal", "full"],
+    "coder": ["A", "B"],
+    "order": ["First", "Second"],
+    "expertise_group": ["Less experienced", "More experienced"],
+    "event": RATE_EVENTS + ["objective_received", "objective_reached"],
+}
+_all_tags = pd.concat([tags_a, tags_b])
+CODES["event"] += sorted(set(_all_tags["event"].dropna()) - set(CODES["event"]))
+if "category" in _all_tags:
+    CODES["category"] = sorted(set(_all_tags["category"].dropna().astype(str)))
+
+
+CODES["genre"] = sorted(set(demo["genre"].dropna().astype(str)))
+
+
+def encode(df, drop=("note",)):
+    out = df.drop(columns=[c for c in drop if c in df.columns]).copy()
+    for c in out.columns:
+        if out[c].dtype == bool:
+            out[c] = out[c].astype(int)
+    for col, labels in CODES.items():
+        if col in out.columns:
+            out[col] = out[col].astype(str).map({v: i for i, v in enumerate(labels)}).astype("Int64")
+    if "t_s" in out.columns:
+        out["t_s"] = (out["t_s"] * 1000).round().astype("Int64")      # whole milliseconds
+        out = out.rename(columns={"t_s": "t_ms"})
+    return out
+
+
+tags_a.to_csv(CLEAN / "gameplay_events_labeled.csv", index=False)
+tags_b.to_csv(CLEAN / "gameplay_events_coderB_labeled.csv", index=False)
+encode(tags_a).to_csv(CLEAN / "gameplay_events.csv", index=False)
+encode(tags_b).to_csv(CLEAN / "gameplay_events_coderB.csv", index=False)
+pd.DataFrame([{"column": c, "code": i, "label": v} for c, labels in CODES.items() for i, v in enumerate(labels)]
+             ).to_csv(CLEAN / "legend.csv", index=False)
 pd.DataFrame([{"participant": p, "session": s, "start_s": a, "end_s": b} for (p, s), sg in seg_of.items() for a, b in sg]
              ).to_csv(CLEAN / "skipped_segments.csv", index=False)
 obj.to_csv(CLEAN / "objectives.csv", index=False)

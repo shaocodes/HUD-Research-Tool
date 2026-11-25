@@ -116,7 +116,8 @@ for (game, hud), hs in grids.items():
 grid = pd.DataFrame(rows)
 grid.to_csv(CLEAN / "gaze_grid.csv", index=False)
 
-fig, axes = plt.subplots(2, 2, figsize=(7.2, 4.4))
+fig, axes = plt.subplots(2, 2, figsize=(14, 8.6))
+vmax = grid["density"].quantile(.995) * 100
 for ax, (game, hud) in zip(axes.flat, [("GTA V", "full"), ("GTA V", "minimal"),
                                        ("Cyberpunk 2077", "full"), ("Cyberpunk 2077", "minimal")]):
     sub = grid[(grid["game"] == game) & (grid["hud"] == hud)]
@@ -124,21 +125,25 @@ for ax, (game, hud) in zip(axes.flat, [("GTA V", "full"), ("GTA V", "minimal"),
         ax.axis("off")
         continue
     img = sub.pivot(index="gy", columns="gx", values="density").values
-    ax.imshow(img, extent=[0, 1, 1, 0], cmap="Blues", interpolation="bilinear", aspect="auto",
-              vmin=0, vmax=grid["density"].quantile(.995))
+    im = ax.imshow(img * 100, extent=[0, 1, 1, 0], cmap="YlOrRd", interpolation="bilinear", aspect="auto",
+                   vmin=0, vmax=vmax)
     for b in aoi[(aoi["game"] == game) & (aoi["hud"] == hud)].itertuples():
-        ax.add_patch(Rectangle((b.x0, b.y0), b.x1 - b.x0, b.y1 - b.y0, fill=False, lw=1, ec="#eb6834"))
+        ax.add_patch(Rectangle((b.x0, b.y0), b.x1 - b.x0, b.y1 - b.y0, fill=False, lw=1.6, ec="#1f3b73"))
         if b.x1 - b.x0 > .25:                     # wide box: label above it
-            ax.text((b.x0 + b.x1) / 2, b.y0 - .015, b.aoi, fontsize=6.5, color="#52514e", va="bottom", ha="center")
+            ax.text((b.x0 + b.x1) / 2, b.y0 - .015, b.aoi, fontsize=11, color="#1f3b73", va="bottom", ha="center")
             continue
         left_side = (b.x0 + b.x1) / 2 < .5        # label beside the box, on the side facing the centre
-        ax.text(b.x1 + .012 if left_side else b.x0 - .012, (b.y0 + b.y1) / 2, b.aoi, fontsize=6.5,
-                color="#52514e", va="center", ha="left" if left_side else "right")
-    ax.set_title(f"{game} · {hud} HUD  (n = {sub['sessions'].iloc[0]})", fontsize=8.5, loc="left", color="#0b0b0b")
+        ax.text(b.x1 + .012 if left_side else b.x0 - .012, (b.y0 + b.y1) / 2, b.aoi, fontsize=11,
+                color="#1f3b73", va="center", ha="left" if left_side else "right")
+    ax.set_title(f"{game}, {hud} HUD  (n = {sub['sessions'].iloc[0]} sessions)", fontsize=14, loc="left", color="#0b0b0b")
     ax.set_xticks([]); ax.set_yticks([])
     for s in ax.spines.values():
         s.set_color("#e4e3df")
-fig.tight_layout()
+fig.tight_layout(rect=(0, 0, .9, 1))
+cax = fig.add_axes([.915, .12, .018, .76])
+cb = fig.colorbar(im, cax=cax)
+cb.set_label("Share of gaze samples in each screen cell (%)", fontsize=12)
+cb.ax.tick_params(labelsize=11)
 fig.savefig(FIG / "fig_gaze_heatmaps.png", dpi=300)
 plt.close(fig)
 print(f"gaze.py: {int(gl['used'].sum())}/{len(gl)} sessions used; heatmaps -> figures/fig_gaze_heatmaps.png")

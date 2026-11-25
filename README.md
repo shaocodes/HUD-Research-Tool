@@ -117,3 +117,14 @@ Top of each script: `MIN_USABLE_SHARE` (0.5), `EXPERT_CUTOFF` (4), `MIN_CONFIDEN
 `MIN_VALID_SHARE` (0.6), `BIN_S` (10 s), `SATURATION_RUN` (3), `MATCH_WINDOW_S` (3 s).
 `raw/aoi_regions.csv` holds **placeholder** HUD box positions: measure the real ones
 from a screenshot of each game and HUD setting before running the study.
+
+## Coding, hypothesis tests and power
+
+- `clean/gameplay_events.csv` and `clean/session_metrics_coded.csv` are integer-coded: every column except
+  `participant` is 0..n-1 (GTA V = 0, Cyberpunk 2077 = 1; minimal = 0, full = 1; coder A = 0, B = 1; each event
+  type its own code; times in whole milliseconds). `clean/legend.csv` maps every code back to its label;
+  `*_labeled.csv` keep the readable copy.
+- `results/H_hypothesis_tests.csv`: Wilcoxon signed-rank per hypothesis, Bonferroni alpha = 0.025 / 3 per tail
+  (critical z = 2.39), effect size r, observed power, and a sentence worded as association, not cause.
+  Edit `HYPOTHESES` and `LIT_EFFECT_D` at the top of `scripts/analyze.py` to match the RQs and the literature.
+- `results/H_power.csv`: smallest detectable effect, power for the literature effect, pairs needed.
